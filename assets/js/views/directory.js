@@ -1,15 +1,15 @@
-import { icon, esc, badge, serviceCard, crumbs, empty, sourceLink, sourceNote, agencyById } from '../ui.js';
-import { agencies, hotlines } from '../data/catalog.js';
-import { services } from '../data/services.js';
-import { places, PLACE_KIND } from '../data/places.js';
-import { sources, CHECKED_AT } from '../data/meta.js';
-import { faq } from '../data/faq.js';
-import { normalize } from '../lib/search.js';
-import { placeProjects, projectCard } from './map.js';
-import { projects as allProjects } from '../data/projects.js';
+import { icon, esc, badge, serviceCard, crumbs, empty, sourceLink, sourceNote, agencyById } from '../ui.js?v=202611261547';
+import { agencies, hotlines } from '../data/catalog.js?v=202611261547';
+import { services } from '../data/services.js?v=202611261547';
+import { places, PLACE_KIND } from '../data/places.js?v=202611261547';
+import { sources, CHECKED_AT } from '../data/meta.js?v=202611261547';
+import { faq } from '../data/faq.js?v=202611261547';
+import { normalize } from '../lib/search.js?v=202611261547';
+import { placeProjects, projectCard } from './map.js?v=202611261547';
+import { projects as allProjects } from '../data/projects.js?v=202611261547';
 const projectsOf = (agencyId) => allProjects.filter((p) => p.agency === agencyId);
-import { placeDiscover, poiCard, sourceList } from './discover.js';
-import { discoverSources, SOURCE_KIND } from '../data/discover.js';
+import { placeDiscover, poiCard, sourceList } from './discover.js?v=202611261547';
+import { discoverSources, SOURCE_KIND } from '../data/discover.js?v=202611261547';
 
 const filterInput = (ph) => `<label class="finput">${icon('search')}<input type="search" placeholder="${ph}" data-filter aria-label="${ph}"/></label>`;
 const liveFilter = (root) => {

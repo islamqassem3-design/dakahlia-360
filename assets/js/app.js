@@ -1,19 +1,19 @@
-import { intro } from './views/intro.js';
-import { portalHome, browse, serviceDetail } from './views/portal.js';
-import { agencyList, agencyDetail, placeList, placeDetail, complaints, faqView, dataPolicy } from './views/directory.js';
-import { discover, poiDetail, invest } from './views/discover.js';
-import { mapView, projectDetail, projectBrief } from './views/map.js';
-import { mountAssistant } from './assistant.js';
-import { mountPalette, searchPage } from './palette.js';
-import { searchServices } from './lib/search.js';
-import { esc } from './ui.js';
-import { privacy, terms, notFound } from './views/legal.js';
-import { mountCursor } from './cursor.js';
-import { mountAIPanel } from './aipanel.js';
-import { ideas } from './views/ideas.js';
-import { workspace, proposal } from './views/workspace.js';
-import { lab } from './views/lab.js';
-import { studio, proto } from './views/studio.js';
+import { intro } from './views/intro.js?v=202611261547';
+import { portalHome, browse, serviceDetail } from './views/portal.js?v=202611261547';
+import { agencyList, agencyDetail, placeList, placeDetail, complaints, faqView, dataPolicy } from './views/directory.js?v=202611261547';
+import { discover, poiDetail, invest } from './views/discover.js?v=202611261547';
+import { mapView, projectDetail, projectBrief } from './views/map.js?v=202611261547';
+import { mountAssistant } from './assistant.js?v=202611261547';
+import { mountPalette, searchPage } from './palette.js?v=202611261547';
+import { searchServices } from './lib/search.js?v=202611261547';
+import { esc } from './ui.js?v=202611261547';
+import { privacy, terms, notFound } from './views/legal.js?v=202611261547';
+import { mountCursor } from './cursor.js?v=202611261547';
+import { mountAIPanel } from './aipanel.js?v=202611261547';
+import { ideas } from './views/ideas.js?v=202611261547';
+import { workspace, proposal } from './views/workspace.js?v=202611261547';
+import { lab } from './views/lab.js?v=202611261547';
+import { studio, proto } from './views/studio.js?v=202611261547';
 
 const routes = [
   [/^\/?$/, intro, 'home'],

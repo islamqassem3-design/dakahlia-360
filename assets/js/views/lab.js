@@ -1,11 +1,11 @@
 // Idea Lab (#/lab): a structured workspace that feeds the existing ideas catalog. Not a chat window.
-import { icon, esc, crumbs } from '../ui.js';
+import { icon, esc, crumbs } from '../ui.js?v=202611261547';
 import {
   LAB_SECTORS, sectorById, allIdeas, addIdea, generateIdeas, problemToIdeas, discoverOpportunities, IMPROVEMENTS,
   getIdea, val, saveWS, THEMES, allMergeSuggestions, SIM_NOTE, HORIZON, stageOf, setStage,
-} from '../lib/innovation.js';
-import { aiChip } from '../aipanel.js';
-import { aiOn, aiGenerate, aiProblem, aiOpps, aiMerge } from '../lib/ai.js';
+} from '../lib/innovation.js?v=202611261547';
+import { aiChip } from '../aipanel.js?v=202611261547';
+import { aiOn, aiGenerate, aiProblem, aiOpps, aiMerge } from '../lib/ai.js?v=202611261547';
 const HZ = (h) => (['quick', 'mid', 'long'].includes(h) ? h : 'mid');
 const srcTag = (ai) => `<span class="srctag ${ai ? 'srctag--ai' : ''}">${ai ? 'من Gemini (AI حقيقي)' : 'محاكاة'}</span>`;
 

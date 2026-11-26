@@ -1,7 +1,7 @@
 // Ideas catalog (existing page, enhanced): roadmap, sector filter, sorting, pipeline dashboard and board view.
-import { icon, esc, crumbs } from '../ui.js';
-import { sectorsIdeas, HORIZON } from '../data/ideas.js';
-import { allIdeas, sectorById, SECTORS, STAGES, stageOf, setStage, evaluate, scoresOf, SIM_NOTE } from '../lib/innovation.js';
+import { icon, esc, crumbs } from '../ui.js?v=202611261547';
+import { sectorsIdeas, HORIZON } from '../data/ideas.js?v=202611261547';
+import { allIdeas, sectorById, SECTORS, STAGES, stageOf, setStage, evaluate, scoresOf, SIM_NOTE } from '../lib/innovation.js?v=202611261547';
 
 const SORTS = [['', 'الترتيب الافتراضي'], ['priority', 'الأولوية'], ['impact', 'التأثير على المواطن'], ['ease', 'سهولة التنفيذ'], ['quick', 'Quick Wins أولًا'], ['strategic', 'الاستراتيجية أولًا']];
 
