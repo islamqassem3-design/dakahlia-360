@@ -1,87 +1,140 @@
+// Landing page (layout A: classic hero plus sections), structured per the landing-page-design skill:
+// hero → problem/solution → benefits → tagline reveal → how it works → proof → FAQ → risk reversal → final CTA.
 import { icon } from '../ui.js';
 import { services } from '../data/services.js';
-import { agencies } from '../data/catalog.js';
 import { places } from '../data/places.js';
+import { sources } from '../data/meta.js';
+import { discoverSources, pois } from '../data/discover.js';
+import { projects } from '../data/projects.js';
+
+const nSources = Object.keys(sources).length + Object.keys(discoverSources).length;
 
 const products = [
-  { n: '01', t: 'بوابة خدمات الدقهلية', d: 'تبدأ من احتياج المواطن لا من أسماء الجهات: اكتب ما تريد، وتصل للخدمة والجهة والقناة الرسمية.', st: 'متاح للتجربة الآن', live: true, href: '#/services', ic: 'grid' },
-  { n: '02', t: 'خريطة مشروعات الدقهلية', d: 'المشروعات على خريطة تفاعلية حسب المركز والقطاع، مع الجهة المسؤولة وآخر تحديث موثق ومصدره.', st: 'متاح للتجربة الآن', live: true, href: '#/map', ic: 'map' },
-  { n: '03', t: 'اكتشف الدقهلية واستثمر', d: 'تجربة بصرية للمدن والوجهات والمقومات الاقتصادية، تعرض الفرص المؤكدة رسميًا فقط.', st: 'متاح للتجربة الآن', live: true, href: '#/discover', ic: 'compass' },
+  { n: '01', t: 'بوابة خدمات الدقهلية', d: 'تبدأ من احتياج المواطن لا من أسماء الجهات. اكتب ما تريد، وتصل للخدمة والجهة والقناة الرسمية.', href: '#/services', ic: 'grid', stat: `${services.length} خدمة` },
+  { n: '02', t: 'خريطة مشروعات الدقهلية', d: 'مشروعات كل مركز على خريطة واحدة حسب القطاع والحالة، مع الجهة المسؤولة وآخر تحديث ومصدره.', href: '#/map', ic: 'map', stat: `${projects.length} مشروع تجريبي` },
+  { n: '03', t: 'اكتشف الدقهلية واستثمر', d: 'مدن ومعالم ومقومات اقتصادية بمصادرها، ومسار واضح للمستثمر إلى الجهات الرسمية.', href: '#/discover', ic: 'compass', stat: `${pois.length} معالم موثقة` },
 ];
 
 const pains = [
-  ['المواطن لا يعرف الجهة', 'يبدأ بسؤال «أروح فين؟» قبل أي إجراء، ويتنقل بين جهات ومواقع متعددة.'],
+  ['أروح فين؟', 'المواطن يبدأ أي إجراء بالسؤال عن الجهة المختصة، ويتنقل بين مواقع وجهات متعددة.'],
   ['المعلومة متفرقة', 'الخدمات والقرارات والمشروعات موزعة بين أخبار وصفحات وروابط لا يجمعها مسار واحد.'],
-  ['التنمية غير مرئية', 'المشروعات تُعرض كأخبار متفرقة، فلا يرى المواطن الصورة الكاملة لما يحدث في منطقته.'],
+  ['التنمية غير مرئية', 'المشروعات تُنشر كأخبار متفرقة، فلا يرى المواطن الصورة الكاملة لما يحدث في مركزه.'],
 ];
 
-const principles = [
-  ['shield', 'الدقة قبل الكمية', 'لكل معلومة مصدر رسمي وتاريخ تحقق. وما لم يتأكد يُكتب صراحة: «غير متحقق منها حالياً».'],
-  ['layers', 'نكمل ولا نستبدل', 'لا نكرر الأنظمة الحكومية القائمة؛ نوجّه المواطن إليها بوضوح ونحسّن تجربة الوصول.'],
-  ['spark', 'ذكاء له وظيفة', 'مساعد يفهم العامية ويوجّه للخدمة الصحيحة، ولا يخترع إجراءات أو رسومًا.'],
-  ['grid', 'تجربة واحدة', 'خدمات ومشروعات ومدن في منصة واحدة بتصميم موحد، عربية أولًا، وللموبايل أولًا.'],
+const benefits = [
+  ['search', 'سؤال واحد بدل عشر صفحات', 'اكتب بالعامية «عايز أطلع ترخيص لمحل»، فتظهر الخدمة والجهة والرابط الرسمي مباشرة.'],
+  ['shield', 'كل معلومة لها مصدر', `${nSources} مصدرًا رسميًا ومرجعيًا تم فحصها، وما لم يتأكد مكتوب صراحة «غير متحقق منه».`],
+  ['map', 'التنمية على خريطة', 'مشروعات كل مركز في مكان واحد، بالقطاع والحالة والجهة المسؤولة وتاريخ آخر تحديث.'],
+  ['compass', 'واجهة للزائر والمستثمر', 'مدن ومعالم ومقومات اقتصادية، ومسار يبدأ من الأرض وينتهي بالتراخيص عبر الجهات الرسمية.'],
+];
+
+const steps = [
+  ['اكتب احتياجك', 'بكلماتك وباللهجة التي تتكلم بها، من البحث أو من المساعد في أي صفحة.'],
+  ['نوجّهك للمكان الصحيح', 'الخدمة، والجهة المختصة، والقناة الرسمية، ومصدر المعلومة وتاريخ فحصها.'],
+  ['تكمل عبر القناة الرسمية', 'التقديم يتم دائمًا لدى الجهة أو منصتها. نحن لا نستبدل أي نظام قائم.'],
+];
+
+const faq = [
+  ['ما هي Dakahlia 360°؟', 'نموذج أولي لمنصة رقمية واحدة تجمع ثلاثة منتجات: بوابة خدمات، وخريطة مشروعات، وتجربة لاكتشاف المحافظة والاستثمار فيها.'],
+  ['هل تحل محل البوابات الحكومية القائمة؟', 'لا. المنصة توجّه المواطن إلى القنوات الرسمية القائمة وتحسّن تجربة الوصول إليها، ولا تستقبل طلبات أو شكاوى بنفسها.'],
+  ['هل البيانات المعروضة حقيقية؟', 'أسماء الجهات والروابط الرسمية والمعالم حقيقية ومرتبطة بمصادرها. أما المشروعات على الخريطة وبعض القوائم فبيانات تجريبية عليها شارة واضحة.'],
+  ['لماذا تظهر عبارة «غير متحقق منها حاليًا»؟', 'لأننا لا ننشر رسومًا أو مددًا أو عناوين أو مستندات إلا بعد تأكيدها من الجهة المختصة.'],
+  ['هل المساعد الذكي يخترع إجابات؟', 'لا. المساعد يسترجع فقط من بيانات المنصة الموثقة ويذكر المصدر، وإذا لم يجد معلومة مؤكدة يقول ذلك ويوجّه للقناة الرسمية.'],
+  ['ماذا تحتاج المنصة للانتقال من النموذج إلى التنفيذ؟', 'بيانات معتمدة من المحافظة والجهات (الخدمات، المشروعات، الفرص)، وصلاحيات نشر رسمية، وربط مصرح به مع الأنظمة إن لزم.'],
+  ['هل يتم حفظ ما أكتبه؟', 'في هذا النموذج تتم المعالجة داخل المتصفح فقط، ولا يُرسل ما تكتبه إلى أي خادم.'],
+  ['هل تعمل على الموبايل؟', 'نعم. المنصة مصممة للموبايل أولًا، وتعمل على أي متصفح حديث دون تثبيت.'],
 ];
 
 export function intro() {
   return {
     title: 'الدقهلية 360°',
     html: `
-    <section class="hero">
-      <div class="hero__ring" aria-hidden="true">
-        <svg viewBox="0 0 400 400"><defs><linearGradient id="rg" x1="0" x2="1"><stop offset="0" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--gold)"/></linearGradient></defs>
-          <circle cx="200" cy="200" r="170" class="r1"/><circle cx="200" cy="200" r="130" class="r2"/><circle cx="200" cy="200" r="170" class="r3" stroke="url(#rg)"/>
-          <g class="orbit"><circle cx="200" cy="30" r="9"/><circle cx="347" cy="285" r="7"/><circle cx="53" cy="285" r="7"/></g>
-        </svg>
-        <span class="hero__deg">360°</span>
+    <section class="lhero">
+      <div class="lhero__txt">
+        <p class="eyebrow">Dakahlia 360° · نموذج أولي تفاعلي</p>
+        <h1 class="heading-1 hgrad">كل ما يحتاجه أهل الدقهلية <br/>من محافظتهم، في مكان واحد</h1>
+        <p class="lhero__sub body-3">اكتب احتياجك بالعامية فتصل للخدمة والجهة والقناة الرسمية، وتابع مشروعات مركزك على الخريطة، واكتشف مدن المحافظة وفرصها. كل معلومة مرتبطة بمصدرها.</p>
+        <a class="btn btn--primary btn--lg" href="#/services">جرّب المنصة الآن ${icon('arrow')}</a>
+        <p class="proof caption-1">${icon('shield')} <span>${services.length} خدمة مفهرسة · ${places.length} مركزًا ومدينة · ${nSources} مصدرًا تم فحصه</span></p>
       </div>
-      <div class="hero__txt">
-        <p class="eyebrow">DAKAHLIA 360° · نموذج أولي تفاعلي</p>
-        <h1>تجربة رقمية واحدة<br/>لخدمات ومشروعات ومدن <em>الدقهلية</em></h1>
-        <p class="lead">منصة تبدأ من سؤال المواطن «عايز أعمل إيه؟» وتوصله للخدمة والجهة والقناة الرسمية الصحيحة، ثم تفتح له صورة كاملة لمشروعات محافظته ومدنها وفرصها.</p>
-        <div class="row gap">
-          <a class="btn btn--primary btn--lg" href="#/services">جرّب بوابة الخدمات ${icon('arrow')}</a>
-          <button class="btn btn--ghost btn--lg" data-assistant="عايز أطلع ترخيص لمحل">${icon('spark')} اسأل المساعد</button>
+      <div class="demo" aria-hidden="true">
+        <div class="demo__win">
+          <div class="demo__bar"><i></i><i></i><i></i><span class="caption-5">dakahlia 360°</span></div>
+          <div class="demo__search">${icon('search')}<span class="demo__typed body-5" data-typed="عايز أطلع ترخيص لمحل في ميت غمر"></span><b class="demo__caret"></b></div>
+          <div class="demo__res">
+            <div class="demo__card"><span class="demo__ic">${icon('store')}</span><div><b class="title-4">ترخيص محل تجاري</b><small class="caption-5">الوحدات المحلية للمراكز والمدن والأحياء</small></div><span class="demo__go">${icon('arrow')}</span></div>
+            <div class="demo__chips"><span>${icon('globe')} الرابط الرسمي</span><span>${icon('pin')} مركز ميت غمر</span><span>${icon('shield')} المصدر: بوابة مصر الرقمية</span></div>
+          </div>
+          <div class="demo__map"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="dot d4"></span><span class="dot d5"></span><span class="demo__lbl caption-4">${icon('map')} 3 مشروعات في ميت غمر</span></div>
         </div>
-        <dl class="stats">
-          <div><dt>${services.length}</dt><dd>خدمة مفهرسة</dd></div>
-          <div><dt>${agencies.length}</dt><dd>جهة ومنصة رسمية</dd></div>
-          <div><dt>${places.length}</dt><dd>مركز ومدينة</dd></div>
-        </dl>
       </div>
     </section>
 
-    <section class="sec">
-      <header class="sec__h"><p class="eyebrow">لماذا</p><h2>المشكلة ليست في الخدمة، بل في الوصول إليها</h2></header>
-      <div class="pains">${pains.map(([t, d], i) => `<article class="pain"><span class="pain__n">0${i + 1}</span><h3>${t}</h3><p>${d}</p></article>`).join('')}</div>
+    <section class="sec" data-reveal>
+      <header class="sec__h"><p class="eyebrow">المشكلة</p><h2 class="heading-3">المشكلة ليست في الخدمة، <br/>بل في الوصول إليها</h2></header>
+      <div class="pains">${pains.map(([t, d], i) => `<article class="pain"><span class="caption-3 pain__n">0${i + 1}</span><h3 class="title-1">${t}</h3><p class="body-6">${d}</p></article>`).join('')}</div>
     </section>
 
-    <section class="sec">
-      <header class="sec__h"><p class="eyebrow">الحل</p><h2>ثلاثة منتجات مترابطة تحت مظلة واحدة</h2></header>
+    <section class="sec" data-reveal>
+      <header class="sec__h"><p class="eyebrow">الحل</p><h2 class="heading-3">ثلاثة منتجات مترابطة <br/>تحت مظلة واحدة</h2></header>
       <div class="products">${products.map((p) => `
-        <a class="product ${p.n === '01' ? 'is-live' : ''}" href="${p.href}">
-          <div class="product__top"><span class="product__n">${p.n}</span><span class="pill ${p.live ? 'pill--live' : ''}">${p.st}</span></div>
+        <a class="product" href="${p.href}">
+          <div class="product__top"><span class="caption-3 product__n">${p.n}</span><span class="pill pill--live">${p.stat}</span></div>
           <span class="product__ic">${icon(p.ic)}</span>
-          <h3>${p.t}</h3><p>${p.d}</p>
-          <span class="link">${p.live ? 'افتح النموذج' : 'ما الذي سيتضمنه'} ${icon('arrow')}</span>
+          <h3 class="heading-6">${p.t}</h3><p class="body-6">${p.d}</p>
+          <span class="link">افتح المنتج ${icon('arrow')}</span>
         </a>`).join('')}</div>
     </section>
 
-    <section class="sec">
-      <header class="sec__h"><p class="eyebrow">جرّبها بنفسك</p><h2>اكتب كما تتكلم… والبوابة تفهم</h2></header>
-      <div class="try">
-        ${['عايز أطلع ترخيص لمحل', 'النور قاطع عندنا', 'إزاي أجدد رخصة العربية', 'عايز أشتكي من الزبالة', 'بطاقتي ضاعت'].map((q) => `<a class="trychip" href="#/browse?q=${encodeURIComponent(q)}">${icon('search')}«${q}»</a>`).join('')}
+    <section class="sec" data-reveal>
+      <header class="sec__h"><p class="eyebrow">ماذا يتغير</p><h2 class="heading-3">ما الذي يكسبه المواطن والمحافظة</h2></header>
+      <div class="benefits">${benefits.map(([ic, t, d]) => `<article class="benefit">${icon(ic)}<div><h3 class="title-2">${t}</h3><p class="body-6">${d}</p></div></article>`).join('')}</div>
+    </section>
+
+    <section class="tagline" aria-label="الفكرة في سطرين">
+      <p class="heading-2" data-words>المحافظة كلها في شاشة واحدة. سؤال بلغتك، وإجابة من مصدرها، وطريق واضح إلى الجهة الصحيحة.</p>
+    </section>
+
+    <section class="sec" data-reveal>
+      <header class="sec__h"><p class="eyebrow">كيف تعمل</p><h2 class="heading-3">ثلاث خطوات من السؤال إلى الجهة</h2></header>
+      <ol class="hsteps">${steps.map(([t, d]) => `<li><h3 class="title-1">${t}</h3><p class="body-6">${d}</p></li>`).join('')}</ol>
+      <div class="try">${['عايز أطلع ترخيص لمحل', 'النور قاطع عندنا', 'فيه آثار في شربين؟', 'مشروعات مياه'].map((q) => `<button class="trychip body-5" data-assistant="${q}">${icon('spark')}«${q}»</button>`).join('')}</div>
+    </section>
+
+    <section class="sec" data-reveal>
+      <header class="sec__h"><p class="eyebrow">الدقة أولًا</p><h2 class="heading-3">أرقام النموذج كما هي، بلا مبالغة</h2></header>
+      <div class="stats">
+        <div><b class="heading-3">${services.length}</b><span class="body-6">خدمة مفهرسة بجهتها وقناتها الرسمية</span></div>
+        <div><b class="heading-3">${nSources}</b><span class="body-6">مصدرًا رسميًا ومرجعيًا تم فحص روابطه</span></div>
+        <div><b class="heading-3">${places.length}</b><span class="body-6">مركزًا ومدينة بصفحة موحدة لكل منها</span></div>
+        <div><b class="heading-3">0</b><span class="body-6">رسوم أو مدد أو أرقام منشورة دون مصدر</span></div>
       </div>
+      <p class="hint">${icon('info')} <span>تفاصيل كل مصدر وحالة فحصه في <a href="#/data">صفحة مصادر البيانات</a>.</span></p>
     </section>
 
-    <section class="sec">
-      <header class="sec__h"><p class="eyebrow">المبادئ</p><h2>كيف نبني الثقة</h2></header>
-      <div class="principles">${principles.map(([ic, t, d]) => `<article class="pr">${icon(ic)}<h3>${t}</h3><p>${d}</p></article>`).join('')}</div>
+    <section class="sec" data-reveal>
+      <header class="sec__h"><p class="eyebrow">أسئلة شائعة</p><h2 class="heading-3">قبل أن تسأل</h2></header>
+      <div class="faq">${faq.map(([q, a], i) => `<details ${i === 0 ? 'open' : ''}><summary class="title-2">${q}</summary><p class="body-3">${a}</p></details>`).join('')}</div>
     </section>
 
-    <section class="cta">
-      <h2>ابدأ من بوابة الخدمات</h2>
-      <p>المنتجات الثلاثة جاهزة للتجربة: بوابة خدمات ببحث ذكي ومساعد يفهم العامية، وخريطة تفاعلية للمشروعات، وتجربة لاكتشاف المحافظة ومسار واضح للمستثمر.</p>
-      <div class="row gap"><a class="btn btn--light btn--lg" href="#/services">ادخل البوابة ${icon('arrow')}</a><a class="btn btn--ghost btn--lg" href="#/map">خريطة المشروعات</a><a class="btn btn--ghost btn--lg" href="#/discover">اكتشف الدقهلية</a></div>
+    <section class="cta" data-reveal>
+      <p class="caption-3 cta__k">${icon('shield')} بدون ربط بأي نظام حكومي، وبدون جمع بيانات شخصية</p>
+      <h2 class="heading-3">جرّبها الآن من أي موبايل</h2>
+      <p class="body-3">النموذج لا يستبدل أي منصة قائمة، وكل بيانات تجريبية فيه معلّمة بوضوح.</p>
+      <a class="btn btn--light btn--lg" href="#/services">جرّب المنصة الآن ${icon('arrow')}</a>
     </section>`,
+    mount(root) {
+      // Hero demo: type the query once (respecting reduced motion).
+      const el = root.querySelector('.demo__typed'); if (!el) return;
+      const text = el.dataset.typed;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = text; root.querySelector('.demo')?.classList.add('done'); return; }
+      let i = 0;
+      const tick = () => {
+        if (!root.contains(el)) return;
+        el.textContent = text.slice(0, ++i);
+        if (i < text.length) setTimeout(tick, 55); else setTimeout(() => root.querySelector('.demo')?.classList.add('done'), 250);
+      };
+      setTimeout(tick, 600);
+    },
   };
 }

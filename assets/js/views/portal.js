@@ -4,6 +4,8 @@ import { services } from '../data/services.js';
 import { places } from '../data/places.js';
 import { sources, STATUS } from '../data/meta.js';
 import { searchServices, findPlaces } from '../lib/search.js';
+const SVC_SECTOR = { water: 'water', electricity: 'electricity', 'state-treatment': 'health', emergency: 'health', 'school-services': 'education' };
+const SECTOR_T = { water: 'مياه وصرف صحي', electricity: 'كهرباء', health: 'صحة', education: 'تعليم' };
 
 const svcById = Object.fromEntries(services.map((s) => [s.id, s]));
 
@@ -14,7 +16,7 @@ export function portalHome() {
     html: `
     <section class="phero">
       <p class="eyebrow">بوابة خدمات الدقهلية · المنتج 01</p>
-      <h1>ماذا تريد أن تنجز اليوم؟</h1>
+      <h1 class="heading-2 hgrad">ماذا تريد أن تنجز اليوم؟</h1>
       <p class="lead">اكتب احتياجك بكلماتك، وسنرشدك للخدمة والجهة المختصة والقناة الرسمية.</p>
       ${searchBox('', true)}
       <div class="qchips">${['ترخيص محل', 'تجديد رخصة القيادة', 'شهادة ميلاد', 'بطاقة تموين', 'الميه قاطعة'].map((q) => `<a href="#/browse?q=${encodeURIComponent(q)}">${q}</a>`).join('')}</div>
@@ -80,7 +82,7 @@ export function browse(_, query) {
         </label>
       </div>
     </div>
-    ${placeHit.length ? `<div class="note">${icon('pin')}<span>يبدو أنك تسأل عن <b>${placeHit.map((p) => `<a href="#/place/${p.id}">${p.name}</a>`).join('، ')}</b> — افتح صفحة المركز لرؤية الجهات المحلية.</span></div>` : ''}
+    ${placeHit.length ? `<div class="note">${icon('pin')}<span>يبدو أنك تسأل عن <b>${placeHit.map((p) => `<a href="#/place/${p.id}">${p.name}</a>`).join('، ')}</b>، افتح صفحة المركز لرؤية الجهات المحلية.</span></div>` : ''}
     <p class="count" aria-live="polite">${results.length} ${results.length === 1 ? 'نتيجة' : 'نتائج'}</p>
     ${results.length ? `<div class="slist">${results.map((r) => serviceCard(r.s)).join('')}</div>`
       : empty('لم نجد خدمة مطابقة', 'جرّب كلمات أخرى، أو اسأل المساعد الذكي بصياغتك، أو تواصل مع الجهة عبر القنوات الرسمية.', `<div class="row gap center"><button class="btn btn--primary" data-assistant="${esc(q)}">${icon('spark')} اسأل المساعد</button><a class="btn btn--ghost" href="${link({ cat: '', ch: '', ag: '' })}">إزالة الفلاتر</a></div>`)}`,
@@ -92,7 +94,7 @@ const channelCard = (ch) => {
     const s = sources[ch.source];
     return `<a class="chan" href="${s.url}" target="_blank" rel="noopener"><span class="chan__ic">${icon('globe')}</span><span><b>${esc(ch.label)}</b><small>${STATUS[s.status].label} · يفتح في نافذة جديدة</small></span>${icon('ext', 'chan__go')}</a>`;
   }
-  if (ch.kind === 'phone') return `<a class="chan" href="tel:${ch.number}"><span class="chan__ic">${icon('phone')}</span><span><b>${ch.number} — ${esc(ch.label)}</b><small>اضغط للاتصال</small></span></a>`;
+  if (ch.kind === 'phone') return `<a class="chan" href="tel:${ch.number}"><span class="chan__ic">${icon('phone')}</span><span><b>${ch.number}: ${esc(ch.label)}</b><small>اضغط للاتصال</small></span></a>`;
   return `<a class="chan" href="#/agency/${ch.agency}"><span class="chan__ic">${icon('building')}</span><span><b>${esc(ch.label)}</b><small>حضوري · العناوين ومواعيد العمل غير متحقق منها حالياً</small></span>${icon('arrow', 'chan__go')}</a>`;
 };
 
@@ -144,6 +146,7 @@ export function serviceDetail({ id }) {
           ${sourceLink(a.source, 'الموقع الرسمي')}
         </div>
         <button class="side side--ai" data-assistant="${esc(s.title)}">${icon('spark')}<span><b>اسأل المساعد</b><small>عن هذه الخدمة بكلماتك</small></span></button>
+        ${SVC_SECTOR[s.id] ? `<a class="side side--link" href="#/map?sector=${SVC_SECTOR[s.id]}">${icon('map')}<span><b>مشروعات ${SECTOR_T[SVC_SECTOR[s.id]]}</b><small>على خريطة المشروعات</small></span>${icon('arrow')}</a>` : ''}
         ${related.length ? `<div class="side"><h3>خدمات مرتبطة</h3>${related.map((r) => `<a class="rel" href="#/service/${r.id}">${esc(r.title)} ${icon('arrow')}</a>`).join('')}</div>` : ''}
       </aside>
     </div>`,

@@ -6,6 +6,8 @@ import { sources, CHECKED_AT } from '../data/meta.js';
 import { faq } from '../data/faq.js';
 import { normalize } from '../lib/search.js';
 import { placeProjects, projectCard } from './map.js';
+import { projects as allProjects } from '../data/projects.js';
+const projectsOf = (agencyId) => allProjects.filter((p) => p.agency === agencyId);
 import { placeDiscover, poiCard, sourceList } from './discover.js';
 import { discoverSources, SOURCE_KIND } from '../data/discover.js';
 
@@ -56,6 +58,7 @@ export function agencyDetail({ id }) {
       <div class="info__i"><span>${icon('pin')} العنوان</span><b>غير متحقق منه حالياً</b></div>
       <div class="info__i"><span>${icon('phone')} أرقام التواصل</span><b>غير متحقق منها حالياً</b></div>
     </div>
+    ${projectsOf(a.id).length ? `<section class="sec"><header class="sec__h sec__h--row"><h2>مشروعات تتولاها الجهة ${badge('demo')}</h2><a class="link" href="#/map">الخريطة ${icon('arrow')}</a></header><div class="pjgrid">${projectsOf(a.id).slice(0, 6).map(projectCard).join('')}</div></section>` : ''}
     <section class="sec"><header class="sec__h"><h2>خدمات مرتبطة بهذه الجهة</h2></header>
       ${list.length ? `<div class="slist">${list.map((s) => serviceCard(s)).join('')}</div>` : empty('لا توجد خدمات مفهرسة بعد', 'سيتم إضافة خدمات هذه الجهة بعد التحقق منها.')}
     </section>
@@ -87,7 +90,7 @@ export function placeDetail({ id }) {
     title: p.name,
     html: `
     ${crumbs([['المراكز والمدن', '#/places'], [p.name]])}
-    ${disc.profile ? `<header class="cityhero" style="--bg:${disc.profile.tone}"><span class="city__tag">${PLACE_KIND[p.kind]} · ${disc.profile.tag}</span><h1>${p.name}</h1><p>${disc.profile.text}</p>
+    ${disc.profile ? `<header class="cityhero" style="--bg:${disc.profile.tone};--ac:${disc.profile.accent}"><span class="city__tag">${PLACE_KIND[p.kind]} · ${disc.profile.tag}</span><h1>${p.name}</h1><p>${disc.profile.text}</p>
       <details class="cityhero__src"><summary>المصادر</summary>${sourceList(disc.profile.sources)}</details></header>`
     : `<header class="ph phero--place"><span class="pill">${PLACE_KIND[p.kind]}${p.capital ? ' · عاصمة المحافظة' : ''}</span><h1>${p.name}</h1>
       <p class="lead">كل ما يخص ${p.name} في مكان واحد: الجهة المحلية، الخدمات، المشروعات، والمعالم.</p></header>`}
@@ -118,7 +121,7 @@ export function placeDetail({ id }) {
 }
 
 const ISSUES = [
-  { id: 'water', ic: 'bolt', t: 'مياه أو صرف صحي', d: 'انقطاع، كسر ماسورة، طفح صرف', ch: [['tel', '125', 'خدمة عملاء المياه والصرف']], svc: 'water' },
+  { id: 'water', ic: 'water', t: 'مياه أو صرف صحي', d: 'انقطاع، كسر ماسورة، طفح صرف', ch: [['tel', '125', 'خدمة عملاء المياه والصرف']], svc: 'water' },
   { id: 'power', ic: 'bolt', t: 'كهرباء', d: 'انقطاع، عطل، خطر في الشارع', ch: [['tel', '121', 'طوارئ الكهرباء']], svc: 'electricity' },
   { id: 'urgent', ic: 'health', t: 'حالة طارئة', d: 'حادث، حريق، حالة صحية', ch: [['tel', '123', 'الإسعاف'], ['tel', '122', 'النجدة'], ['tel', '180', 'المطافئ']], svc: 'emergency' },
   { id: 'gov', ic: 'building', t: 'شكوى من جهة أو خدمة حكومية', d: 'تأخير، رفض، سوء معاملة، عدم رد', ch: [['web', 'shakwa', 'منظومة الشكاوى الحكومية الموحدة'], ['tel', '16528', 'الخط الساخن للمنظومة']], svc: 'complaint' },
@@ -127,7 +130,7 @@ const ISSUES = [
 
 export function complaints(_, query) {
   const sel = ISSUES.find((i) => i.id === query.get('t'));
-  const chHtml = (c) => c[0] === 'tel' ? `<a class="chan" href="tel:${c[1]}"><span class="chan__ic">${icon('phone')}</span><span><b>${c[1]} — ${c[2]}</b><small>اضغط للاتصال</small></span></a>`
+  const chHtml = (c) => c[0] === 'tel' ? `<a class="chan" href="tel:${c[1]}"><span class="chan__ic">${icon('phone')}</span><span><b>${c[1]}: ${c[2]}</b><small>اضغط للاتصال</small></span></a>`
     : c[0] === 'web' ? `<a class="chan" href="${sources[c[1]].url}" target="_blank" rel="noopener"><span class="chan__ic">${icon('globe')}</span><span><b>${c[2]}</b><small>رابط رسمي تم فحصه · تقديم ومتابعة الشكوى</small></span>${icon('ext', 'chan__go')}</a>`
     : `<a class="chan" href="#/places"><span class="chan__ic">${icon('building')}</span><span><b>${c[2]}</b><small>اختر مركزك</small></span>${icon('arrow', 'chan__go')}</a>`;
   return {

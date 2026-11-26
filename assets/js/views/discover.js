@@ -28,9 +28,9 @@ export function discover(_, query) {
     <section class="dhero">
       <div class="dhero__txt">
         <p class="eyebrow">المنتج 03 · اكتشف الدقهلية واستثمر</p>
-        <h1>من النيل إلى البحر.<br/><em>اكتشف الدقهلية.</em></h1>
+        <h1 class="heading-1 hgrad">من النيل إلى البحر، <br/>اكتشف الدقهلية</h1>
         <p class="lead">تاريخ يعود لآلاف السنين، وساحل على المتوسط، ومدن جامعية، ومقومات اقتصادية. كل معلومة هنا مرتبطة بمصدرها.</p>
-        <div class="row gap"><button class="btn btn--primary btn--lg" data-scroll="explore">ابدأ الاستكشاف ${icon('arrow')}</button><a class="btn btn--ghost btn--lg" href="#/invest">${icon('chart')} للمستثمرين</a></div>
+        <div class="row gap"><button class="btn btn--primary btn--lg" data-scroll="explore">ابدأ الاستكشاف ${icon('arrow')}</button></div>
       </div>
       <div class="dhero__art" aria-hidden="true">
         <span class="b b1">${icon('building')}<i>تاريخ وآثار</i></span>
@@ -44,7 +44,7 @@ export function discover(_, query) {
       <header class="sec__h"><p class="eyebrow">مدن مميزة</p><h2>ثلاث وجهات تختصر الدقهلية</h2></header>
       <div class="cities">${featured.map((id) => {
         const p = placeById[id]; const pr = profiles[id];
-        return `<a class="city" href="#/place/${id}" style="--bg:${pr.tone}"><span class="city__tag">${pr.tag}</span><b>${p.name}</b><span class="city__t">${pr.text}</span><span class="link">صفحة المدينة ${icon('arrow')}</span></a>`;
+        return `<a class="city" href="#/place/${id}" style="--bg:${pr.tone};--ac:${pr.accent}"><span class="city__tag">${pr.tag}</span><b>${p.name}</b><span class="city__t">${pr.text}</span><span class="link">صفحة المدينة ${icon('arrow')}</span></a>`;
       }).join('')}</div>
     </section>
 
@@ -56,7 +56,7 @@ export function discover(_, query) {
         <div class="explore__map"><div id="dmap" role="region" aria-label="خريطة المعالم"></div></div>
         <div class="pois">${pois.map(poiCard).join('')}</div>
       </div>
-      <p class="hint">${icon('info')} المواقع على الخريطة تقريبية. مواعيد الزيارة والتذاكر غير متحقق منها حالياً — راجع <a href="${S.mota.url}" target="_blank" rel="noopener">وزارة السياحة والآثار</a>.</p>
+      <p class="hint">${icon('info')} المواقع على الخريطة تقريبية. مواعيد الزيارة والتذاكر غير متحقق منها حالياً، راجع <a href="${S.mota.url}" target="_blank" rel="noopener">وزارة السياحة والآثار</a>.</p>
     </section>
 
     <section class="sec">
@@ -147,7 +147,7 @@ export function invest() {
       <div class="econ econ--full">${economy.map((e) => `<article class="ecard">${icon(e.icon)}<h3>${e.title}</h3><p>${e.text}</p><details><summary>المصادر</summary>${sourceList(e.sources)}</details></article>`).join('')}</div>
     </section>
 
-    <section class="sec"><header class="sec__h"><h2>مسار المستثمر</h2><p class="muted">إرشاد للوصول إلى القنوات الرسمية — وليس بديلًا عن الإجراءات المعلنة من الجهات.</p></header>
+    <section class="sec"><header class="sec__h"><h2>مسار المستثمر</h2><p class="muted">إرشاد للوصول إلى القنوات الرسمية، وليس بديلًا عن الإجراءات المعلنة من الجهات.</p></header>
       <ol class="path">${investSteps.map((s) => `<li><div><b>${s.t}</b><p>${s.d}</p>
         <div class="row gap" style="gap:8px">${s.links.map((k) => `<a class="src" href="${S[k].url}" target="_blank" rel="noopener">${icon('ext')}<span>${S[k].name}</span></a>`).join('')}${s.svc ? `<a class="chip chip--link" href="#/service/${s.svc}">${esc(svcById[s.svc].title)} ←</a>` : ''}</div></div></li>`).join('')}</ol>
     </section>
@@ -158,7 +158,7 @@ export function invest() {
           <div class="row gap" style="gap:8px;margin-top:8px"><a class="src" href="${S.madein.url}" target="_blank" rel="noopener">${icon('ext')}<span>طروحات الأراضي الصناعية</span></a><a class="src" href="${S.investinegypt.url}" target="_blank" rel="noopener">${icon('ext')}<span>Invest in Egypt</span></a><a class="src" href="${S.nuca.url}" target="_blank" rel="noopener">${icon('ext')}<span>أراضي المدن الجديدة</span></a></div></div></div>
         <article class="opp-demo"><div class="row gap" style="gap:8px">${badge('demo')}<span class="pill">نموذج لشكل البطاقة</span></div>
           <h3>اسم الفرصة كما تعلنه الجهة</h3>
-          <dl><dt>القطاع</dt><dd>—</dd><dt>الموقع</dt><dd>—</dd><dt>الجهة المعلنة</dt><dd>—</dd><dt>آخر تحديث</dt><dd>—</dd><dt>المصدر الرسمي</dt><dd>—</dd></dl>
+          <dl><dt>القطاع</dt><dd>يُعلن لاحقًا</dd><dt>الموقع</dt><dd>يُعلن لاحقًا</dd><dt>الجهة المعلنة</dt><dd>يُعلن لاحقًا</dd><dt>آخر تحديث</dt><dd>يُعلن لاحقًا</dd><dt>المصدر الرسمي</dt><dd>يُعلن لاحقًا</dd></dl>
         </article>
       </div>
     </section>

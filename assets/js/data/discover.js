@@ -1,32 +1,32 @@
-// Discover Dakahlia & Invest — content data.
+// Discover Dakahlia & Invest: content data.
 // Rule: every fact here is short, qualitative, and backed by at least one cited source (searched 2026-11-26).
 // No prices, opening hours, visitor numbers, budgets or areas are stated (they change and need official confirmation).
 // kind: official = government/official body · press = news outlet · reference = encyclopedia/academic.
 
 const S = {
-  akhbar_ibnluqman: { name: 'أخبار اليوم — حكاية دار ابن لقمان', url: 'https://m.akhbarelyom.com/news/newdetails/4858143/1/', kind: 'press' },
-  jarida_ibnluqman: { name: 'الجريدة — دار ابن لقمان', url: 'https://www.aljarida.com/articles/1462439293748171400', kind: 'press' },
-  marefa_mendes: { name: 'المعرفة — منديس', url: 'https://www.marefa.org/%D9%85%D9%86%D8%AF%D9%8A%D8%B3', kind: 'reference' },
-  ahram_rub3: { name: 'بوابة الأهرام — تل الربع', url: 'https://gate.ahram.org.eg/Search/تل-الربع.aspx', kind: 'press' },
-  wiki_balamun: { name: 'Wikipedia — Tell el-Balamun', url: 'https://en.wikipedia.org/wiki/Tell_el-Balamun', kind: 'reference' },
-  bawaba_balamun: { name: 'البوابة نيوز — تل البلامون', url: 'https://www.albawabhnews.com/4274010', kind: 'press' },
-  marefa_gamasa: { name: 'المعرفة — جمصة', url: 'https://www.marefa.org/%D8%AC%D9%85%D8%B5%D8%A9', kind: 'reference' },
-  telegraph_gamasa: { name: 'تلغراف مصر — شاطئ جمصة', url: 'https://www.egypttelegraph.com/article/240807/', kind: 'press' },
-  watan_newmansoura: { name: 'الوطن — مستجدات المنصورة الجديدة', url: 'https://www.elwatannews.com/news/details/6105013', kind: 'press' },
+  akhbar_ibnluqman: { name: 'أخبار اليوم: حكاية دار ابن لقمان', url: 'https://m.akhbarelyom.com/news/newdetails/4858143/1/', kind: 'press' },
+  jarida_ibnluqman: { name: 'الجريدة: دار ابن لقمان', url: 'https://www.aljarida.com/articles/1462439293748171400', kind: 'press' },
+  marefa_mendes: { name: 'المعرفة: منديس', url: 'https://www.marefa.org/%D9%85%D9%86%D8%AF%D9%8A%D8%B3', kind: 'reference' },
+  ahram_rub3: { name: 'بوابة الأهرام: تل الربع', url: 'https://gate.ahram.org.eg/Search/تل-الربع.aspx', kind: 'press' },
+  wiki_balamun: { name: 'Wikipedia: Tell el-Balamun', url: 'https://en.wikipedia.org/wiki/Tell_el-Balamun', kind: 'reference' },
+  bawaba_balamun: { name: 'البوابة نيوز: تل البلامون', url: 'https://www.albawabhnews.com/4274010', kind: 'press' },
+  marefa_gamasa: { name: 'المعرفة: جمصة', url: 'https://www.marefa.org/%D8%AC%D9%85%D8%B5%D8%A9', kind: 'reference' },
+  telegraph_gamasa: { name: 'تلغراف مصر: شاطئ جمصة', url: 'https://www.egypttelegraph.com/article/240807/', kind: 'press' },
+  watan_newmansoura: { name: 'الوطن: مستجدات المنصورة الجديدة', url: 'https://www.elwatannews.com/news/details/6105013', kind: 'press' },
   nuca: { name: 'هيئة المجتمعات العمرانية الجديدة', url: 'http://www.newcities.gov.eg', kind: 'official' },
   nmu: { name: 'جامعة المنصورة الجديدة', url: 'https://www.nmu.edu.eg/ar', kind: 'official' },
   mans: { name: 'جامعة المنصورة', url: 'https://www.mans.edu.eg', kind: 'official' },
-  wiki_manzala: { name: 'Wikipedia — Lake Manzala', url: 'https://en.wikipedia.org/wiki/Lake_Manzala', kind: 'reference' },
-  wiki_mansoura: { name: 'Wikipedia — Mansoura', url: 'https://en.wikipedia.org/wiki/Mansoura,_Egypt', kind: 'reference' },
-  ahram_rice: { name: 'بوابة الأهرام — الدقهلية والأرز', url: 'https://gate.ahram.org.eg/News/1811131.aspx', kind: 'press' },
-  ahram_gamasa_ind: { name: 'بوابة الأهرام — المنطقة الصناعية بجمصة', url: 'https://gate.ahram.org.eg/News/2065927.aspx', kind: 'press' },
-  youm7_gamasa_ind: { name: 'اليوم السابع — المخطط التفصيلي لصناعية جمصة', url: 'https://www.youm7.com/6451133', kind: 'press' },
+  wiki_manzala: { name: 'Wikipedia: Lake Manzala', url: 'https://en.wikipedia.org/wiki/Lake_Manzala', kind: 'reference' },
+  wiki_mansoura: { name: 'Wikipedia: Mansoura', url: 'https://en.wikipedia.org/wiki/Mansoura,_Egypt', kind: 'reference' },
+  ahram_rice: { name: 'بوابة الأهرام: الدقهلية والأرز', url: 'https://gate.ahram.org.eg/News/1811131.aspx', kind: 'press' },
+  ahram_gamasa_ind: { name: 'بوابة الأهرام: المنطقة الصناعية بجمصة', url: 'https://gate.ahram.org.eg/News/2065927.aspx', kind: 'press' },
+  youm7_gamasa_ind: { name: 'اليوم السابع: المخطط التفصيلي لصناعية جمصة', url: 'https://www.youm7.com/6451133', kind: 'press' },
   ida: { name: 'الهيئة العامة للتنمية الصناعية', url: 'https://www.ida.gov.eg/ar', kind: 'official' },
   madein: { name: 'منصة مصر الصناعية الرقمية', url: 'https://madein.eg', kind: 'official' },
   gafi: { name: 'الهيئة العامة للاستثمار والمناطق الحرة', url: 'https://www.gafi.gov.eg/ar', kind: 'official' },
   investinegypt: { name: 'منصة Invest in Egypt', url: 'https://www.investinegypt.gov.eg', kind: 'official' },
   mota: { name: 'وزارة السياحة والآثار', url: 'https://mota.gov.eg/ar/', kind: 'official' },
-  idsc_profile: { name: 'مركز المعلومات ودعم اتخاذ القرار — ملف محافظة الدقهلية', url: 'https://idsc.gov.eg/upload/7%20years/government/pdf/07%20%D9%85%D8%AD%D8%A7%D9%81%D8%B8%D8%A9%20%D8%A7%D9%84%D8%AF%D9%82%D9%87%D9%84%D9%8A%D8%A9.pdf', kind: 'official' },
+  idsc_profile: { name: 'مركز المعلومات ودعم اتخاذ القرار: ملف محافظة الدقهلية', url: 'https://idsc.gov.eg/upload/7%20years/government/pdf/07%20%D9%85%D8%AD%D8%A7%D9%81%D8%B8%D8%A9%20%D8%A7%D9%84%D8%AF%D9%82%D9%87%D9%84%D9%8A%D8%A9.pdf', kind: 'official' },
 };
 export const discoverSources = S;
 export const SOURCE_KIND = { official: 'مصدر رسمي', press: 'مصدر صحفي', reference: 'مرجع موسوعي' };
@@ -106,12 +106,12 @@ export const pois = [
 
 // Short sourced profiles for the featured cities (brief: Mansoura, New Mansoura, Gamasa).
 export const profiles = {
-  mansoura: { tag: 'عاصمة المحافظة على النيل', text: 'عاصمة محافظة الدقهلية على فرع دمياط من النيل، ومركز للتعليم والخدمات في وسط الدلتا، وترتبط تاريخيًا بمعركة المنصورة ودار ابن لقمان.', sources: ['wiki_mansoura', 'akhbar_ibnluqman'], tone: 'linear-gradient(135deg,#0c2b2a,#0f766e)' },
-  'new-mansoura': { tag: 'مدينة جديدة على المتوسط', text: 'مدينة جديدة تتبع هيئة المجتمعات العمرانية الجديدة، على الطريق الساحلي الدولي بجوار جمصة، وتضم جامعة المنصورة الجديدة.', sources: ['nuca', 'watan_newmansoura'], tone: 'linear-gradient(135deg,#0b3d5c,#0f6f8a)' },
-  gamasa: { tag: 'مصيف الدلتا على البحر', text: 'مدينة ساحلية ومصيف على البحر المتوسط، وبها منطقة صناعية تتابعها المحافظة والهيئة العامة للتنمية الصناعية.', sources: ['marefa_gamasa', 'ahram_gamasa_ind'], tone: 'linear-gradient(135deg,#7a4d12,#c9a45c)' },
+  mansoura: { tag: 'عاصمة المحافظة على النيل', text: 'عاصمة محافظة الدقهلية على فرع دمياط من النيل، ومركز للتعليم والخدمات في وسط الدلتا، وترتبط تاريخيًا بمعركة المنصورة ودار ابن لقمان.', sources: ['wiki_mansoura', 'akhbar_ibnluqman'], tone: '#131209', accent: '#14b8a6' },
+  'new-mansoura': { tag: 'مدينة جديدة على المتوسط', text: 'مدينة جديدة تتبع هيئة المجتمعات العمرانية الجديدة، على الطريق الساحلي الدولي بجوار جمصة، وتضم جامعة المنصورة الجديدة.', sources: ['nuca', 'watan_newmansoura'], tone: '#1F1F1F', accent: '#38bdf8' },
+  gamasa: { tag: 'مصيف الدلتا على البحر', text: 'مدينة ساحلية ومصيف على البحر المتوسط، وبها منطقة صناعية تتابعها المحافظة والهيئة العامة للتنمية الصناعية.', sources: ['marefa_gamasa', 'ahram_gamasa_ind'], tone: '#272727', accent: '#c9a45c' },
 };
 
-// Economic features — qualitative only, each with a source.
+// Economic features: qualitative only, each with a source.
 export const economy = [
   { id: 'agri', icon: 'basket', title: 'الزراعة', text: 'الدقهلية من أكبر محافظات مصر في زراعة الأرز.', sources: ['ahram_rice'] },
   { id: 'industry', icon: 'building', title: 'المنطقة الصناعية بجمصة', text: 'منطقة صناعية قائمة تتابعها المحافظة مع الهيئة العامة للتنمية الصناعية، وتُطرح الأراضي الصناعية حاليًا عبر منصة مصر الصناعية الرقمية.', sources: ['ahram_gamasa_ind', 'youm7_gamasa_ind', 'madein'] },
@@ -120,7 +120,7 @@ export const economy = [
   { id: 'knowledge', icon: 'book', title: 'التعليم والصحة', text: 'وجود جامعتي المنصورة والمنصورة الجديدة يجعل المحافظة مركزًا للتعليم الجامعي في الدلتا.', sources: ['mans', 'nmu'] },
 ];
 
-// Investment path — guidance to official channels (not an official procedure).
+// Investment path: guidance to official channels (not an official procedure).
 export const investSteps = [
   { t: 'حدد النشاط والقطاع', d: 'صناعي، زراعي، سياحي، خدمي… لأن القطاع يحدد الجهة المختصة والاشتراطات.', links: ['investinegypt'] },
   { t: 'اختر نوع الموقع', d: 'منطقة صناعية، مدينة جديدة، أو داخل الكتلة العمرانية.', links: [] },

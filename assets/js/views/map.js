@@ -164,7 +164,7 @@ export function mapView(_, query) {
           .on('click', () => { st.place = p.id; ui.querySelector('[data-f=place]').value = p.id; render(); }).addTo(map));
         render();
       } catch {
-        ui.querySelector('#pmap').innerHTML = `<div class="maperr">${icon('info')}<p>تعذّر تحميل الخريطة. تحقق من الاتصال بالإنترنت — القائمة ما زالت تعمل.</p></div>`;
+        ui.querySelector('#pmap').innerHTML = `<div class="maperr">${icon('info')}<p>تعذّر تحميل الخريطة. تحقق من الاتصال بالإنترنت، القائمة ما زالت تعمل.</p></div>`;
       }
     },
   };
@@ -196,7 +196,7 @@ export function projectDetail({ id }) {
         </div>
         <section class="block"><h2>${icon('map')} الموقع على الخريطة</h2><div class="minimap" id="minimap"></div></section>
         <section class="block"><h2>${icon('layers')} الصور</h2><div class="unv">${icon('info')}<div><b>لا توجد صور موثقة</b><p>تُعرض صور قبل وبعد فقط عند توفرها من مصدر رسمي.</p></div></div></section>
-        <section class="block"><h2>${icon('shield')} المصدر الرسمي</h2><div class="unv">${icon('shield')}<div><b>لا يوجد — بيانات تجريبية</b><p>في النسخة الفعلية: رابط المصدر الرسمي للمعلومة وتاريخ التحقق منه.</p></div></div></section>
+        <section class="block"><h2>${icon('shield')} المصدر الرسمي</h2><div class="unv">${icon('shield')}<div><b>لا يوجد، بيانات تجريبية</b><p>في النسخة الفعلية: رابط المصدر الرسمي للمعلومة وتاريخ التحقق منه.</p></div></div></section>
       </div>
       <aside class="detail__side">
         ${svc.length ? `<div class="side"><h3>خدمات مرتبطة</h3>${svc.map((s) => `<a class="rel" href="#/service/${s.id}">${esc(s.title)} ${icon('arrow')}</a>`).join('')}</div>` : ''}

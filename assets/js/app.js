@@ -4,8 +4,10 @@ import { agencyList, agencyDetail, placeList, placeDetail, complaints, faqView, 
 import { discover, poiDetail, invest } from './views/discover.js';
 import { mapView, projectDetail } from './views/map.js';
 import { mountAssistant } from './assistant.js';
+import { mountPalette, searchPage } from './palette.js';
 import { searchServices } from './lib/search.js';
 import { esc } from './ui.js';
+import { privacy, terms, notFound } from './views/legal.js';
 
 const routes = [
   [/^\/?$/, intro, 'home'],
@@ -24,6 +26,9 @@ const routes = [
   [/^\/discover$/, discover, 'discover'],
   [/^\/poi\/([\w-]+)$/, (m) => poiDetail({ id: m[1] }), 'discover'],
   [/^\/invest$/, invest, 'discover'],
+  [/^\/search$/, searchPage, ''],
+  [/^\/privacy$/, privacy, ''],
+  [/^\/terms$/, terms, ''],
 ];
 
 const view = document.getElementById('view');
@@ -37,18 +42,58 @@ function render() {
     const m = path.match(re);
     if (m) { out = fn(m.length > 1 ? m : {}, query); section = sec; break; }
   }
-  if (!out) out = { title: 'غير موجود', html: '<div class="empty"><h3>الصفحة غير موجودة</h3><p><a class="btn btn--primary" href="#/services">العودة للخدمات</a></p></div>' };
+  if (!out) out = notFound();
   view.innerHTML = `<div class="page">${out.html}</div>`;
   document.title = out.title === 'الدقهلية 360°' ? 'الدقهلية 360° · Dakahlia 360°' : `${out.title} · الدقهلية 360°`;
   document.querySelectorAll('[data-nav-id]').forEach((a) => a.classList.toggle('on', a.dataset.navId === section));
-  document.body.classList.remove('menu-open');
+  setMenu(false);
   if (!out.keepScroll) window.scrollTo({ top: 0 });
   out.mount?.(view);
+  reveal(view);
   view.focus({ preventScroll: true });
+}
+
+// ---- Motion (design system B7): scroll reveals + tagline word reveal ----
+const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+let io;
+function reveal(root) {
+  const secs = root.querySelectorAll('[data-reveal]');
+  if (reduce.matches || !('IntersectionObserver' in window)) { secs.forEach((s) => s.classList.add('in')); }
+  else {
+    io ||= new IntersectionObserver((ents) => ents.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }), { rootMargin: '0px 0px -10% 0px' });
+    secs.forEach((s) => io.observe(s));
+  }
+  const tl = root.querySelector('[data-words]');
+  if (tl) {
+    tl.innerHTML = tl.textContent.trim().split(/\s+/).map((w) => `<span class="w">${w}</span>`).join(' ');
+    words = [...tl.querySelectorAll('.w')];
+    if (reduce.matches) words.forEach((w) => w.classList.add('on')); else onScroll();
+  } else words = [];
+}
+let words = [], ticking = false;
+function onScroll() {
+  if (ticking || !words.length) return;
+  ticking = true;
+  requestAnimationFrame(() => {
+    const line = innerHeight * 0.62;
+    // reading order: each word lights once it crosses the trigger line (never replays backwards)
+    for (const w of words) { if (!w.classList.contains('on') && w.getBoundingClientRect().top < line) w.classList.add('on'); }
+    ticking = false;
+  });
+}
+addEventListener('scroll', onScroll, { passive: true });
+
+// ---- Mobile menu: full height panel, animated toggle ----
+function setMenu(open) {
+  document.body.classList.toggle('menu-open', open);
+  document.querySelector('[data-menu]')?.setAttribute('aria-expanded', String(open));
+  document.querySelector('.mpanel')?.setAttribute('aria-hidden', String(!open));
 }
 
 // Global delegated behaviours (work for every view).
 document.addEventListener('submit', (e) => {
+  const g = e.target.closest('[data-gsearch]');
+  if (g) { e.preventDefault(); const q = g.q.value.trim(); location.hash = '/search' + (q ? '?q=' + encodeURIComponent(q) : ''); return; }
   const f = e.target.closest('[data-search]'); if (!f) return;
   e.preventDefault();
   const q = f.q.value.trim();
@@ -61,14 +106,15 @@ document.addEventListener('click', (e) => {
   if (e.target.closest('a.skip')) { e.preventDefault(); view.focus(); return; }
   const sc = e.target.closest('[data-scroll]');
   if (sc) document.getElementById(sc.dataset.scroll)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  if (e.target.closest('[data-menu]')) document.body.classList.toggle('menu-open');
+  if (e.target.closest('[data-menu]')) setMenu(!document.body.classList.contains('menu-open'));
+  else if (e.target.closest('.mpanel a')) setMenu(false);
   if (!e.target.closest('.sbox')) document.querySelectorAll('.sbox__suggest').forEach((x) => (x.hidden = true));
 });
 
 // Live suggestions under any search box.
 document.addEventListener('input', (e) => {
   const inp = e.target.closest('.sbox input'); if (!inp) return;
-  const box = inp.closest('.sbox').querySelector('.sbox__suggest');
+  const box = inp.closest('.sbox').querySelector('.sbox__suggest'); if (!box) return;
   const q = inp.value.trim();
   const res = q.length > 1 ? searchServices(q).slice(0, 5) : [];
   box.hidden = !res.length;
@@ -77,4 +123,5 @@ document.addEventListener('input', (e) => {
 
 window.addEventListener('hashchange', render);
 mountAssistant();
+mountPalette();
 render();

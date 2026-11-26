@@ -7,7 +7,7 @@ import { CENTER_COORDS } from './geo.js';
 
 export const sectors = [
   { id: 'roads', title: 'طرق ونقل', color: '#475569', icon: 'car' },
-  { id: 'water', title: 'مياه وصرف صحي', color: '#0369a1', icon: 'bolt' },
+  { id: 'water', title: 'مياه وصرف صحي', color: '#0369a1', icon: 'water' },
   { id: 'health', title: 'صحة', color: '#be123c', icon: 'health' },
   { id: 'education', title: 'تعليم', color: '#7c3aed', icon: 'book' },
   { id: 'electricity', title: 'كهرباء', color: '#d97706', icon: 'bolt' },

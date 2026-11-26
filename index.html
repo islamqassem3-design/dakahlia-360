@@ -3,54 +3,79 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>الدقهلية 360°</title>
-  <meta name="description" content="Dakahlia 360° — نموذج أولي لتجربة رقمية موحدة لخدمات ومشروعات ومدن محافظة الدقهلية." />
-  <meta name="theme-color" content="#0c2b2a" />
+  <title>الدقهلية 360° · Dakahlia 360°</title>
+  <meta name="description" content="نموذج أولي لتجربة رقمية موحدة لمحافظة الدقهلية: بوابة خدمات بمساعد يفهم العامية، وخريطة مشروعات تفاعلية، وتجربة لاكتشاف المحافظة والاستثمار فيها." />
+  <meta name="theme-color" content="#131209" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ar_EG" />
+  <meta property="og:title" content="الدقهلية 360° · تجربة رقمية واحدة للمحافظة" />
+  <meta property="og:description" content="خدمات ومشروعات ومدن الدقهلية في منصة واحدة، وكل معلومة مرتبطة بمصدرها. نموذج أولي للعرض." />
+  <meta property="og:image" content="https://islamqassem3-design.github.io/dakahlia-360/assets/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
   <link rel="stylesheet" href="assets/css/app.css" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='none' stroke='%230f766e' stroke-width='4'/%3E%3Ccircle cx='16' cy='4' r='3' fill='%23c9a45c'/%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23131209'/%3E%3Ccircle cx='16' cy='17' r='9' fill='none' stroke='%23c9a45c' stroke-width='3'/%3E%3Ccircle cx='16' cy='8' r='3' fill='%2314b8a6'/%3E%3C/svg%3E" />
 </head>
 <body>
   <a class="skip" href="#view">تخطَّ إلى المحتوى</a>
-  <div class="proto">نموذج أولي للعرض والنقاش — ليس موقعًا حكوميًا رسميًا · <a href="#/data">مصادر البيانات</a></div>
+  <div class="proto">نموذج أولي للعرض والنقاش، وليس موقعًا حكوميًا رسميًا · <a href="#/data">مصادر البيانات</a></div>
+
   <header class="top">
-    <div class="top__in">
-      <a class="brand" href="#/" aria-label="الدقهلية 360° — الرئيسية">
-        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12" fill="none" stroke="currentColor" stroke-width="3.2"/><circle cx="16" cy="4" r="3.2" fill="var(--gold)"/></svg>
-        <span><b>الدقهلية</b> 360°</span>
+    <div class="top__bar">
+      <a class="brand" href="#/" aria-label="الدقهلية 360°، الرئيسية">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="17" r="10" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="16" cy="7" r="3.4" fill="var(--gold)"/></svg>
+        <span class="title-3"><b>الدقهلية</b> 360°</span>
       </a>
       <nav class="nav" aria-label="التنقل الرئيسي">
         <a href="#/services" data-nav-id="services">الخدمات</a>
-        <a href="#/agencies" data-nav-id="agencies">الجهات</a>
-    <a href="#/places" data-nav-id="places">المراكز والمدن</a>
-        <a href="#/complaints" data-nav-id="complaints">الشكاوى</a>
         <a href="#/map" data-nav-id="map">المشروعات</a>
-        <span class="nav__sep" aria-hidden="true"></span>
         <a href="#/discover" data-nav-id="discover">اكتشف واستثمر</a>
+        <a href="#/places" data-nav-id="places">المراكز</a>
+        <a href="#/complaints" data-nav-id="complaints">الشكاوى</a>
       </nav>
       <div class="top__act">
-        <button class="btn btn--ghost btn--sm hide-sm" data-assistant="">المساعد الذكي</button>
-        <button class="iconbtn show-sm" data-menu aria-label="القائمة"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+        <button class="iconbtn" data-palette aria-label="بحث موحد (Ctrl+K)"><i class="ph ph-magnifying-glass ic" aria-hidden="true"></i></button>
+        <button class="btn btn--dark btn--sm hide-sm" data-assistant=""><i class="ph ph-sparkle ic" aria-hidden="true"></i>المساعد</button>
+        <button class="burger show-sm" data-menu aria-label="القائمة" aria-expanded="false"><span></span><span></span></button>
       </div>
     </div>
   </header>
 
+  <div class="mpanel" aria-hidden="true">
+    <nav aria-label="قائمة الموبايل">
+      <a href="#/">الرئيسية</a>
+      <a href="#/services">بوابة الخدمات</a>
+      <a href="#/map">خريطة المشروعات</a>
+      <a href="#/discover">اكتشف الدقهلية</a>
+      <a href="#/invest">الاستثمار</a>
+      <a href="#/places">المراكز والمدن</a>
+      <a href="#/agencies">دليل الجهات</a>
+      <a href="#/complaints">الشكاوى</a>
+      <a href="#/faq">الأسئلة الشائعة</a>
+    </nav>
+  </div>
+
   <main id="view" tabindex="-1"></main>
 
   <nav class="tabbar" aria-label="تنقل سريع">
-    <a href="#/" data-nav-id="home"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m3 11 9-7 9 7"/><path d="M5 10v10h14V10"/></svg><span>الرئيسية</span></a>
-    <a href="#/services" data-nav-id="services"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg><span>الخدمات</span></a>
-    <a href="#/map" data-nav-id="map"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="m3 6 6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/></svg><span>المشروعات</span></a>
-    <a href="#/places" data-nav-id="places"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>مركزي</span></a>
-    <a href="#/complaints" data-nav-id="complaints"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5h16v11H9l-5 4z"/></svg><span>الشكاوى</span></a>
+    <a href="#/" data-nav-id="home"><i class="ph ph-house ic" aria-hidden="true"></i><span>الرئيسية</span></a>
+    <a href="#/services" data-nav-id="services"><i class="ph ph-squares-four ic" aria-hidden="true"></i><span>الخدمات</span></a>
+    <a href="#/map" data-nav-id="map"><i class="ph ph-map-trifold ic" aria-hidden="true"></i><span>المشروعات</span></a>
+    <a href="#/discover" data-nav-id="discover"><i class="ph ph-compass ic" aria-hidden="true"></i><span>اكتشف</span></a>
+    <a href="#/places" data-nav-id="places"><i class="ph ph-map-pin ic" aria-hidden="true"></i><span>مركزي</span></a>
   </nav>
 
   <footer class="foot">
     <div class="foot__in">
-      <div><b>Dakahlia 360°</b><p>نموذج أولي تفاعلي لتجربة رقمية موحدة لمحافظة الدقهلية. يوجّه للقنوات الرسمية ولا يحل محلها.</p></div>
-      <div class="foot__links"><a href="#/services">بوابة الخدمات</a><a href="#/agencies">دليل الجهات</a><a href="#/faq">الأسئلة الشائعة</a><a href="#/data">مصادر البيانات</a></div>
+      <div class="foot__brand"><b class="title-2">Dakahlia 360°</b><p class="body-6">نموذج أولي تفاعلي لتجربة رقمية موحدة لمحافظة الدقهلية. يوجّه للقنوات الرسمية ولا يحل محلها.</p></div>
+      <nav class="foot__cols" aria-label="روابط الموقع">
+        <div><span class="caption-3">المنتجات</span><a href="#/services">بوابة الخدمات</a><a href="#/map">خريطة المشروعات</a><a href="#/discover">اكتشف الدقهلية</a><a href="#/invest">الاستثمار</a></div>
+        <div><span class="caption-3">أدلة</span><a href="#/agencies">دليل الجهات</a><a href="#/places">المراكز والمدن</a><a href="#/complaints">الشكاوى</a><a href="#/faq">الأسئلة الشائعة</a></div>
+        <div><span class="caption-3">عن النموذج</span><a href="#/data">مصادر البيانات</a><a href="#/privacy">الخصوصية</a><a href="#/terms">شروط الاستخدام</a></div>
+      </nav>
     </div>
   </footer>
   <script type="module" src="assets/js/app.js"></script>
