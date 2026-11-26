@@ -1278,3 +1278,61 @@ a.rl__i:hover { background: var(--dark); color: var(--on-dark); border-color: va
   .hx__line { stroke-dashoffset: 0; } .hx__c, .hx__chip, .hx__txt > *, .hx__fill { opacity: 1 !important; transform: none !important; }
   .mq__track { animation: none; }
 }
+
+/* =====================================================================
+   review round 10: every small interactive element gets the same life
+   ===================================================================== */
+:where(.qchips a, .chip--btn, .fchip, .trychip, .hot, .tabs a, .tabs button, .seg button, .agmini, .rel, .info__i, .legend > div, .srcs li, .tr:not(.th), .faq details, .tabbar a, .sbox .btn, .linkbtn, .crumbs a, .src, .link, .foot__cols a, .fselect select, .finput, .leaflet-bar a, .pill, .hk, .city__tag) {
+  transition: background-color .4s var(--ease), border-color .4s var(--ease), color .4s var(--ease), transform .5s var(--ease), box-shadow .5s var(--ease);
+}
+@media (hover: hover) {
+  /* chips and filters: dark olive fill, cream text, lift; icons turn orange */
+  :is(.qchips a, .chip--btn, .fchip:not(.on), .trychip, .tabs a, .tabs button, .seg button:not(.on), .ai__sugg button):hover {
+    background: var(--dark); color: var(--on-dark); border-color: var(--dark);
+    transform: translateY(-3px); box-shadow: 0 12px 24px -14px rgba(31, 36, 22, .6);
+  }
+  :is(.qchips a, .chip--btn, .fchip, .trychip, .tabs a, .ai__sugg button):hover .ic { color: var(--orange); }
+  .fchip.on:hover { background: var(--orange); border-color: var(--orange); color: #fff; transform: translateY(-2px); }
+  .fchip--dot:hover i { box-shadow: 0 0 0 3px rgba(255, 255, 255, .25); }
+  :is(.qchips a, .chip--btn, .fchip, .trychip, .tabs a, .tabs button, .seg button, .ai__sugg button):active { transform: scale(.97); }
+  /* emergency numbers and small info cards: full dark hover like the big cards */
+  :is(.hot, .agmini, .info__i, .legend > div):hover { background: var(--dark); border-color: var(--dark); color: var(--on-dark); transform: translateY(-3px); box-shadow: 0 18px 36px -22px rgba(31, 36, 22, .6); }
+  .hot:hover b { color: var(--orange); }
+  :is(.hot, .agmini, .info__i, .legend > div):hover :is(span, small, p, .muted) { color: var(--on-dark-2); }
+  .info__i:hover a b, .info__i:hover .src { color: var(--orange); }
+  .info__i:hover > span .ic { color: var(--orange); }
+  /* list rows slide and light up */
+  :is(.rel, .srcs li, .tr:not(.th)):hover { color: var(--dark); padding-inline-start: var(--s-75); }
+  .rel:hover { color: var(--orange); }
+  .rel:hover .ic { color: var(--orange); transform: translateX(-4px); }
+  .rel .ic { transition: transform .5s var(--ease), color .3s var(--ease); }
+  .tr:not(.th):hover { background: var(--surface-2); }
+  /* text links: orange with a growing underline and a moving arrow */
+  :is(.link, .src, .linkbtn, .crumbs a, .foot__cols a) { background-image: linear-gradient(currentColor, currentColor); background-size: 0 1.5px; background-position: 100% 100%; background-repeat: no-repeat; transition: background-size .4s var(--ease), color .3s var(--ease); }
+  :is(.link, .src, .linkbtn, .crumbs a):hover { color: var(--orange); background-size: 100% 1.5px; }
+  .foot__cols a:hover { color: var(--orange); background-size: 100% 1.5px; }
+  .linkbtn { text-decoration: none; background-size: 100% 1.5px; }
+  .src:hover .ic { transform: translate(-2px, -2px); }
+  .src .ic { transition: transform .4s var(--ease); }
+  /* FAQ */
+  .faq details:hover { border-color: var(--dark); transform: translateY(-2px); box-shadow: var(--sh); }
+  .faq summary:hover { color: var(--dark); }
+  .faq details:hover summary::after { color: var(--orange); transform: rotate(90deg); }
+  .faq details[open]:hover summary::after { transform: rotate(135deg); }
+  /* search button, selects, inputs */
+  .sbox .btn:hover { transform: translateY(-1px) scale(1.04); box-shadow: 0 10px 20px -10px rgba(255, 107, 26, .8); }
+  .sbox:hover { border-color: var(--dark); }
+  :is(.fselect select, .finput):hover { border-color: var(--dark); box-shadow: 0 6px 14px -10px rgba(31, 36, 22, .5); }
+  /* bottom tab bar and map zoom */
+  .tabbar a:hover { color: var(--dark); background: var(--surface-2); }
+  .tabbar a:hover .ic { color: var(--orange); transform: translateY(-2px) scale(1.1); }
+  .tabbar a .ic { transition: transform .5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .leaflet-bar a:hover { background: var(--dark) !important; color: var(--on-dark) !important; }
+  /* small tags inside cards */
+  .city:hover .city__tag { background: var(--orange); color: #fff; }
+  .iconbtn:hover { background: var(--dark); color: var(--on-dark); border-color: var(--dark); transform: translateY(-2px); }
+  .iconbtn:hover .ic { color: var(--orange); }
+}
+/* keyboard users get the same feedback */
+:is(.qchips a, .chip--btn, .fchip, .trychip, .hot, .rel, .link):focus-visible { outline-color: var(--orange); }
+:is(.rel, .srcs li, .tr:not(.th)) { transition: padding .4s var(--ease), color .3s var(--ease), background-color .3s var(--ease); }

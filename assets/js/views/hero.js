@@ -1,11 +1,11 @@
 // Landing hero: dark olive, the real Dakahlia outline drawing itself, centres lighting up,
 // the three products orbiting the map, mouse-driven depth, counting numbers and a moving query strip.
-import { icon } from '../ui.js?v=202611261618';
-import { GOV_OUTLINE, CENTER_COORDS } from '../data/geo.js?v=202611261618';
-import { places } from '../data/places.js?v=202611261618';
-import { services } from '../data/services.js?v=202611261618';
-import { sources } from '../data/meta.js?v=202611261618';
-import { discoverSources } from '../data/discover.js?v=202611261618';
+import { icon } from '../ui.js?v=202611261622';
+import { GOV_OUTLINE, CENTER_COORDS } from '../data/geo.js?v=202611261622';
+import { places } from '../data/places.js?v=202611261622';
+import { services } from '../data/services.js?v=202611261622';
+import { sources } from '../data/meta.js?v=202611261622';
+import { discoverSources } from '../data/discover.js?v=202611261622';
 
 const W = 560, H = 600, PAD = 36;
 const ring = GOV_OUTLINE.coordinates[0];

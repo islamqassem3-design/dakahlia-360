@@ -1,12 +1,12 @@
 // Landing page (layout A: classic hero plus sections), structured per the landing-page-design skill:
 // hero → problem/solution → benefits → tagline reveal → how it works → proof → FAQ → risk reversal → final CTA.
-import { icon } from '../ui.js?v=202611261618';
-import { heroHtml, mountHero } from './hero.js?v=202611261618';
-import { services } from '../data/services.js?v=202611261618';
-import { places } from '../data/places.js?v=202611261618';
-import { sources } from '../data/meta.js?v=202611261618';
-import { discoverSources, pois } from '../data/discover.js?v=202611261618';
-import { projects } from '../data/projects.js?v=202611261618';
+import { icon } from '../ui.js?v=202611261622';
+import { heroHtml, mountHero } from './hero.js?v=202611261622';
+import { services } from '../data/services.js?v=202611261622';
+import { places } from '../data/places.js?v=202611261622';
+import { sources } from '../data/meta.js?v=202611261622';
+import { discoverSources, pois } from '../data/discover.js?v=202611261622';
+import { projects } from '../data/projects.js?v=202611261622';
 
 const nSources = Object.keys(sources).length + Object.keys(discoverSources).length;
 
