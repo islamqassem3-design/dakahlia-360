@@ -1,6 +1,6 @@
 // Shared UI building blocks (design system components as template functions).
-import { sources, STATUS, CHECKED_AT } from './data/meta.js?v=202611261643';
-import { agencies, categories } from './data/catalog.js?v=202611261643';
+import { sources, STATUS, CHECKED_AT } from './data/meta.js?v=202611261647';
+import { agencies, categories } from './data/catalog.js?v=202611261647';
 
 export const esc = (s = '') => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 export const agencyById = Object.fromEntries(agencies.map((a) => [a.id, a]));

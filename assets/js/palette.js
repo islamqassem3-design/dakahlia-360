@@ -1,6 +1,6 @@
 // Unified search palette (Phase 04): one search box for services, places, landmarks, projects and agencies.
-import { icon, esc, badge } from './ui.js?v=202611261643';
-import { globalSearch } from './lib/globalsearch.js?v=202611261643';
+import { icon, esc, badge } from './ui.js?v=202611261647';
+import { globalSearch } from './lib/globalsearch.js?v=202611261647';
 
 export const groupsHtml = (res, close = false) => res.groups.map((g) => `
   <section class="sg"><h3 class="sg__t">${g.title}</h3>

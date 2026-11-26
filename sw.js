@@ -1,7 +1,7 @@
 // Service worker: makes the site installable and fast on repeat visits.
 // Pages: network first (always fresh when online), cached copy when offline.
 // Versioned assets (?v=): cache first. Fonts/icons/Leaflet from CDNs: cache first. Map tiles and AI calls: not cached.
-const VERSION = 'd360-202611261643';
+const VERSION = 'd360-202611261647';
 const CORE = ['./', './index.html', './manifest.webmanifest', './assets/icons/icon-192.png'];
 self.addEventListener('install', (e) => { e.waitUntil(caches.open(VERSION).then((c) => c.addAll(CORE)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', (e) => {

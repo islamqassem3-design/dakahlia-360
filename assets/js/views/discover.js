@@ -1,9 +1,9 @@
-import { icon, esc, badge, crumbs, empty } from '../ui.js?v=202611261643';
-import { pois, poiCats, profiles, economy, investSteps, discoverSources as S, SOURCE_KIND } from '../data/discover.js?v=202611261643';
-import { places } from '../data/places.js?v=202611261643';
-import { services } from '../data/services.js?v=202611261643';
-import { projects } from '../data/projects.js?v=202611261643';
-import { loadLeaflet, baseMap, placeById } from './map.js?v=202611261643';
+import { icon, esc, badge, crumbs, empty } from '../ui.js?v=202611261647';
+import { pois, poiCats, profiles, economy, investSteps, discoverSources as S, SOURCE_KIND } from '../data/discover.js?v=202611261647';
+import { places } from '../data/places.js?v=202611261647';
+import { services } from '../data/services.js?v=202611261647';
+import { projects } from '../data/projects.js?v=202611261647';
+import { loadLeaflet, baseMap, placeById } from './map.js?v=202611261647';
 
 const catById = Object.fromEntries(poiCats.map((c) => [c.id, c]));
 

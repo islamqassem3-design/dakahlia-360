@@ -1,21 +1,22 @@
-import { intro } from './views/intro.js?v=202611261643';
-import { portalHome, browse, serviceDetail } from './views/portal.js?v=202611261643';
-import { agencyList, agencyDetail, placeList, placeDetail, complaints, faqView, dataPolicy } from './views/directory.js?v=202611261643';
-import { discover, poiDetail, invest } from './views/discover.js?v=202611261643';
-import { mapView, projectDetail, projectBrief } from './views/map.js?v=202611261643';
-import { mountAssistant } from './assistant.js?v=202611261643';
-import { mountPalette, searchPage } from './palette.js?v=202611261643';
-import { searchServices } from './lib/search.js?v=202611261643';
-import { esc } from './ui.js?v=202611261643';
-import { privacy, terms, notFound } from './views/legal.js?v=202611261643';
-import { mountCursor } from './cursor.js?v=202611261643';
-import { mountPWA } from './pwa.js?v=202611261643';
-import { mountAIPanel } from './aipanel.js?v=202611261643';
-import { ideas } from './views/ideas.js?v=202611261643';
-import { team } from './views/team.js?v=202611261643';
-import { workspace, proposal } from './views/workspace.js?v=202611261643';
-import { lab } from './views/lab.js?v=202611261643';
-import { studio, proto } from './views/studio.js?v=202611261643';
+import { intro } from './views/intro.js?v=202611261647';
+import { portalHome, browse, serviceDetail } from './views/portal.js?v=202611261647';
+import { agencyList, agencyDetail, placeList, placeDetail, complaints, faqView, dataPolicy } from './views/directory.js?v=202611261647';
+import { discover, poiDetail, invest } from './views/discover.js?v=202611261647';
+import { mapView, projectDetail, projectBrief } from './views/map.js?v=202611261647';
+import { mountAssistant } from './assistant.js?v=202611261647';
+import { mountPalette, searchPage } from './palette.js?v=202611261647';
+import { searchServices } from './lib/search.js?v=202611261647';
+import { esc } from './ui.js?v=202611261647';
+import { privacy, terms, notFound } from './views/legal.js?v=202611261647';
+import { mountCursor } from './cursor.js?v=202611261647';
+import { mountPWA } from './pwa.js?v=202611261647';
+import { mountTouch } from './touch.js?v=202611261647';
+import { mountAIPanel } from './aipanel.js?v=202611261647';
+import { ideas } from './views/ideas.js?v=202611261647';
+import { team } from './views/team.js?v=202611261647';
+import { workspace, proposal } from './views/workspace.js?v=202611261647';
+import { lab } from './views/lab.js?v=202611261647';
+import { studio, proto } from './views/studio.js?v=202611261647';
 
 const routes = [
   [/^\/?$/, intro, 'home'],
@@ -143,4 +144,5 @@ mountPalette();
 mountAIPanel();
 mountCursor();
 mountPWA();
+mountTouch();
 render();
