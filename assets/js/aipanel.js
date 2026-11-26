@@ -1,6 +1,6 @@
 // AI settings panel: the user connects their own free Gemini key (stored only in this browser).
-import { icon, esc } from './ui.js?v=202611261630';
-import { aiOn, aiModel, aiConnect, aiClear } from './lib/ai.js?v=202611261630';
+import { icon, esc } from './ui.js?v=202611261643';
+import { aiOn, aiModel, aiConnect, aiClear } from './lib/ai.js?v=202611261643';
 
 export const aiChip = () => aiOn()
   ? `<button class="aichip aichip--on" data-aipanel>${icon('spark')} AI حقيقي: Gemini</button>`

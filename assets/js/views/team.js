@@ -1,8 +1,8 @@
 // Team area (#/team): the full ideas catalog with pipeline dashboard, sorting, board view and development tools.
-import { icon, esc, crumbs } from '../ui.js?v=202611261630';
-import { sectorsIdeas, HORIZON } from '../data/ideas.js?v=202611261630';
-import { allIdeas, sectorById, SECTORS, STAGES, stageOf, setStage, evaluate, scoresOf, SIM_NOTE } from '../lib/innovation.js?v=202611261630';
-import { setTeam } from '../lib/team.js?v=202611261630';
+import { icon, esc, crumbs } from '../ui.js?v=202611261643';
+import { sectorsIdeas, HORIZON } from '../data/ideas.js?v=202611261643';
+import { allIdeas, sectorById, SECTORS, STAGES, stageOf, setStage, evaluate, scoresOf, SIM_NOTE } from '../lib/innovation.js?v=202611261643';
+import { setTeam } from '../lib/team.js?v=202611261643';
 
 const SORTS = [['', 'الترتيب الافتراضي'], ['priority', 'الأولوية'], ['impact', 'التأثير على المواطن'], ['ease', 'سهولة التنفيذ'], ['quick', 'Quick Wins أولًا'], ['strategic', 'الاستراتيجية أولًا']];
 

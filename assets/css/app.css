@@ -1336,3 +1336,42 @@ a.rl__i:hover { background: var(--dark); color: var(--on-dark); border-color: va
 /* keyboard users get the same feedback */
 :is(.qchips a, .chip--btn, .fchip, .trychip, .hot, .rel, .link):focus-visible { outline-color: var(--orange); }
 :is(.rel, .srcs li, .tr:not(.th)) { transition: padding .4s var(--ease), color .3s var(--ease), background-color .3s var(--ease); }
+
+/* =====================================================================
+   review round 12: mobile smoothness
+   ===================================================================== */
+html { -webkit-tap-highlight-color: transparent; }
+a, button, summary, label, select, input, textarea { touch-action: manipulation; }
+@media (max-width: 860px), (pointer: coarse) {
+  /* comfortable tap targets (≥ 40px) */
+  .fchip, .chip--btn, .qchips a, .aichip, .trychip, .ai__sugg button, .opt, .seg button, .tabs a, .tabs button, .wtabs a { min-height: 40px; display: inline-flex; align-items: center; }
+  .chip--link { min-height: 36px; display: inline-flex; align-items: center; }
+  .link, .src, .linkbtn { min-height: 36px; display: inline-flex; align-items: center; }
+  .faq summary { min-height: 48px; align-items: center; }
+  .iconbtn, .burger { width: 44px; height: 44px; }
+  /* no auto zoom on iOS: form controls at 16px */
+  input, select, textarea, .finput input, .fselect select, .sbox input, .pal__f input, .ai__f input { font-size: 16px !important; }
+  .finput input { padding: var(--s-100) 0; }
+  /* lighter rendering: solid surfaces instead of live blur */
+  .top__bar { background: rgba(255, 252, 245, .97); backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .tabbar { background: rgba(255, 252, 245, .98); backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .mpanel { background: var(--bg); backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .tabs, .mapui__legend { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--surface); }
+  .hx__chip { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--dark-2); animation: none; }
+  .pal__scrim, .ai__scrim { backdrop-filter: none; }
+  /* fewer moving parts on small screens */
+  [data-reveal] { transform: translateY(16px); transition-duration: .5s; }
+  .hx__pulse { animation-duration: 3s; }
+  /* full-height panels respect the mobile browser bars */
+  .ai__panel { top: auto; height: calc(100dvh - 48px); }
+  .mapui__map { height: 60dvh; }
+  .pal { padding-top: var(--s-500); }
+  .pal__box { max-height: calc(100dvh - 80px); }
+  /* safe areas (notch, home bar) */
+  .top { padding-inline: max(var(--s-100), env(safe-area-inset-left)) max(var(--s-100), env(safe-area-inset-right)); }
+  .fab { inset-inline-start: max(var(--s-200), env(safe-area-inset-left)); }
+}
+/* install button inside the mobile menu */
+.mpanel__install { margin-top: var(--s-300); width: 100%; justify-content: center; }
+.toast { position: fixed; inset-inline: var(--s-200); bottom: calc(96px + env(safe-area-inset-bottom)); z-index: 80; background: var(--dark); color: var(--on-dark); border-radius: var(--r-2xl); padding: var(--s-200); font-size: 14px; line-height: 20px; box-shadow: var(--sh-2); animation: paneIn .4s var(--ease) both; }
+.toast b { color: var(--orange); }

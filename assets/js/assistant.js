@@ -4,14 +4,14 @@
 // • keeps conversation context (follow ups like «وفي جمصة؟») and page context (the service or place on screen)
 // • cites the source behind every answer and never generates fees, durations or procedures
 // Built so an LLM with retrieval over the same data can replace `answer()` without UI changes.
-import { icon, esc, agencyById } from './ui.js?v=202611261630';
-import { sources } from './data/meta.js?v=202611261630';
-import { services } from './data/services.js?v=202611261630';
-import { searchServices, searchAgencies, findPlaces, normalize, tokens } from './lib/search.js?v=202611261630';
-import { globalSearch } from './lib/globalsearch.js?v=202611261630';
-import { projects } from './data/projects.js?v=202611261630';
-import { pois, discoverSources } from './data/discover.js?v=202611261630';
-import { places } from './data/places.js?v=202611261630';
+import { icon, esc, agencyById } from './ui.js?v=202611261643';
+import { sources } from './data/meta.js?v=202611261643';
+import { services } from './data/services.js?v=202611261643';
+import { searchServices, searchAgencies, findPlaces, normalize, tokens } from './lib/search.js?v=202611261643';
+import { globalSearch } from './lib/globalsearch.js?v=202611261643';
+import { projects } from './data/projects.js?v=202611261643';
+import { pois, discoverSources } from './data/discover.js?v=202611261643';
+import { places } from './data/places.js?v=202611261643';
 
 const has = (nq, words) => words.some((w) => nq.includes(normalize(w)));
 const svcById = Object.fromEntries(services.map((s) => [s.id, s]));

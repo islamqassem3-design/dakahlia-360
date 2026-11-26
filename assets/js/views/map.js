@@ -1,11 +1,11 @@
-import { icon, esc, badge, crumbs, empty, agencyById } from '../ui.js?v=202611261630';
-import { projects, sectors, projectStatuses } from '../data/projects.js?v=202611261630';
-import { places } from '../data/places.js?v=202611261630';
-import { CENTER_COORDS, GOV_OUTLINE } from '../data/geo.js?v=202611261630';
-import { services } from '../data/services.js?v=202611261630';
-import { normalize } from '../lib/search.js?v=202611261630';
-import { relatedProjects, relatedIdeasForProject, projectOpportunities, opportunityToIdea, linkProject, allIdeas, SIM_NOTE, sectorById as ideaSector } from '../lib/innovation.js?v=202611261630';
-import { isTeam } from '../lib/team.js?v=202611261630';
+import { icon, esc, badge, crumbs, empty, agencyById } from '../ui.js?v=202611261643';
+import { projects, sectors, projectStatuses } from '../data/projects.js?v=202611261643';
+import { places } from '../data/places.js?v=202611261643';
+import { CENTER_COORDS, GOV_OUTLINE } from '../data/geo.js?v=202611261643';
+import { services } from '../data/services.js?v=202611261643';
+import { normalize } from '../lib/search.js?v=202611261643';
+import { relatedProjects, relatedIdeasForProject, projectOpportunities, opportunityToIdea, linkProject, allIdeas, SIM_NOTE, sectorById as ideaSector } from '../lib/innovation.js?v=202611261643';
+import { isTeam } from '../lib/team.js?v=202611261643';
 
 export const sectorById = Object.fromEntries(sectors.map((s) => [s.id, s]));
 export const statusById = Object.fromEntries(projectStatuses.map((s) => [s.id, s]));
@@ -28,7 +28,10 @@ export function loadLeaflet() {
 }
 
 export function baseMap(L, el, opts = {}) {
-  const map = L.map(el, { zoomControl: false, fadeAnimation: false, attributionControl: true, scrollWheelZoom: opts.scroll ?? true, ...opts });
+  // On touch screens small embedded maps must not trap the page scroll: one-finger drag scrolls the page,
+  // the +/- buttons zoom. The main projects map keeps dragging because it is the page's purpose.
+  const touchSmall = opts.scroll === false && matchMedia('(pointer: coarse)').matches;
+  const map = L.map(el, { zoomControl: false, fadeAnimation: false, attributionControl: true, scrollWheelZoom: opts.scroll ?? true, ...(touchSmall ? { dragging: false, tap: false, touchZoom: false } : {}), ...opts });
   L.control.zoom({ position: 'topleft', zoomInTitle: 'تكبير', zoomOutTitle: 'تصغير' }).addTo(map);
   map.attributionControl.setPrefix(false);
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {

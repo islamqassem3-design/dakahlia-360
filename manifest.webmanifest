@@ -1,0 +1,18 @@
+{
+  "name": "الدقهلية 360°",
+  "short_name": "الدقهلية 360",
+  "description": "نموذج أولي لتجربة رقمية موحدة لخدمات ومشروعات ومدن محافظة الدقهلية.",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5efe2",
+  "theme_color": "#2b3420",
+  "icons": [
+    { "src": "assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "assets/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

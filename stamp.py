@@ -12,4 +12,7 @@ h = root / 'index.html'; s = h.read_text(encoding='utf-8')
 s = re.sub(r'(src="assets/js/app\.js)(?:\?v=[\w.-]+)?"', rf'\1?v={v}"', s)
 s = re.sub(r'(href="assets/css/app\.css)(?:\?v=[\w.-]+)?"', rf'\1?v={v}"', s)
 h.write_text(s, encoding='utf-8')
+sw = root / 'sw.js'
+if sw.exists():
+    t = sw.read_text(encoding='utf-8'); sw.write_text(re.sub(r"const VERSION = '[^']*';", f"const VERSION = 'd360-{v}';", t), encoding='utf-8')
 print('stamped', v)

@@ -6,6 +6,12 @@
   <title>الدقهلية 360° · Dakahlia 360°</title>
   <meta name="description" content="نموذج أولي لتجربة رقمية موحدة لمحافظة الدقهلية: بوابة خدمات بمساعد يفهم العامية، وخريطة مشروعات تفاعلية، وتجربة لاكتشاف المحافظة والاستثمار فيها." />
   <meta name="theme-color" content="#2b3420" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="الدقهلية 360" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ar_EG" />
   <meta property="og:title" content="الدقهلية 360° · تجربة رقمية واحدة للمحافظة" />
@@ -16,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
-  <link rel="stylesheet" href="assets/css/app.css?v=202611261630" />
+  <link rel="stylesheet" href="assets/css/app.css?v=202611261643" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232b3420'/%3E%3Ccircle cx='16' cy='17' r='9' fill='none' stroke='%23f5efe2' stroke-width='3'/%3E%3Ccircle cx='16' cy='8' r='3.4' fill='%23f26b1d'/%3E%3C/svg%3E" />
 </head>
 <body>
@@ -58,6 +64,7 @@
       <a href="#/ideas">أفكار للتطوير</a>
       <a href="#/faq">الأسئلة الشائعة</a>
     </nav>
+    <button class="btn btn--primary btn--lg mpanel__install" data-install hidden>ثبّت التطبيق على موبايلك</button>
   </div>
 
   <main id="view" tabindex="-1"></main>
@@ -80,6 +87,6 @@
       </nav>
     </div>
   </footer>
-  <script type="module" src="assets/js/app.js?v=202611261630"></script>
+  <script type="module" src="assets/js/app.js?v=202611261643"></script>
 </body>
 </html>
