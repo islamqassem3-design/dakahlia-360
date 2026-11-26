@@ -1,13 +1,13 @@
 // Idea development workspace (#/idea/:id) and project proposal (#/idea/:id/proposal).
-import { icon, esc, crumbs, empty, badge } from '../ui.js?v=202611261547';
-import { projects } from '../data/projects.js?v=202611261547';
+import { icon, esc, crumbs, empty, badge } from '../ui.js?v=202611261552';
+import { projects } from '../data/projects.js?v=202611261552';
 import {
   getIdea, getWS, saveWS, stageOf, setStage, STAGES, sectorById, CRITERIA, scoresOf, evaluate, val, draftFor,
   relatedIdeas, mergeSuggestionsFor, acceptMerge, decisions, decide, linkedProjects, linkProject, unlinkProject,
   suggestedProjectsFor, PROTO_TYPES, suggestProto, SIM_NOTE, HORIZON, IMPROVEMENTS,
-} from '../lib/innovation.js?v=202611261547';
-import { aiChip } from '../aipanel.js?v=202611261547';
-import { aiOn, aiSection, aiScore } from '../lib/ai.js?v=202611261547';
+} from '../lib/innovation.js?v=202611261552';
+import { aiChip } from '../aipanel.js?v=202611261552';
+import { aiOn, aiSection, aiScore } from '../lib/ai.js?v=202611261552';
 const AI_NOTE = 'مقترحات Gemini (ذكاء اصطناعي حقيقي) تقديرية وتحتاج مراجعتك، ولا تُعد دراسة ميدانية.';
 
 const SECTIONS = [

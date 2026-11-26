@@ -1,19 +1,18 @@
-import { intro } from './views/intro.js?v=202611261547';
-import { portalHome, browse, serviceDetail } from './views/portal.js?v=202611261547';
-import { agencyList, agencyDetail, placeList, placeDetail, complaints, faqView, dataPolicy } from './views/directory.js?v=202611261547';
-import { discover, poiDetail, invest } from './views/discover.js?v=202611261547';
-import { mapView, projectDetail, projectBrief } from './views/map.js?v=202611261547';
-import { mountAssistant } from './assistant.js?v=202611261547';
-import { mountPalette, searchPage } from './palette.js?v=202611261547';
-import { searchServices } from './lib/search.js?v=202611261547';
-import { esc } from './ui.js?v=202611261547';
-import { privacy, terms, notFound } from './views/legal.js?v=202611261547';
-import { mountCursor } from './cursor.js?v=202611261547';
-import { mountAIPanel } from './aipanel.js?v=202611261547';
-import { ideas } from './views/ideas.js?v=202611261547';
-import { workspace, proposal } from './views/workspace.js?v=202611261547';
-import { lab } from './views/lab.js?v=202611261547';
-import { studio, proto } from './views/studio.js?v=202611261547';
+import { intro } from './views/intro.js?v=202611261552';
+import { portalHome, browse, serviceDetail } from './views/portal.js?v=202611261552';
+import { agencyList, agencyDetail, placeList, placeDetail, complaints, faqView, dataPolicy } from './views/directory.js?v=202611261552';
+import { discover, poiDetail, invest } from './views/discover.js?v=202611261552';
+import { mapView, projectDetail, projectBrief } from './views/map.js?v=202611261552';
+import { mountAssistant } from './assistant.js?v=202611261552';
+import { mountPalette, searchPage } from './palette.js?v=202611261552';
+import { searchServices } from './lib/search.js?v=202611261552';
+import { esc } from './ui.js?v=202611261552';
+import { privacy, terms, notFound } from './views/legal.js?v=202611261552';
+import { mountAIPanel } from './aipanel.js?v=202611261552';
+import { ideas } from './views/ideas.js?v=202611261552';
+import { workspace, proposal } from './views/workspace.js?v=202611261552';
+import { lab } from './views/lab.js?v=202611261552';
+import { studio, proto } from './views/studio.js?v=202611261552';
 
 const routes = [
   [/^\/?$/, intro, 'home'],
@@ -137,6 +136,5 @@ document.addEventListener('input', (e) => {
 window.addEventListener('hashchange', render);
 mountAssistant();
 mountPalette();
-mountCursor();
 mountAIPanel();
 render();

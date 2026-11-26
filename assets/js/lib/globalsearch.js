@@ -1,10 +1,10 @@
 // Unified search across the three products (Phase 04).
 // Services use the dedicated weighted engine; other entities use a light token scorer.
-import { tokens, searchServices, findPlaces } from './search.js?v=202611261547';
-import { agencies } from '../data/catalog.js?v=202611261547';
-import { places, PLACE_KIND } from '../data/places.js?v=202611261547';
-import { projects, sectors } from '../data/projects.js?v=202611261547';
-import { pois, poiCats, economy } from '../data/discover.js?v=202611261547';
+import { tokens, searchServices, findPlaces } from './search.js?v=202611261552';
+import { agencies } from '../data/catalog.js?v=202611261552';
+import { places, PLACE_KIND } from '../data/places.js?v=202611261552';
+import { projects, sectors } from '../data/projects.js?v=202611261552';
+import { pois, poiCats, economy } from '../data/discover.js?v=202611261552';
 
 const toks = (s) => tokens(s);
 const near = (a, b) => a.length >= 3 && b.length >= 3 && (a.startsWith(b) || b.startsWith(a));

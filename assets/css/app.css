@@ -882,14 +882,6 @@ main, .foot, .top { position: relative; z-index: 1; }
 @media (prefers-reduced-motion: reduce) { .pane--map .demo__map, .pane--city .mini-city, .pane--city .demo__chips { opacity: 1; transform: none; } }
 @media (max-width: 1200px) and (min-width: 768px) { .hero2 .heading-1 { font-size: 48px; } }
 
-/* review round 7: cursor shadow (replaces the ring and glow) */
-.cursor-shadow { position: fixed; left: 0; top: 0; width: 26px; height: 26px; margin: -13px 0 0 -13px; z-index: 90; pointer-events: none; border-radius: 50%; background: rgba(31, 36, 22, .42); filter: blur(3px); opacity: 0; will-change: transform; transition: opacity .3s var(--ease), background-color .3s var(--ease), filter .3s var(--ease); }
-.has-cursor .cursor-shadow { opacity: 1; }
-.cursor-shadow.is-hot { background: rgba(31, 36, 22, .26); filter: blur(5px); }
-.cursor-shadow.is-down { background: rgba(31, 36, 22, .55); filter: blur(2px); }
-.noscroll .cursor-shadow { opacity: 0; }
-@media (prefers-reduced-motion: reduce) { .cursor-shadow { display: none; } }
-
 main:focus, main:focus-visible { outline: none; }
 
 /* =====================================================================
