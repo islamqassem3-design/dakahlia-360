@@ -106,9 +106,9 @@ export const pois = [
 
 // Short sourced profiles for the featured cities (brief: Mansoura, New Mansoura, Gamasa).
 export const profiles = {
-  mansoura: { tag: 'عاصمة المحافظة على النيل', text: 'عاصمة محافظة الدقهلية على فرع دمياط من النيل، ومركز للتعليم والخدمات في وسط الدلتا، وترتبط تاريخيًا بمعركة المنصورة ودار ابن لقمان.', sources: ['wiki_mansoura', 'akhbar_ibnluqman'], tone: '#2b3420', accent: '#f08a3c' },
-  'new-mansoura': { tag: 'مدينة جديدة على المتوسط', text: 'مدينة جديدة تتبع هيئة المجتمعات العمرانية الجديدة، على الطريق الساحلي الدولي بجوار جمصة، وتضم جامعة المنصورة الجديدة.', sources: ['nuca', 'watan_newmansoura'], tone: '#3a4720', accent: '#f4b183' },
-  gamasa: { tag: 'مصيف الدلتا على البحر', text: 'مدينة ساحلية ومصيف على البحر المتوسط، وبها منطقة صناعية تتابعها المحافظة والهيئة العامة للتنمية الصناعية.', sources: ['marefa_gamasa', 'ahram_gamasa_ind'], tone: '#b54f10', accent: '#fbe2cc' },
+  mansoura: { tag: 'عاصمة المحافظة على النيل', text: 'عاصمة محافظة الدقهلية على فرع دمياط من النيل، ومركز للتعليم والخدمات في وسط الدلتا، وترتبط تاريخيًا بمعركة المنصورة ودار ابن لقمان.', sources: ['wiki_mansoura', 'akhbar_ibnluqman'], tone: '#2b3420', accent: '#ff7d32' },
+  'new-mansoura': { tag: 'مدينة جديدة على المتوسط', text: 'مدينة جديدة تتبع هيئة المجتمعات العمرانية الجديدة، على الطريق الساحلي الدولي بجوار جمصة، وتضم جامعة المنصورة الجديدة.', sources: ['nuca', 'watan_newmansoura'], tone: '#3a4720', accent: '#ff7d32' },
+  gamasa: { tag: 'مصيف الدلتا على البحر', text: 'مدينة ساحلية ومصيف على البحر المتوسط، وبها منطقة صناعية تتابعها المحافظة والهيئة العامة للتنمية الصناعية.', sources: ['marefa_gamasa', 'ahram_gamasa_ind'], tone: '#424d31', accent: '#ff7d32' },
 };
 
 // Economic features: qualitative only, each with a source.
