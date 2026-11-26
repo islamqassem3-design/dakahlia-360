@@ -1,10 +1,11 @@
-import { icon, esc, badge, crumbs, empty, agencyById } from '../ui.js?v=202611261552';
-import { projects, sectors, projectStatuses } from '../data/projects.js?v=202611261552';
-import { places } from '../data/places.js?v=202611261552';
-import { CENTER_COORDS, GOV_OUTLINE } from '../data/geo.js?v=202611261552';
-import { services } from '../data/services.js?v=202611261552';
-import { normalize } from '../lib/search.js?v=202611261552';
-import { relatedProjects, relatedIdeasForProject, projectOpportunities, opportunityToIdea, linkProject, allIdeas, SIM_NOTE, sectorById as ideaSector } from '../lib/innovation.js?v=202611261552';
+import { icon, esc, badge, crumbs, empty, agencyById } from '../ui.js?v=202611261557';
+import { projects, sectors, projectStatuses } from '../data/projects.js?v=202611261557';
+import { places } from '../data/places.js?v=202611261557';
+import { CENTER_COORDS, GOV_OUTLINE } from '../data/geo.js?v=202611261557';
+import { services } from '../data/services.js?v=202611261557';
+import { normalize } from '../lib/search.js?v=202611261557';
+import { relatedProjects, relatedIdeasForProject, projectOpportunities, opportunityToIdea, linkProject, allIdeas, SIM_NOTE, sectorById as ideaSector } from '../lib/innovation.js?v=202611261557';
+import { isTeam } from '../lib/team.js?v=202611261557';
 
 export const sectorById = Object.fromEntries(sectors.map((s) => [s.id, s]));
 export const statusById = Object.fromEntries(projectStatuses.map((s) => [s.id, s]));
@@ -227,20 +228,20 @@ export function projectDetail({ id }) {
 // ---------- Project Intelligence (add-only layer) ----------
 function intelHtml(p) {
   const rel = relatedProjects(p); const ri = relatedIdeasForProject(p); const opps = projectOpportunities(p);
-  const others = allIdeas().filter((i) => !ri.linked.includes(i));
+  const others = allIdeas().filter((i) => !ri.linked.includes(i)); const team = isTeam();
   return `
   <div class="intel" data-intel>
-    <p class="sim">${icon('info')} <span>طبقة ذكاء المشروع: مقترحات وليست حقائق عن المشروع. ${SIM_NOTE}</span></p>
+    <p class="sim">${icon('info')} <span>مقترحات تطوير مرتبطة بالمشروع، وليست حقائق عنه.${team ? ` ${SIM_NOTE}` : ''}</span></p>
     <section class="block"><h2>${icon('link')} مشروعات مرتبطة</h2>
       ${rel.length ? rel.map((r) => `<a class="rel" href="#/project/${r.x.id}"><span><b class="title-4">${esc(r.x.name)}</b><small class="caption-5 muted" style="display:block">${r.why}</small></span>${icon('arrow')}</a>`).join('') : '<p class="muted body-6">لا توجد مشروعات مرتبطة.</p>'}
     </section>
     <section class="block"><h2>${icon('bulb')} أفكار تطوير مرتبطة</h2>
-      ${ri.linked.length ? `<p class="caption-3">مربوطة بالمشروع</p>${ri.linked.map((i) => `<a class="rel" href="#/idea/${i.id}">${esc(i.t)} ${icon('arrow')}</a>`).join('')}` : ''}
-      ${ri.suggested.length ? `<p class="caption-3" style="margin-top:12px">مقترحة من نفس القطاع</p>${ri.suggested.map((i) => `<div class="rel"><a href="#/idea/${i.id}">${esc(i.t)}</a><button class="linkbtn caption-4" data-linkidea="${i.id}">اربط بالمشروع</button></div>`).join('')}` : ''}
-      <label class="fselect fselect--wide"><select data-linksel><option value="">اربط المشروع بفكرة موجودة…</option>${others.map((i) => `<option value="${i.id}">${esc(i.t)} · ${ideaSector[i.sector]?.title || ''}</option>`).join('')}</select></label>
+      ${ri.linked.length ? `${team ? '<p class="caption-3">مربوطة بالمشروع</p>' : ''}${ri.linked.map((i) => `<a class="rel" href="#/idea/${i.id}${team ? '' : '/proposal'}">${esc(i.t)} ${icon('arrow')}</a>`).join('')}` : ''}
+      ${ri.suggested.length ? `${team ? '<p class="caption-3" style="margin-top:12px">مقترحة من نفس القطاع</p>' : ''}${ri.suggested.map((i) => team ? `<div class="rel"><a href="#/idea/${i.id}">${esc(i.t)}</a><button class="linkbtn caption-4" data-linkidea="${i.id}">اربط بالمشروع</button></div>` : `<a class="rel" href="#/idea/${i.id}/proposal">${esc(i.t)} ${icon('arrow')}</a>`).join('')}` : ''}
+      ${team ? `<label class="fselect fselect--wide"><select data-linksel><option value="">اربط المشروع بفكرة موجودة…</option>${others.map((i) => `<option value="${i.id}">${esc(i.t)} · ${ideaSector[i.sector]?.title || ''}</option>`).join('')}</select></label>` : ''}
     </section>
     ${opps.length ? `<section class="block"><h2>${icon('rocket')} فرص التطوير</h2>
-      ${opps.map((o, n) => `<div class="rel"><span><b class="title-4">${esc(o.t)}</b><small class="caption-5 muted" style="display:block">${o.type}</small></span><button class="btn btn--ghost btn--sm" data-opp="${n}">${icon('plus')} حوّلها لفكرة</button></div>`).join('')}
+      ${opps.map((o, n) => `<div class="rel"><span><b class="title-4">${esc(o.t)}</b><small class="caption-5 muted" style="display:block">${o.type}</small></span>${team ? `<button class="btn btn--ghost btn--sm" data-opp="${n}">${icon('plus')} حوّلها لفكرة</button>` : ''}</div>`).join('')}
     </section>` : ''}
   </div>`;
 }

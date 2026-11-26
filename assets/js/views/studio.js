@@ -1,11 +1,12 @@
 // Prototype Studio (#/studio?idea=) and interactive prototypes (#/proto/:type?idea=).
 // All prototype data is DEMO data stored in this browser; nothing connects to a government system.
-import { icon, esc, crumbs, empty, badge } from '../ui.js?v=202611261552';
-import { services } from '../data/services.js?v=202611261552';
-import { places } from '../data/places.js?v=202611261552';
-import { projects, sectors as projSectors } from '../data/projects.js?v=202611261552';
-import { loadLeaflet, baseMap } from './map.js?v=202611261552';
-import { getIdea, getWS, saveWS, stageOf, setStage, PROTO_TYPES, suggestProto, linkedProjects, val, sectorById } from '../lib/innovation.js?v=202611261552';
+import { icon, esc, crumbs, empty, badge } from '../ui.js?v=202611261557';
+import { services } from '../data/services.js?v=202611261557';
+import { places } from '../data/places.js?v=202611261557';
+import { projects, sectors as projSectors } from '../data/projects.js?v=202611261557';
+import { loadLeaflet, baseMap } from './map.js?v=202611261557';
+import { getIdea, getWS, saveWS, stageOf, setStage, PROTO_TYPES, suggestProto, linkedProjects, val, sectorById } from '../lib/innovation.js?v=202611261557';
+import { isTeam } from '../lib/team.js?v=202611261557';
 
 const DEMO = 'نموذج تجريبي ببيانات تجريبية للعرض فقط، ولا يتصل بأي نظام حكومي.';
 const store = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
@@ -20,7 +21,7 @@ export function studio(_, query) {
   return {
     title: 'استوديو النماذج',
     html: `
-    ${crumbs([['أفكار للتطوير', '#/ideas'], ...(idea ? [[idea.t, `#/idea/${id}`]] : []), ['استوديو النماذج']])}
+    ${crumbs([['مساحة الفريق', '#/team'], ...(idea ? [[idea.t, `#/idea/${id}`]] : []), ['استوديو النماذج']])}
     <header class="phead"><p class="eyebrow">Prototype Studio</p><h1 class="heading-3">${idea ? `نموذج تفاعلي لـ «${esc(idea.t)}»` : 'استوديو النماذج التجريبية'}</h1>
       <p class="lead">اختر نوع النموذج المناسب لطبيعة المشروع. ${idea ? `المقترح لهذه الفكرة: <b>${PROTO_TYPES.find((p) => p.id === sug).t}</b>.` : 'افتح الاستوديو من داخل أي فكرة لربط النموذج بها.'}</p></header>
     <div class="demo-banner">${icon('info')}<div><b>بيانات تجريبية</b><span>${DEMO}</span></div></div>
@@ -41,9 +42,9 @@ const head = (type, idea, id) => {
   const t = PROTO_TYPES.find((p) => p.id === type);
   const lp = idea ? linkedProjects(id) : [];
   return `
-  ${crumbs([['أفكار للتطوير', '#/ideas'], ...(idea ? [[idea.t, `#/idea/${id}`]] : []), ['استوديو النماذج', `#/studio${id ? `?idea=${id}` : ''}`], [t.t]])}
+  ${crumbs(isTeam() ? [['مساحة الفريق', '#/team'], ...(idea ? [[idea.t, `#/idea/${id}`]] : []), ['استوديو النماذج', `#/studio${id ? `?idea=${id}` : ''}`], [t.t]] : [['أفكار للتطوير', '#/ideas'], [t.t]])}
   <header class="phead phead--row"><div><p class="eyebrow">نموذج تفاعلي · ${t.t}</p><h1 class="heading-4">${idea ? esc(val(idea, 'pname')) : t.t}</h1></div>
-    <div class="row gap-75">${idea ? `<a class="btn btn--ghost btn--sm" href="#/idea/${id}">${icon('flask')} الفكرة</a><a class="btn btn--ghost btn--sm" href="#/idea/${id}/proposal">${icon('clipboard')} ملف المشروع</a>` : ''}<a class="btn btn--ghost btn--sm" href="#/studio${id ? `?idea=${id}` : ''}">${icon('grid')} نوع آخر</a></div></header>
+    <div class="row gap-75">${idea && isTeam() ? `<a class="btn btn--ghost btn--sm" href="#/idea/${id}">${icon('flask')} الفكرة</a>` : ''}${idea ? `<a class="btn btn--ghost btn--sm" href="#/idea/${id}/proposal">${icon('clipboard')} ملف المشروع</a>` : ''}${isTeam() ? `<a class="btn btn--ghost btn--sm" href="#/studio${id ? `?idea=${id}` : ''}">${icon('grid')} نوع آخر</a>` : `<a class="btn btn--ghost btn--sm" href="#/ideas">${icon('next')} كل الأفكار</a>`}</div></header>
   <div class="demo-banner">${icon('info')}<div><b>نموذج تجريبي</b><span>${DEMO}</span></div></div>
   ${lp.length ? `<p class="sim">${icon('link')} <span>مرتبط بمشروعات: ${lp.map((p) => `<a href="#/project/${p.id}">${esc(p.name)}</a>`).join('، ')}</span></p>` : ''}`;
 };

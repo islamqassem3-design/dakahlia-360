@@ -1,11 +1,12 @@
 // Idea Lab (#/lab): a structured workspace that feeds the existing ideas catalog. Not a chat window.
-import { icon, esc, crumbs } from '../ui.js?v=202611261552';
+import { icon, esc, crumbs } from '../ui.js?v=202611261557';
 import {
   LAB_SECTORS, sectorById, allIdeas, addIdea, generateIdeas, problemToIdeas, discoverOpportunities, IMPROVEMENTS,
   getIdea, val, saveWS, THEMES, allMergeSuggestions, SIM_NOTE, HORIZON, stageOf, setStage,
-} from '../lib/innovation.js?v=202611261552';
-import { aiChip } from '../aipanel.js?v=202611261552';
-import { aiOn, aiGenerate, aiProblem, aiOpps, aiMerge } from '../lib/ai.js?v=202611261552';
+} from '../lib/innovation.js?v=202611261557';
+import { aiChip } from '../aipanel.js?v=202611261557';
+import { setTeam } from '../lib/team.js?v=202611261557';
+import { aiOn, aiGenerate, aiProblem, aiOpps, aiMerge } from '../lib/ai.js?v=202611261557';
 const HZ = (h) => (['quick', 'mid', 'long'].includes(h) ? h : 'mid');
 const srcTag = (ai) => `<span class="srctag ${ai ? 'srctag--ai' : ''}">${ai ? 'من Gemini (AI حقيقي)' : 'محاكاة'}</span>`;
 
@@ -23,6 +24,7 @@ const draftCard = (d, n) => `
   </article>`;
 
 export function lab(_, query) {
+  setTeam(true);
   const tool = query.get('tool') || 'generate';
   const sec = query.get('sector') || 'services';
   const ideas = allIdeas();
@@ -47,7 +49,7 @@ export function lab(_, query) {
   return {
     title: 'معمل تطوير الأفكار',
     html: `
-    ${crumbs([['أفكار للتطوير', '#/ideas'], ['معمل تطوير الأفكار']])}
+    ${crumbs([['مساحة الفريق', '#/team'], ['معمل تطوير الأفكار']])}
     <header class="phead"><p class="eyebrow">Idea Lab</p><h1 class="heading-3">معمل تطوير الأفكار</h1>
       <p class="lead">ولّد أفكارًا، حوّل مشكلة إلى حلول، طوّر فكرة، ادمج أفكارًا في مشروع، واكتشف الفرص في كل قطاع. كل نتيجة يمكن إضافتها لكتالوج الأفكار وتطويرها لاحقًا.</p></header>
     <div class="row gap-75">${aiChip()}</div>

@@ -1,13 +1,14 @@
 // Idea development workspace (#/idea/:id) and project proposal (#/idea/:id/proposal).
-import { icon, esc, crumbs, empty, badge } from '../ui.js?v=202611261552';
-import { projects } from '../data/projects.js?v=202611261552';
+import { icon, esc, crumbs, empty, badge } from '../ui.js?v=202611261557';
+import { projects } from '../data/projects.js?v=202611261557';
 import {
   getIdea, getWS, saveWS, stageOf, setStage, STAGES, sectorById, CRITERIA, scoresOf, evaluate, val, draftFor,
   relatedIdeas, mergeSuggestionsFor, acceptMerge, decisions, decide, linkedProjects, linkProject, unlinkProject,
   suggestedProjectsFor, PROTO_TYPES, suggestProto, SIM_NOTE, HORIZON, IMPROVEMENTS,
-} from '../lib/innovation.js?v=202611261552';
-import { aiChip } from '../aipanel.js?v=202611261552';
-import { aiOn, aiSection, aiScore } from '../lib/ai.js?v=202611261552';
+} from '../lib/innovation.js?v=202611261557';
+import { aiChip } from '../aipanel.js?v=202611261557';
+import { isTeam, setTeam } from '../lib/team.js?v=202611261557';
+import { aiOn, aiSection, aiScore } from '../lib/ai.js?v=202611261557';
 const AI_NOTE = 'مقترحات Gemini (ذكاء اصطناعي حقيقي) تقديرية وتحتاج مراجعتك، ولا تُعد دراسة ميدانية.';
 
 const SECTIONS = [
@@ -100,6 +101,7 @@ function linksPanel(idea) {
 export function workspace({ id }, query) {
   const idea = getIdea(id);
   if (!idea) return { title: 'غير موجود', html: empty('الفكرة غير موجودة', 'ربما حُذفت من هذا المتصفح.', '<a class="btn btn--primary" href="#/ideas">أفكار للتطوير</a>') };
+  setTeam(true);
   const tab = query.get('tab') || 'problem';
   const sec = sectorById[idea.sector] || { title: '', icon: 'bulb' };
   const stage = stageOf(id); const ws = getWS(id); const ev = evaluate(idea);
@@ -107,7 +109,7 @@ export function workspace({ id }, query) {
   return {
     title: idea.t,
     html: `
-    ${crumbs([['أفكار للتطوير', '#/ideas'], [sec.title, `#/ideas?s=${idea.sector}`], [idea.t]])}
+    ${crumbs([['مساحة الفريق', '#/team'], [sec.title, `#/team?s=${idea.sector}`], [idea.t]])}
     <header class="wsh">
       <div class="wsh__t">
         <span class="idea__ic">${icon(sec.icon)}</span>
@@ -212,8 +214,8 @@ export function proposal({ id }) {
   return {
     title: `ملف مشروع: ${v('pname')}`,
     html: `
-    ${crumbs([['أفكار للتطوير', '#/ideas'], [idea.t, `#/idea/${id}`], ['ملف المشروع']])}
-    <div class="pp__bar noprint"><a class="btn btn--ghost btn--sm" href="#/idea/${id}">${icon('edit')} تعديل في مساحة التطوير</a><button class="btn btn--primary btn--sm" data-print>${icon('printer')} طباعة أو حفظ PDF</button></div>
+    ${crumbs(isTeam() ? [['مساحة الفريق', '#/team'], [idea.t, `#/idea/${id}`], ['ملف المشروع']] : [['أفكار للتطوير', '#/ideas'], ['ملف المشروع']])}
+    <div class="pp__bar noprint">${isTeam() ? `<a class="btn btn--ghost btn--sm" href="#/idea/${id}">${icon('edit')} تعديل في مساحة التطوير</a>` : `<a class="btn btn--ghost btn--sm" href="#/ideas">${icon('next')} كل الأفكار</a>`}<button class="btn btn--primary btn--sm" data-print>${icon('printer')} طباعة أو حفظ PDF</button></div>
     <article class="pp">
       <header class="pp__h"><p class="caption-3">Dakahlia 360° · مقترح مشروع · ${sec?.title || ''}</p><h1 class="heading-3">${esc(v('pname'))}</h1>
         <p class="caption-5 muted">مسودة للنقاش بتاريخ ${getWS(id).updated || new Date().toISOString().slice(0, 10)}. لا تتضمن أرقامًا غير موثقة؛ البيانات الكمية تُستكمل من الجهات المختصة.</p></header>
