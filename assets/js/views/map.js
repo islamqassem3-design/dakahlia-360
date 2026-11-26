@@ -33,7 +33,7 @@ export function baseMap(L, el, opts = {}) {
     maxZoom: 18,
     attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>',
   }).addTo(map);
-  L.geoJSON(GOV_OUTLINE, { style: { color: '#0f766e', weight: 2, fillColor: '#0f766e', fillOpacity: 0.05, dashArray: '6 4' }, interactive: false }).addTo(map);
+  L.geoJSON(GOV_OUTLINE, { style: { color: '#4b5a2a', weight: 2, fillColor: '#4b5a2a', fillOpacity: 0.05, dashArray: '6 4' }, interactive: false }).addTo(map);
   return map;
 }
 

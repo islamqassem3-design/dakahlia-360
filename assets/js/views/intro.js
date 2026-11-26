@@ -52,7 +52,7 @@ export function intro() {
     <section class="lhero">
       <div class="lhero__txt">
         <p class="eyebrow">Dakahlia 360° · نموذج أولي تفاعلي</p>
-        <h1 class="heading-1 hgrad">كل ما يحتاجه أهل الدقهلية <br/>من محافظتهم، في مكان واحد</h1>
+        <h1 class="heading-1 hgrad">كل ما يحتاجه أهل الدقهلية <br/>من محافظتهم، <span class="nw">في مكان واحد</span></h1>
         <p class="lhero__sub body-3">اكتب احتياجك بالعامية فتصل للخدمة والجهة والقناة الرسمية، وتابع مشروعات مركزك على الخريطة، واكتشف مدن المحافظة وفرصها. كل معلومة مرتبطة بمصدرها.</p>
         <a class="btn btn--primary btn--lg" href="#/services">جرّب المنصة الآن ${icon('arrow')}</a>
         <p class="proof caption-1">${icon('shield')} <span>${services.length} خدمة مفهرسة · ${places.length} مركزًا ومدينة · ${nSources} مصدرًا تم فحصه</span></p>
