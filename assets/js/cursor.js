@@ -1,40 +1,25 @@
-// Talking cursor: a small orange dot rides beside the pointer; over anything clickable it opens into a
-// short label that says what will happen («اختر»، «زيارة ↗»، «اسأل»، «اتصال»؛ الروابط الداخلية بدون كلمة بطلب المستخدم). The native cursor stays visible.
+// Cursor: a light orange shadow directly under the pointer (user's choice after trying a ring, an olive
+// shadow and a talking dot). It hugs the pointer, grows softly over clickable things and tightens on press.
 // Desktop pointers only; disabled under prefers-reduced-motion.
 export function mountCursor() {
   if (!matchMedia('(pointer: fine)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const el = document.createElement('div'); el.className = 'tc'; el.setAttribute('aria-hidden', 'true');
-  el.innerHTML = '<span class="tc__t"></span>';
+  const el = document.createElement('div'); el.className = 'osh'; el.setAttribute('aria-hidden', 'true');
   document.body.append(el);
-  const txt = el.firstChild;
-  const OFF = 18; // sits below-left of the pointer (RTL reading side), never on top of it
+  const OX = 3, OY = 5; // just under the pointer tip
   const p = { x: -100, y: -100, sx: -100, sy: -100 };
-  let running = false, last = 0, label = '';
+  let running = false, last = 0, hot = false;
   const step = (now) => {
     const dt = last ? Math.min(64, now - last) : 16; last = now;
-    const k = 1 - Math.pow(1e-8, dt / 1000);
-    p.sx += (p.x - OFF - p.sx) * k; p.sy += (p.y + OFF - p.sy) * k;
+    const k = 1 - Math.pow(1e-12, dt / 1000); // very fast follow: stays under the pointer
+    p.sx += (p.x + OX - p.sx) * k; p.sy += (p.y + OY - p.sy) * k;
     el.style.transform = `translate3d(${p.sx.toFixed(1)}px, ${p.sy.toFixed(1)}px, 0)`;
-    if (Math.abs(p.x - OFF - p.sx) + Math.abs(p.y + OFF - p.sy) > 0.2) requestAnimationFrame(step); else { running = false; last = 0; }
-  };
-  const labelFor = (t) => {
-    const a = t.closest('[data-cursor]'); if (a) return a.dataset.cursor;
-    if (t.closest('input, textarea, select, .tc-skip, .top, .tabbar')) return null;
-    const l = t.closest('a[href]');
-    if (l) return /^https?:/.test(l.getAttribute('href')) ? 'زيارة ↗' : l.getAttribute('href').startsWith('tel:') ? 'اتصال' : '';
-    const b = t.closest('button, summary, label.chk, .opt, .fchip, .rm, .tkc');
-    if (!b) return '';
-    if (b.matches('[data-assistant]')) return 'اسأل';
-    if (b.matches('summary')) return 'اعرض';
-    if (b.matches('.opt, .fchip, .rm, .chk, .tkc, [data-v], [data-pick]')) return 'اختر';
-    return 'اضغط';
+    if (Math.abs(p.x + OX - p.sx) + Math.abs(p.y + OY - p.sy) > 0.2) requestAnimationFrame(step); else { running = false; last = 0; }
   };
   addEventListener('pointermove', (e) => {
     p.x = e.clientX; p.y = e.clientY;
-    const l = labelFor(e.target);
-    el.classList.toggle('is-off', l === null);
-    if (l && l !== label) { label = l; txt.textContent = l; }
-    el.classList.toggle('is-lbl', !!l);
+    const h = !!e.target.closest('a, button, summary, label, select, .poi, .pjc, .idea, .rm, .opt, .tkc');
+    if (h !== hot) { hot = h; el.classList.toggle('is-hot', hot); }
+    el.classList.toggle('is-off', !!e.target.closest('input, textarea'));
     document.body.classList.add('has-cursor');
     if (!running) { running = true; requestAnimationFrame(step); }
   }, { passive: true });

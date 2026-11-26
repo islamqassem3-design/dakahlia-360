@@ -1190,14 +1190,14 @@ a.rl__i:hover { background: var(--dark); color: var(--on-dark); border-color: va
 @media (prefers-reduced-motion: reduce) {
   .bar i, .hb__t i, .done__ic, .opts .opt, [data-pane] { animation: none !important; }
 }
-/* talking cursor (review round 9): orange dot that opens into an action label */
-.tc { position: fixed; left: 0; top: 0; z-index: 90; pointer-events: none; opacity: 0; will-change: transform; transition: opacity .3s var(--ease); }
-.has-cursor .tc { opacity: 1; }
-.tc.is-off, .noscroll .tc { opacity: 0; }
-.tc__t { position: absolute; top: 0; right: 0; display: block; min-width: 8px; height: 8px; padding: 0; border-radius: var(--r-full); background: var(--orange); color: #fff; font-size: 0; line-height: 24px; font-weight: 600; white-space: nowrap; overflow: hidden; box-shadow: 0 6px 16px -6px rgba(255, 107, 26, .7); transform-origin: top right; transition: height .35s var(--ease), padding .35s var(--ease), font-size .25s var(--ease), transform .35s var(--ease), background-color .3s var(--ease); }
-.tc.is-lbl .tc__t { height: 24px; padding: 0 var(--s-100); font-size: 12px; }
-.tc.is-down .tc__t { transform: scale(.88); background: var(--orange-2); }
-@media (prefers-reduced-motion: reduce) { .tc { display: none; } }
+/* cursor (review round 11): light orange shadow right under the pointer */
+.osh { position: fixed; left: 0; top: 0; z-index: 90; pointer-events: none; opacity: 0; will-change: transform; transition: opacity .3s var(--ease); }
+.osh::before { content: ''; position: absolute; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; background: rgba(255, 107, 26, .22); filter: blur(5px); transition: transform .35s var(--ease), background-color .3s var(--ease); }
+.has-cursor .osh { opacity: 1; }
+.osh.is-off, .noscroll .osh { opacity: 0; }
+.osh.is-hot::before { transform: scale(1.5); background: rgba(255, 107, 26, .16); }
+.osh.is-down::before { transform: scale(.8); background: rgba(255, 107, 26, .32); }
+@media (prefers-reduced-motion: reduce) { .osh { display: none; } }
 
 /* =====================================================================
    review round 9: dark hero with the live Dakahlia map + query strip
