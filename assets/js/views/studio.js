@@ -1,12 +1,12 @@
 // Prototype Studio (#/studio?idea=) and interactive prototypes (#/proto/:type?idea=).
 // All prototype data is DEMO data stored in this browser; nothing connects to a government system.
-import { icon, esc, crumbs, empty, badge } from '../ui.js?v=202611261557';
-import { services } from '../data/services.js?v=202611261557';
-import { places } from '../data/places.js?v=202611261557';
-import { projects, sectors as projSectors } from '../data/projects.js?v=202611261557';
-import { loadLeaflet, baseMap } from './map.js?v=202611261557';
-import { getIdea, getWS, saveWS, stageOf, setStage, PROTO_TYPES, suggestProto, linkedProjects, val, sectorById } from '../lib/innovation.js?v=202611261557';
-import { isTeam } from '../lib/team.js?v=202611261557';
+import { icon, esc, crumbs, empty, badge } from '../ui.js?v=202611261612';
+import { services } from '../data/services.js?v=202611261612';
+import { places } from '../data/places.js?v=202611261612';
+import { projects, sectors as projSectors } from '../data/projects.js?v=202611261612';
+import { loadLeaflet, baseMap } from './map.js?v=202611261612';
+import { getIdea, getWS, saveWS, stageOf, setStage, PROTO_TYPES, suggestProto, linkedProjects, val, sectorById } from '../lib/innovation.js?v=202611261612';
+import { isTeam } from '../lib/team.js?v=202611261612';
 
 const DEMO = 'نموذج تجريبي ببيانات تجريبية للعرض فقط، ولا يتصل بأي نظام حكومي.';
 const store = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
@@ -230,6 +230,10 @@ export function proto({ type }, query) {
     html: `${head(type, idea, id)}${body}`,
     mount(root) {
       if (id && !getWS(id).proto) { saveWS(id, { proto: type }); if (['idea', 'dev'].includes(stageOf(id))) setStage(id, 'proto'); }
+      if (type === 'dashboard' && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        root.querySelectorAll('.kpi b').forEach((b) => { const to = +b.textContent; const t0 = performance.now();
+          const tick = (t) => { const k = Math.min(1, (t - t0) / 900); b.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(tick); }; b.textContent = '0'; requestAnimationFrame(tick); setTimeout(() => { b.textContent = to; }, 1300); });
+      }
       if (type === 'booking') bookingMount(root);
       if (type === 'tracking') trackingMount(root, idea);
       if (type === 'reporting' || type === 'mobile') reportingMount(root);

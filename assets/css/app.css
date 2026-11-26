@@ -1132,3 +1132,68 @@ a.rl__i:hover { background: var(--dark); color: var(--on-dark); border-color: va
 .aip__steps a { color: var(--orange); font-weight: 600; display: inline-flex; gap: var(--s-25); align-items: center; }
 .aip__f { display: flex; gap: var(--s-75); }
 .aip__f .inp { flex: 1; min-width: 0; }
+
+/* =====================================================================
+   review round 8: same dynamic feel inside prototypes and team tools
+   ===================================================================== */
+@keyframes paneIn { from { opacity: 0; transform: translateY(14px); } }
+@keyframes popIn { from { opacity: 0; transform: translateY(10px) scale(.96); } }
+@keyframes pop { 0% { transform: scale(.3); opacity: 0; } 60% { transform: scale(1.12); opacity: 1; } 100% { transform: scale(1); } }
+@keyframes grow { from { transform: scaleX(0); } }
+/* step panes and results slide in */
+.bk [data-pane]:not([hidden]), [data-out] > *, .tk__det > *, .score__out, .wbody > *, .mine, .aisum { animation: paneIn .5s var(--ease) both; }
+/* options and chips arrive one after another */
+.opts .opt, .ptypes .ptype, .kpis .kpi, .pipe .pipe__i, .roadmap .rm, .ideas .idea, .opps2 .opp, .board .bc, .tk__list .tkc, .imprs .chk, .pick .chk, .site__cards .site__c { animation: popIn .5s var(--ease) both; }
+:is(.opts, .ptypes, .kpis, .pipe, .roadmap, .ideas, .opps2, .tk__list, .imprs, .site__cards) > :nth-child(2) { animation-delay: 40ms; }
+:is(.opts, .ptypes, .kpis, .pipe, .roadmap, .ideas, .opps2, .tk__list, .imprs, .site__cards) > :nth-child(3) { animation-delay: 80ms; }
+:is(.opts, .ptypes, .kpis, .pipe, .roadmap, .ideas, .opps2, .tk__list, .imprs, .site__cards) > :nth-child(4) { animation-delay: 120ms; }
+:is(.opts, .ptypes, .kpis, .pipe, .roadmap, .ideas, .opps2, .tk__list, .imprs, .site__cards) > :nth-child(5) { animation-delay: 160ms; }
+:is(.opts, .ptypes, .kpis, .pipe, .roadmap, .ideas, .opps2, .tk__list, .imprs, .site__cards) > :nth-child(6) { animation-delay: 200ms; }
+:is(.opts, .ptypes, .kpis, .pipe, .roadmap, .ideas, .opps2, .tk__list, .imprs, .site__cards) > :nth-child(n+7) { animation-delay: 240ms; }
+/* progress bars fill in front of you (RTL: grow from the right) */
+.bar i, .hb__t i { transform-origin: right center; animation: grow 1s var(--ease) both .15s; }
+.done__ic { animation: pop .7s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.bk__steps li { transition: background-color .4s var(--ease), color .4s var(--ease), transform .5s var(--ease); }
+.bk__steps li.on { transform: translateY(-2px); box-shadow: 0 8px 16px -10px rgba(255, 107, 26, .8); }
+/* hover: the same "turns dark and lifts" language as the main pages */
+:where(.opt, .kpi, .chart, .mine, .tkc, .pipe__i, .bc, .opp, .chk, .site__c, .site__row > div, .col, .stages button, .tl li, .rl__i, .mg) { transition: background-color .5s var(--ease), border-color .5s var(--ease), color .5s var(--ease), transform .5s var(--ease), box-shadow .5s var(--ease); }
+@media (hover: hover) {
+  .opt:hover { background: var(--dark); color: var(--on-dark); border-color: var(--dark); transform: translateY(-3px); box-shadow: 0 14px 28px -18px rgba(31, 36, 22, .6); }
+  .opt.on, .opt.on:hover { background: var(--orange); border-color: var(--orange); color: #fff; }
+  .opt:active { transform: scale(.98); }
+  :is(.kpi, .pipe__i, .mine, .site__c, .site__row > div, .chk, .bc):hover { background: var(--dark); color: var(--on-dark); border-color: var(--dark); transform: translateY(-3px); box-shadow: 0 18px 36px -22px rgba(31, 36, 22, .6); }
+  :is(.kpi, .pipe__i, .mine, .site__c, .site__row > div, .chk, .bc):hover :is(span, small, .muted, p) { color: var(--on-dark-2); }
+  :is(.kpi, .pipe__i):hover b { color: var(--orange); }
+  .site__c:hover .ic { color: var(--orange); transform: rotate(-10deg) scale(1.15); }
+  .site__c .ic { transition: transform .6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .bc:hover a { color: var(--on-dark); }
+  .bc:hover .sc { color: var(--on-dark); border-color: var(--dark-3); }
+  .tkc:hover { background: var(--dark); color: var(--on-dark); border-color: var(--dark); transform: translateX(-4px); }
+  .tkc:hover .muted, .tkc:hover small { color: var(--on-dark-2); }
+  .tkc:hover .bar { background: var(--dark-3); }
+  .chart:hover, .opp:hover, .col:hover { transform: translateY(-2px); box-shadow: var(--sh); }
+  .opp__i { transition: padding .4s var(--ease); }
+  .opp__i:hover { padding-inline-start: var(--s-75); }
+  .opp__i:hover .ic { transform: translateX(-4px); }
+  .stages button:hover:not(.on) { background: var(--surface-2); transform: translateY(-2px); }
+  .wtabs a .ic, .stages button .caption-3 { transition: transform .6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .wtabs a:hover .ic { transform: rotate(-12deg) scale(1.15); }
+  .mg:hover { border-color: var(--orange); }
+  .ptype:hover .ptype__ic { transform: translateY(-3px) rotate(-8deg) scale(1.08); }
+  .ptype__ic { transition: transform .6s cubic-bezier(0.34, 1.56, 0.64, 1), background-color .5s var(--ease), color .5s var(--ease); }
+  .ptype:hover { box-shadow: 0 24px 48px -24px rgba(31, 36, 22, .55); }
+  .aichip:hover .ic, .btn:hover .ph-sparkle, .btn:hover .ph-flask, .btn:hover .ph-rocket-launch { transform: rotate(-14deg) scale(1.15); }
+  .aichip .ic, .btn .ph-flask, .btn .ph-rocket-launch { transition: transform .6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .hb:hover .hb__t i { filter: brightness(1.25); }
+}
+.wf textarea:focus, .inp:focus { box-shadow: 0 0 0 4px rgba(255, 107, 26, .12); }
+@media (prefers-reduced-motion: reduce) {
+  .bar i, .hb__t i, .done__ic, .opts .opt, [data-pane] { animation: none !important; }
+}
+/* light cursor shadow (review round 8: lighter than round 7) */
+.cursor-shadow { position: fixed; left: 0; top: 0; width: 16px; height: 16px; margin: -8px 0 0 -8px; z-index: 90; pointer-events: none; border-radius: 50%; background: rgba(31, 36, 22, .16); filter: blur(3px); opacity: 0; will-change: transform; transition: opacity .3s var(--ease), background-color .3s var(--ease); }
+.has-cursor .cursor-shadow { opacity: 1; }
+.cursor-shadow.is-hot { background: rgba(255, 107, 26, .14); }
+.cursor-shadow.is-down { background: rgba(31, 36, 22, .24); }
+.noscroll .cursor-shadow { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .cursor-shadow { display: none; } }

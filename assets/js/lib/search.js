@@ -1,8 +1,8 @@
 // Local Arabic smart search: normalisation + light stemming + dialect synonyms + weighted scoring.
 // Runs fully in the browser; no data leaves the page.
-import { services } from '../data/services.js?v=202611261557';
-import { categories, agencies } from '../data/catalog.js?v=202611261557';
-import { places } from '../data/places.js?v=202611261557';
+import { services } from '../data/services.js?v=202611261612';
+import { categories, agencies } from '../data/catalog.js?v=202611261612';
+import { places } from '../data/places.js?v=202611261612';
 
 export function normalize(s = '') {
   return String(s)

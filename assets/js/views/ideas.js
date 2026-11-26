@@ -1,10 +1,10 @@
 // Public ideas page: the simple original layout (roadmap + sector filter + idea cards),
 // with two actions per idea: the printable project file and a working prototype.
 // The development tools live in the team area (#/team), which is not in the site menu.
-import { icon, esc, crumbs } from '../ui.js?v=202611261557';
-import { sectorsIdeas, HORIZON } from '../data/ideas.js?v=202611261557';
-import { allIdeas, suggestProto } from '../lib/innovation.js?v=202611261557';
-import { isTeam } from '../lib/team.js?v=202611261557';
+import { icon, esc, crumbs } from '../ui.js?v=202611261612';
+import { sectorsIdeas, HORIZON } from '../data/ideas.js?v=202611261612';
+import { allIdeas, suggestProto } from '../lib/innovation.js?v=202611261612';
+import { isTeam } from '../lib/team.js?v=202611261612';
 
 const tryLink = (i) => {
   if (i.link) return i.link;

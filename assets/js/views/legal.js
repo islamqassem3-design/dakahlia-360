@@ -1,4 +1,4 @@
-import { icon, crumbs } from '../ui.js?v=202611261557';
+import { icon, crumbs } from '../ui.js?v=202611261612';
 
 const page = (title, eyebrow, items) => ({
   title,

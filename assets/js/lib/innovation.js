@@ -1,11 +1,11 @@
 // Innovation & Project Development layer (add-only).
 // Storage: browser localStorage (no backend). Intelligence: transparent rule-based simulation, NOT a connected AI
 // and NOT field research. Every generated text is a draft the user edits.
-import { sectorsIdeas, HORIZON } from '../data/ideas.js?v=202611261557';
-import { projects, sectors as projSectors } from '../data/projects.js?v=202611261557';
-import { places } from '../data/places.js?v=202611261557';
-import { agencies } from '../data/catalog.js?v=202611261557';
-import { normalize, tokens } from './search.js?v=202611261557';
+import { sectorsIdeas, HORIZON } from '../data/ideas.js?v=202611261612';
+import { projects, sectors as projSectors } from '../data/projects.js?v=202611261612';
+import { places } from '../data/places.js?v=202611261612';
+import { agencies } from '../data/catalog.js?v=202611261612';
+import { normalize, tokens } from './search.js?v=202611261612';
 
 export const SIM_NOTE = 'محاكاة قائمة على قواعد (Demo)، ليست ذكاءً اصطناعيًا متصلًا ولا دراسة ميدانية. راجع وعدّل.';
 
