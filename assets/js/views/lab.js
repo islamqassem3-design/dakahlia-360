@@ -4,6 +4,10 @@ import {
   LAB_SECTORS, sectorById, allIdeas, addIdea, generateIdeas, problemToIdeas, discoverOpportunities, IMPROVEMENTS,
   getIdea, val, saveWS, THEMES, allMergeSuggestions, SIM_NOTE, HORIZON, stageOf, setStage,
 } from '../lib/innovation.js';
+import { aiChip } from '../aipanel.js';
+import { aiOn, aiGenerate, aiProblem, aiOpps, aiMerge } from '../lib/ai.js';
+const HZ = (h) => (['quick', 'mid', 'long'].includes(h) ? h : 'mid');
+const srcTag = (ai) => `<span class="srctag ${ai ? 'srctag--ai' : ''}">${ai ? 'من Gemini (AI حقيقي)' : 'محاكاة'}</span>`;
 
 const TOOLS = [
   ['generate', 'توليد أفكار', 'bulb'], ['problem', 'من مشكلة إلى فكرة', 'warning'], ['improve', 'تطوير فكرة موجودة', 'edit'],
@@ -46,14 +50,15 @@ export function lab(_, query) {
     ${crumbs([['أفكار للتطوير', '#/ideas'], ['معمل تطوير الأفكار']])}
     <header class="phead"><p class="eyebrow">Idea Lab</p><h1 class="heading-3">معمل تطوير الأفكار</h1>
       <p class="lead">ولّد أفكارًا، حوّل مشكلة إلى حلول، طوّر فكرة، ادمج أفكارًا في مشروع، واكتشف الفرص في كل قطاع. كل نتيجة يمكن إضافتها لكتالوج الأفكار وتطويرها لاحقًا.</p></header>
-    <p class="sim">${icon('info')} <span>${SIM_NOTE}</span></p>
+    <div class="row gap-75">${aiChip()}</div>
+    <p class="sim">${icon('info')} <span>${aiOn() ? 'عند تفعيل Gemini تُولَّد النتائج بذكاء اصطناعي حقيقي، وهي مقترحات تقديرية تحتاج مراجعتك. إذا تعذّر الاتصال تعود الأدوات للمحاكاة تلقائيًا.' : SIM_NOTE}</span></p>
     <nav class="wtabs">${TOOLS.map(([id, t, ic]) => `<a class="${tool === id ? 'on' : ''}" href="#/lab?tool=${id}">${icon(ic)} ${t}</a>`).join('')}</nav>
     <div class="wbody" data-tool="${tool}">${body}</div>`,
     mount(root) {
       const out = root.querySelector('[data-out]'); let drafts = [];
       const f = (k) => root.querySelector(`[data-f="${k}"]`);
       const showDrafts = (head = '') => { out.innerHTML = `${head}<div class="ideas">${drafts.map(draftCard).join('')}</div>`; };
-      const run = () => {
+      const runSim = () => {
         if (tool === 'generate') { drafts = generateIdeas(f('sector').value); showDrafts(`<p class="count">${drafts.length} أفكار مقترحة لقطاع ${sectorById[f('sector').value].title}</p>`); }
         if (tool === 'problem') {
           const t = f('problem').value.trim();
@@ -109,9 +114,52 @@ export function lab(_, query) {
           b.outerHTML = `<a class="btn btn--dark btn--sm" href="#/idea/${rec.id}">${icon('flask')} أُضيفت · طوّرها</a>`;
         }; });
       };
+      const run = async () => {
+        if (!aiOn() || tool === 'improve') return runSim();
+        const btn = root.querySelector('[data-run]'); btn.disabled = true; const label = btn.innerHTML; btn.innerHTML = `${icon('spark')} جارٍ التفكير مع Gemini…`;
+        const done = () => { btn.disabled = false; btn.innerHTML = label; };
+        try {
+          if (tool === 'generate') {
+            const s = f('sector').value; const r = await aiGenerate(sectorById[s].title);
+            drafts = (r.ideas || []).map((d) => ({ ...d, hz: HZ(d.hz), sector: s, n: d.n || 'يُحدد لاحقًا' }));
+            showDrafts(`<p class="count">${drafts.length} أفكار لقطاع ${sectorById[s].title} ${srcTag(true)}</p>`);
+          } else if (tool === 'problem') {
+            const t = f('problem').value.trim(); if (t.length < 8) { done(); return runSim(); }
+            const r = await aiProblem(t, LAB_SECTORS); const s = LAB_SECTORS.includes(r.sector) ? r.sector : 'services';
+            drafts = (r.ideas || []).map((d) => ({ ...d, hz: HZ(d.hz), sector: s, p: d.p || t, n: d.n || 'يُحدد لاحقًا' }));
+            showDrafts(`<div class="ana"><b class="title-3">تحليل المشكلة ${srcTag(true)}</b><dl><dt>القطاع المرجّح</dt><dd>${sectorById[s].title}</dd><dt>جوهر المشكلة</dt><dd>${esc(r.analysis?.core || t)}</dd><dt>المتضررون</dt><dd>${esc(r.analysis?.affected || '')}</dd><dt>أسباب محتملة</dt><dd>${esc(r.analysis?.causes || '')}</dd></dl></div>`);
+          } else if (tool === 'opps') {
+            const s = f('sector').value; const st = sectorById[s].title; const o = await aiOpps(st);
+            const blk = (t, arr, hz) => (arr || []).length ? `<section class="opp"><h3 class="title-3">${t}</h3>${arr.map((x) => `<div class="opp__i"><span class="body-6">${esc(x)}</span><button class="linkbtn caption-4" data-opp="${esc(x)}" data-hz="${hz}" data-t="${t}">حوّلها لفكرة</button></div>`).join('')}</section>` : '';
+            out.innerHTML = `<p class="count">فرص قطاع ${st} ${srcTag(true)}</p><div class="opps2">${blk('مشكلات غير معالجة', o.unmet, 'mid')}${blk('خدمات غير متكاملة', o.gaps, 'mid')}${blk('فرص التحول الرقمي', o.digital, 'mid')}${blk('تحسين تجربة المواطن', o.cx, 'quick')}${blk('Quick Wins', o.quick, 'quick')}${blk('فرص مشروعات استراتيجية', o.strategic, 'long')}</div>`;
+            out.querySelectorAll('[data-opp]').forEach((b) => { b.onclick = () => {
+              const rec = addIdea({ t: b.dataset.opp, sector: s, hz: b.dataset.hz, p: `${b.dataset.t} في قطاع ${st}.`, h: `${b.dataset.opp} ضمن قطاع ${st}.`, n: 'بيانات وتعاون من الجهة المختصة' });
+              b.outerHTML = `<a class="link caption-4" href="#/idea/${rec.id}">أُضيفت · طوّرها ${icon('arrow')}</a>`;
+            }; });
+          } else if (tool === 'merge') {
+            const ids = [...root.querySelectorAll('.pick input:checked')].map((c) => c.value);
+            if (ids.length < 2) { done(); return runSim(); }
+            const list = ids.map(getIdea); const r = await aiMerge(list); const name = f('name').value.trim() || r.name;
+            out.innerHTML = `<article class="mg mg--big"><header><b class="title-1">${esc(name)}</b>${srcTag(true)}<span class="caption-4 muted">تصور مقترح، لم يُحفظ بعد</span></header>
+              <p class="body-6"><b>الأفكار الداخلة:</b> ${list.map((i) => esc(i.t)).join('، ')}</p><p class="body-6"><b>العلاقة بين الأفكار:</b> ${esc(r.relation || '')}</p>
+              <p class="body-6"><b>المكونات الرئيسية:</b> ${esc((r.parts || []).join('، '))}</p><p class="body-6"><b>المشكلة:</b> ${esc(r.problem || '')}</p>
+              <p class="body-6"><b>القيمة الناتجة عن الدمج:</b> ${esc(r.value || '')}</p><p class="body-6"><b>تصور المشروع بعد الدمج:</b> ${esc(r.vision || '')}</p>
+              <div class="row gap-75"><button class="btn btn--primary" data-create>${icon('ok')} أنشئ المشروع الموحد وأضفه للكتالوج</button></div></article>`;
+            out.querySelector('[data-create]').onclick = () => {
+              const rec = addIdea({ t: name, sector: list[0].sector, hz: 'mid', p: r.problem || list[0].p, h: r.vision || `دمج: ${list.map((i) => i.t).join('، ')}.`, n: [...new Set(list.map((i) => i.n))].join('، '), mergedFrom: ids });
+              saveWS(rec.id, { stage: 'dev', components: (r.parts || []).join('\n'), solution: r.value || '' }); location.hash = `/idea/${rec.id}`;
+            };
+          }
+          done();
+          out.querySelectorAll('[data-add]').forEach((b) => { b.onclick = () => { const rec = addIdea(drafts[+b.dataset.add]); b.outerHTML = `<a class="btn btn--dark btn--sm" href="#/idea/${rec.id}">${icon('flask')} أُضيفت · طوّرها</a>`; }; });
+        } catch (x) {
+          done(); runSim();
+          out.insertAdjacentHTML('afterbegin', `<p class="err">${esc(x.message)} عرضنا نتائج المحاكاة بدلًا منها.</p>`);
+        }
+      };
       root.querySelector('[data-run]')?.addEventListener('click', run);
       root.querySelector('select[data-f="sector"]')?.addEventListener('change', (e) => (e.target.dataset.touched = '1'));
-      if (tool === 'merge' && query.get('theme')) run();
+      if (tool === 'merge' && query.get('theme')) runSim();
       void ideas;
     },
   };

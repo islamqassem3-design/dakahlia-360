@@ -6,6 +6,9 @@ import {
   relatedIdeas, mergeSuggestionsFor, acceptMerge, decisions, decide, linkedProjects, linkProject, unlinkProject,
   suggestedProjectsFor, PROTO_TYPES, suggestProto, SIM_NOTE, HORIZON, IMPROVEMENTS,
 } from '../lib/innovation.js';
+import { aiChip } from '../aipanel.js';
+import { aiOn, aiSection, aiScore } from '../lib/ai.js';
+const AI_NOTE = 'مقترحات Gemini (ذكاء اصطناعي حقيقي) تقديرية وتحتاج مراجعتك، ولا تُعد دراسة ميدانية.';
 
 const SECTIONS = [
   { id: 'problem', t: 'تحليل المشكلة', icon: 'warning', fields: [
@@ -36,17 +39,18 @@ const field = (idea, [k, label, type]) => {
 function scorePanel(idea) {
   const sc = scoresOf(idea); const ev = evaluate(idea, sc);
   return `
+  <div class="aibar"><button class="btn btn--dark btn--sm" data-ai-score>${icon('spark')} قيّم بالذكاء الاصطناعي</button><span class="caption-4 muted" data-ai-msg></span></div>
   <div class="score">
     <div class="score__sliders">${CRITERIA.map((c) => `
       <label class="sl"><span class="title-4">${c.t} <small class="caption-5 muted">${c.w}%</small></span>
         <input type="range" min="1" max="5" step="1" value="${sc[c.id]}" data-crit="${c.id}" aria-label="${c.t}"/><b class="sl__v">${sc[c.id]}/5</b></label>`).join('')}
     </div>
-    <div class="score__out" data-score-out>${scoreOut(ev)}</div>
+    <div class="score__out" data-score-out>${scoreOut(ev, getWS(idea.id).aiScore)}</div>
   </div>`;
 }
 const yes = (b) => (b ? `<span class="yn yn--y">${icon('ok')} نعم</span>` : `<span class="yn yn--n">${icon('no')} ليس بعد</span>`);
-function scoreOut(ev) {
-  return `
+function scoreOut(ev, ai) {
+  return `${ai ? `<div class="aisum"><b class="caption-3">${icon('spark')} تقييم Gemini</b><p class="body-6">${esc(ai.summary || '')}</p>${ai.reasons ? `<ul>${CRITERIA.map((c) => ai.reasons[c.id] ? `<li><b>${c.t}:</b> ${esc(ai.reasons[c.id])}</li>` : '').join('')}</ul>` : ''}</div>` : ''}
     <div class="score__total"><b class="heading-2">${ev.total}</b><span class="caption-3">/100</span><span class="prio prio--${ev.level === 'عالية' ? 'hi' : ev.level === 'متوسطة' ? 'md' : 'lo'}">أولوية ${ev.level}</span></div>
     <dl class="score__dl">
       <dt>سبب التقييم</dt><dd>${ev.reason}</dd>
@@ -111,6 +115,7 @@ export function workspace({ id }, query) {
         <h1 class="heading-4">${esc(idea.t)}</h1></div>
       </div>
       <div class="wsh__act">
+        ${aiChip()}
         <span class="prio prio--${ev.level === 'عالية' ? 'hi' : ev.level === 'متوسطة' ? 'md' : 'lo'}" data-score-chip>${ev.total}/100 · ${ev.level}</span>
         <a class="btn btn--ghost btn--sm" href="#/idea/${id}/proposal">${icon('clipboard')} ملف المشروع</a>
         <a class="btn btn--primary btn--sm" href="#/studio?idea=${id}">${icon('rocket')} ${proto ? 'فتح النموذج' : 'إنشاء نموذج'}</a>
@@ -118,11 +123,12 @@ export function workspace({ id }, query) {
       </div>
     </header>
     <ol class="stages" aria-label="مرحلة الفكرة">${STAGES.map((s, n) => `<li><button type="button" class="${s.id === stage ? 'on' : ''} ${STAGES.findIndex((x) => x.id === stage) > n ? 'done' : ''}" data-stage="${s.id}"><span class="caption-3">0${n + 1}</span>${s.t}</button></li>`).join('')}</ol>
-    <p class="sim">${icon('info')} <span>${SIM_NOTE} الحقول محفوظة في هذا المتصفح فقط <span data-saved class="caption-4"></span></span></p>
+    <p class="sim">${icon('info')} <span>${aiOn() ? AI_NOTE : SIM_NOTE} الحقول محفوظة في هذا المتصفح فقط <span data-saved class="caption-4"></span></span></p>
     <nav class="wtabs" role="tablist">${SECTIONS.map((s) => `<a role="tab" class="${s.id === tab ? 'on' : ''}" href="#/idea/${id}?tab=${s.id}">${icon(s.icon)} ${s.t}</a>`).join('')}</nav>
     <div class="wbody">
       ${tab === 'score' ? scorePanel(idea) : tab === 'links' ? linksPanel(idea)
-        : `<div class="wgrid">${SECTIONS.find((s) => s.id === tab).fields.map((f) => field(idea, f)).join('')}</div>
+        : `<div class="aibar"><button class="btn btn--dark btn--sm" data-ai-section>${icon('spark')} طوّر هذا القسم بالذكاء الاصطناعي</button><span class="caption-4 muted" data-ai-msg>${getWS(id).ai?.[tab] ? `آخر تطوير بالذكاء: ${getWS(id).ai[tab]}` : ''}</span></div>
+           <div class="wgrid">${SECTIONS.find((s) => s.id === tab).fields.map((f) => field(idea, f)).join('')}</div>
            ${tab === 'solution' || tab === 'project' ? `<div class="impr"><span class="caption-3">تحسينات مقترحة (محاكاة)</span><div class="row gap-75">${IMPROVEMENTS.map((m, n) => `<button type="button" class="chip chip--btn" data-improve="${n}">${icon('plus')} ${m.t}</button>`).join('')}</div></div>` : ''}`}
     </div>
     <div class="wnext">${(() => { const i = SECTIONS.findIndex((s) => s.id === tab); const nx = SECTIONS[i + 1]; return nx ? `<a class="btn btn--dark" href="#/idea/${id}?tab=${nx.id}">التالي: ${nx.t} ${icon('arrow')}</a>` : `<a class="btn btn--dark" href="#/idea/${id}/proposal">${icon('clipboard')} عرض ملف المشروع</a>`; })()}</div>`,
@@ -139,12 +145,35 @@ export function workspace({ id }, query) {
         if (r) {
           const sc = { ...(getWS(id).scores || {}), [r.dataset.crit]: +r.value }; saveWS(id, { scores: sc }); mark();
           r.nextElementSibling.textContent = `${r.value}/5`;
-          const ev2 = evaluate(idea); root.querySelector('[data-score-out]').innerHTML = scoreOut(ev2);
+          const ev2 = evaluate(idea); root.querySelector('[data-score-out]').innerHTML = scoreOut(ev2, getWS(id).aiScore);
           root.querySelector('[data-score-chip]').textContent = `${ev2.total}/100 · ${ev2.level}`;
         }
       });
       root.addEventListener('change', (e) => {
         const s = e.target.closest('select[data-linkp]'); if (s && s.value) { linkProject(id, s.value); dispatchEvent(new HashChangeEvent('hashchange')); }
+      });
+      const aiMsg = root.querySelector('[data-ai-msg]');
+      const busy = (btn, on) => { btn.disabled = on; btn.classList.toggle('is-busy', on); if (on) aiMsg.textContent = 'جارٍ التفكير مع Gemini…'; };
+      root.querySelector('[data-ai-section]')?.addEventListener('click', async (e) => {
+        if (!aiOn()) { document.querySelector('.aichip')?.click(); return; }
+        const btn = e.currentTarget; const fields = SECTIONS.find((s) => s.id === tab).fields;
+        busy(btn, true);
+        try {
+          const r = await aiSection(idea, sec.title, fields, Object.fromEntries(fields.map(([k]) => [k, val(idea, k)])));
+          const patch = {}; fields.forEach(([k, , t]) => { const v = r[k]; if (v == null) return; patch[k] = Array.isArray(v) ? v.join('\n') : t === 'level' && !['منخفض', 'متوسط', 'مرتفع'].includes(v) ? val(idea, k) : String(v); });
+          saveWS(id, { ...patch, ai: { ...(getWS(id).ai || {}), [tab]: new Date().toISOString().slice(0, 10) } }); bump();
+          dispatchEvent(new HashChangeEvent('hashchange'));
+        } catch (x) { busy(btn, false); aiMsg.textContent = `${x.message} (بقيت المسودة كما هي)`; }
+      });
+      root.querySelector('[data-ai-score]')?.addEventListener('click', async (e) => {
+        if (!aiOn()) { document.querySelector('.aichip')?.click(); return; }
+        const btn = e.currentTarget; busy(btn, true);
+        try {
+          const r = await aiScore(idea, sec.title, CRITERIA);
+          const sc = {}; CRITERIA.forEach((c) => { const n = Math.round(+r.scores?.[c.id]); if (n >= 1 && n <= 5) sc[c.id] = n; });
+          saveWS(id, { scores: { ...(getWS(id).scores || {}), ...sc }, aiScore: { summary: r.summary, reasons: r.reasons } });
+          dispatchEvent(new HashChangeEvent('hashchange'));
+        } catch (x) { busy(btn, false); aiMsg.textContent = x.message; }
       });
       root.addEventListener('click', (e) => {
         const st = e.target.closest('[data-stage]'); if (st) { setStage(id, st.dataset.stage); dispatchEvent(new HashChangeEvent('hashchange')); return; }
