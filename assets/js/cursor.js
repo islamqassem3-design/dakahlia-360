@@ -1,5 +1,5 @@
 // Talking cursor: a small orange dot rides beside the pointer; over anything clickable it opens into a
-// short label that says what will happen («افتح»، «اختر»، «زيارة ↗»). The native cursor stays visible.
+// short label that says what will happen («اختر»، «زيارة ↗»، «اسأل»، «اتصال»؛ الروابط الداخلية بدون كلمة بطلب المستخدم). The native cursor stays visible.
 // Desktop pointers only; disabled under prefers-reduced-motion.
 export function mountCursor() {
   if (!matchMedia('(pointer: fine)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -21,7 +21,7 @@ export function mountCursor() {
     const a = t.closest('[data-cursor]'); if (a) return a.dataset.cursor;
     if (t.closest('input, textarea, select, .tc-skip, .top, .tabbar')) return null;
     const l = t.closest('a[href]');
-    if (l) return /^https?:/.test(l.getAttribute('href')) ? 'زيارة ↗' : l.getAttribute('href').startsWith('tel:') ? 'اتصال' : 'افتح';
+    if (l) return /^https?:/.test(l.getAttribute('href')) ? 'زيارة ↗' : l.getAttribute('href').startsWith('tel:') ? 'اتصال' : '';
     const b = t.closest('button, summary, label.chk, .opt, .fchip, .rm, .tkc');
     if (!b) return '';
     if (b.matches('[data-assistant]')) return 'اسأل';

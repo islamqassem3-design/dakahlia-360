@@ -1,9 +1,9 @@
-import { icon, esc, badge, serviceCard, crumbs, searchBox, empty, sourceLink, sourceNote, agencyById, catById } from '../ui.js?v=202611261622';
-import { categories, agencies, hotlines } from '../data/catalog.js?v=202611261622';
-import { services } from '../data/services.js?v=202611261622';
-import { places } from '../data/places.js?v=202611261622';
-import { sources, STATUS } from '../data/meta.js?v=202611261622';
-import { searchServices, findPlaces } from '../lib/search.js?v=202611261622';
+import { icon, esc, badge, serviceCard, crumbs, searchBox, empty, sourceLink, sourceNote, agencyById, catById } from '../ui.js?v=202611261625';
+import { categories, agencies, hotlines } from '../data/catalog.js?v=202611261625';
+import { services } from '../data/services.js?v=202611261625';
+import { places } from '../data/places.js?v=202611261625';
+import { sources, STATUS } from '../data/meta.js?v=202611261625';
+import { searchServices, findPlaces } from '../lib/search.js?v=202611261625';
 const SVC_SECTOR = { water: 'water', electricity: 'electricity', 'state-treatment': 'health', emergency: 'health', 'school-services': 'education' };
 const SECTOR_T = { water: 'مياه وصرف صحي', electricity: 'كهرباء', health: 'صحة', education: 'تعليم' };
 

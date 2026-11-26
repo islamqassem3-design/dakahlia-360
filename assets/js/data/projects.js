@@ -3,7 +3,7 @@
 // Names are generic examples on purpose (no real project names, budgets, progress % or dates of execution).
 // Real records must replace them with: official name, exact location, responsible agency, verified status,
 // last official update and a source URL (status: 'verified').
-import { CENTER_COORDS } from './geo.js?v=202611261622';
+import { CENTER_COORDS } from './geo.js?v=202611261625';
 
 export const sectors = [
   { id: 'roads', title: 'طرق ونقل', color: '#475569', icon: 'car' },

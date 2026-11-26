@@ -1,20 +1,20 @@
-import { intro } from './views/intro.js?v=202611261622';
-import { portalHome, browse, serviceDetail } from './views/portal.js?v=202611261622';
-import { agencyList, agencyDetail, placeList, placeDetail, complaints, faqView, dataPolicy } from './views/directory.js?v=202611261622';
-import { discover, poiDetail, invest } from './views/discover.js?v=202611261622';
-import { mapView, projectDetail, projectBrief } from './views/map.js?v=202611261622';
-import { mountAssistant } from './assistant.js?v=202611261622';
-import { mountPalette, searchPage } from './palette.js?v=202611261622';
-import { searchServices } from './lib/search.js?v=202611261622';
-import { esc } from './ui.js?v=202611261622';
-import { privacy, terms, notFound } from './views/legal.js?v=202611261622';
-import { mountCursor } from './cursor.js?v=202611261622';
-import { mountAIPanel } from './aipanel.js?v=202611261622';
-import { ideas } from './views/ideas.js?v=202611261622';
-import { team } from './views/team.js?v=202611261622';
-import { workspace, proposal } from './views/workspace.js?v=202611261622';
-import { lab } from './views/lab.js?v=202611261622';
-import { studio, proto } from './views/studio.js?v=202611261622';
+import { intro } from './views/intro.js?v=202611261625';
+import { portalHome, browse, serviceDetail } from './views/portal.js?v=202611261625';
+import { agencyList, agencyDetail, placeList, placeDetail, complaints, faqView, dataPolicy } from './views/directory.js?v=202611261625';
+import { discover, poiDetail, invest } from './views/discover.js?v=202611261625';
+import { mapView, projectDetail, projectBrief } from './views/map.js?v=202611261625';
+import { mountAssistant } from './assistant.js?v=202611261625';
+import { mountPalette, searchPage } from './palette.js?v=202611261625';
+import { searchServices } from './lib/search.js?v=202611261625';
+import { esc } from './ui.js?v=202611261625';
+import { privacy, terms, notFound } from './views/legal.js?v=202611261625';
+import { mountCursor } from './cursor.js?v=202611261625';
+import { mountAIPanel } from './aipanel.js?v=202611261625';
+import { ideas } from './views/ideas.js?v=202611261625';
+import { team } from './views/team.js?v=202611261625';
+import { workspace, proposal } from './views/workspace.js?v=202611261625';
+import { lab } from './views/lab.js?v=202611261625';
+import { studio, proto } from './views/studio.js?v=202611261625';
 
 const routes = [
   [/^\/?$/, intro, 'home'],
