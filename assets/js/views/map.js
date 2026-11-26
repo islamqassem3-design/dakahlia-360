@@ -4,6 +4,7 @@ import { places } from '../data/places.js';
 import { CENTER_COORDS, GOV_OUTLINE } from '../data/geo.js';
 import { services } from '../data/services.js';
 import { normalize } from '../lib/search.js';
+import { relatedProjects, relatedIdeasForProject, projectOpportunities, opportunityToIdea, linkProject, allIdeas, SIM_NOTE, sectorById as ideaSector } from '../lib/innovation.js';
 
 export const sectorById = Object.fromEntries(sectors.map((s) => [s.id, s]));
 export const statusById = Object.fromEntries(projectStatuses.map((s) => [s.id, s]));
@@ -197,15 +198,22 @@ export function projectDetail({ id }) {
         <section class="block"><h2>${icon('map')} الموقع على الخريطة</h2><div class="minimap" id="minimap"></div></section>
         <section class="block"><h2>${icon('layers')} الصور</h2><div class="unv">${icon('info')}<div><b>لا توجد صور موثقة</b><p>تُعرض صور قبل وبعد فقط عند توفرها من مصدر رسمي.</p></div></div></section>
         <section class="block"><h2>${icon('shield')} المصدر الرسمي</h2><div class="unv">${icon('shield')}<div><b>لا يوجد، بيانات تجريبية</b><p>في النسخة الفعلية: رابط المصدر الرسمي للمعلومة وتاريخ التحقق منه.</p></div></div></section>
+        ${intelHtml(p)}
       </div>
       <aside class="detail__side">
         ${svc.length ? `<div class="side"><h3>خدمات مرتبطة</h3>${svc.map((s) => `<a class="rel" href="#/service/${s.id}">${esc(s.title)} ${icon('arrow')}</a>`).join('')}</div>` : ''}
         <div class="side"><h3>المنطقة</h3><a class="agmini" href="#/place/${pl.id}"><b>${pl.name}</b><small>الجهة المحلية والخدمات والمشروعات</small></a></div>
         ${others.length ? `<div class="side"><h3>مشروعات أخرى في ${pl.name}</h3>${others.map((o) => `<a class="rel" href="#/project/${o.id}">${esc(o.name)} ${icon('arrow')}</a>`).join('')}</div>` : ''}
         <a class="side side--ai" href="#/map?place=${pl.id}">${icon('map')}<span><b>كل مشروعات ${pl.name}</b><small>على الخريطة</small></span></a>
+        <a class="side side--link" href="#/project/${p.id}/brief">${icon('clipboard')}<span><b>ملخص المشروع</b><small>ملف مختصر قابل للطباعة</small></span>${icon('arrow')}</a>
       </aside>
     </div>`,
     async mount(root) {
+      root.querySelector('[data-intel]')?.addEventListener('click', (e) => {
+        const o = e.target.closest('[data-opp]'); if (o) { const rec = opportunityToIdea(p, projectOpportunities(p)[+o.dataset.opp]); location.hash = `/idea/${rec.id}`; return; }
+        const l = e.target.closest('[data-linkidea]'); if (l) { linkProject(l.dataset.linkidea, p.id); dispatchEvent(new HashChangeEvent('hashchange')); }
+      });
+      root.querySelector('[data-linksel]')?.addEventListener('change', (e) => { if (e.target.value) { linkProject(e.target.value, p.id); dispatchEvent(new HashChangeEvent('hashchange')); } });
       try {
         const L = await loadLeaflet(); const el = root.querySelector('#minimap'); if (!el) return;
         const map = baseMap(L, el, { scroll: false });
@@ -213,6 +221,52 @@ export function projectDetail({ id }) {
         L.marker([p.lat, p.lng], { icon: pin(L, p, true), title: p.name }).addTo(map);
       } catch { root.querySelector('#minimap').innerHTML = '<div class="maperr"><p>تعذّر تحميل الخريطة.</p></div>'; }
     },
+  };
+}
+
+// ---------- Project Intelligence (add-only layer) ----------
+function intelHtml(p) {
+  const rel = relatedProjects(p); const ri = relatedIdeasForProject(p); const opps = projectOpportunities(p);
+  const others = allIdeas().filter((i) => !ri.linked.includes(i));
+  return `
+  <div class="intel" data-intel>
+    <p class="sim">${icon('info')} <span>طبقة ذكاء المشروع: مقترحات وليست حقائق عن المشروع. ${SIM_NOTE}</span></p>
+    <section class="block"><h2>${icon('link')} مشروعات مرتبطة</h2>
+      ${rel.length ? rel.map((r) => `<a class="rel" href="#/project/${r.x.id}"><span><b class="title-4">${esc(r.x.name)}</b><small class="caption-5 muted" style="display:block">${r.why}</small></span>${icon('arrow')}</a>`).join('') : '<p class="muted body-6">لا توجد مشروعات مرتبطة.</p>'}
+    </section>
+    <section class="block"><h2>${icon('bulb')} أفكار تطوير مرتبطة</h2>
+      ${ri.linked.length ? `<p class="caption-3">مربوطة بالمشروع</p>${ri.linked.map((i) => `<a class="rel" href="#/idea/${i.id}">${esc(i.t)} ${icon('arrow')}</a>`).join('')}` : ''}
+      ${ri.suggested.length ? `<p class="caption-3" style="margin-top:12px">مقترحة من نفس القطاع</p>${ri.suggested.map((i) => `<div class="rel"><a href="#/idea/${i.id}">${esc(i.t)}</a><button class="linkbtn caption-4" data-linkidea="${i.id}">اربط بالمشروع</button></div>`).join('')}` : ''}
+      <label class="fselect fselect--wide"><select data-linksel><option value="">اربط المشروع بفكرة موجودة…</option>${others.map((i) => `<option value="${i.id}">${esc(i.t)} · ${ideaSector[i.sector]?.title || ''}</option>`).join('')}</select></label>
+    </section>
+    ${opps.length ? `<section class="block"><h2>${icon('rocket')} فرص التطوير</h2>
+      ${opps.map((o, n) => `<div class="rel"><span><b class="title-4">${esc(o.t)}</b><small class="caption-5 muted" style="display:block">${o.type}</small></span><button class="btn btn--ghost btn--sm" data-opp="${n}">${icon('plus')} حوّلها لفكرة</button></div>`).join('')}
+    </section>` : ''}
+  </div>`;
+}
+
+export function projectBrief({ id }) {
+  const p = projects.find((x) => x.id === id);
+  if (!p) return { title: 'غير موجود', html: empty('المشروع غير موجود', '', '<a class="btn btn--primary" href="#/map">الخريطة</a>') };
+  const pl = placeById[p.place]; const ag = agencyById[p.agency]; const rel = relatedProjects(p); const ri = relatedIdeasForProject(p); const opps = projectOpportunities(p);
+  const S = (n, t, b) => `<section class="pp__s"><h2 class="heading-6"><span class="caption-3">0${n}</span> ${t}</h2>${b}</section>`;
+  return {
+    title: `ملخص: ${p.name}`,
+    html: `
+    ${crumbs([['خريطة المشروعات', '#/map'], [p.name, `#/project/${p.id}`], ['ملخص المشروع']])}
+    <div class="pp__bar noprint"><a class="btn btn--ghost btn--sm" href="#/project/${p.id}">${icon('arrow')} صفحة المشروع</a><button class="btn btn--primary btn--sm" data-print>${icon('printer')} طباعة أو حفظ PDF</button></div>
+    <article class="pp">
+      <header class="pp__h"><p class="caption-3">Dakahlia 360° · ملخص مشروع · بيانات تجريبية</p><h1 class="heading-3">${esc(p.name)}</h1><p class="caption-5 muted">هذا المشروع تجريبي لعرض شكل الملخص ولا يمثل مشروعًا حقيقيًا.</p></header>
+      ${S(1, 'نظرة عامة', `<p>${esc(p.description)}</p>`)}
+      ${S(2, 'الموقع', `<p>${pl.name} (موقع تقريبي)</p>`)}
+      ${S(3, 'الحالة', `<p>${statusById[p.status].title} · آخر تحديث ${p.updated} (تجريبي)</p>`)}
+      ${S(4, 'الجهات المعنية', `<ul><li>${esc(ag.name)}</li><li>الوحدة المحلية لمركز ومدينة ${pl.name}</li></ul>`)}
+      ${S(5, 'مشروعات مرتبطة', rel.length ? `<ul>${rel.map((r) => `<li>${esc(r.x.name)} (${r.why})</li>`).join('')}</ul>` : '<p>لا يوجد</p>')}
+      ${S(6, 'أفكار مرتبطة', [...ri.linked, ...ri.suggested].length ? `<ul>${[...ri.linked, ...ri.suggested].map((i) => `<li>${esc(i.t)}</li>`).join('')}</ul>` : '<p>لا يوجد</p>')}
+      ${S(7, 'فرص التطوير (مقترحات)', `<ul>${opps.map((o) => `<li>${esc(o.t)} · ${o.type}</li>`).join('')}</ul>`)}
+      ${S(8, 'المصادر', '<p>لا يوجد مصدر رسمي: بيانات تجريبية. في النسخة الفعلية يُذكر رابط المصدر وتاريخ التحقق.</p>')}
+    </article>`,
+    mount(root) { root.querySelector('[data-print]')?.addEventListener('click', () => print()); },
   };
 }
 

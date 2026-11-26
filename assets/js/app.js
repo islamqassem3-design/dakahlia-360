@@ -2,7 +2,7 @@ import { intro } from './views/intro.js';
 import { portalHome, browse, serviceDetail } from './views/portal.js';
 import { agencyList, agencyDetail, placeList, placeDetail, complaints, faqView, dataPolicy } from './views/directory.js';
 import { discover, poiDetail, invest } from './views/discover.js';
-import { mapView, projectDetail } from './views/map.js';
+import { mapView, projectDetail, projectBrief } from './views/map.js';
 import { mountAssistant } from './assistant.js';
 import { mountPalette, searchPage } from './palette.js';
 import { searchServices } from './lib/search.js';
@@ -10,6 +10,9 @@ import { esc } from './ui.js';
 import { privacy, terms, notFound } from './views/legal.js';
 import { mountCursor } from './cursor.js';
 import { ideas } from './views/ideas.js';
+import { workspace, proposal } from './views/workspace.js';
+import { lab } from './views/lab.js';
+import { studio, proto } from './views/studio.js';
 
 const routes = [
   [/^\/?$/, intro, 'home'],
@@ -24,6 +27,7 @@ const routes = [
   [/^\/faq$/, faqView, 'services'],
   [/^\/data$/, dataPolicy, 'home'],
   [/^\/map$/, mapView, 'map'],
+  [/^\/project\/([\w-]+)\/brief$/, (m) => projectBrief({ id: m[1] }), 'map'],
   [/^\/project\/([\w-]+)$/, (m) => projectDetail({ id: m[1] }), 'map'],
   [/^\/discover$/, discover, 'discover'],
   [/^\/poi\/([\w-]+)$/, (m) => poiDetail({ id: m[1] }), 'discover'],
@@ -31,6 +35,11 @@ const routes = [
   [/^\/search$/, searchPage, ''],
   [/^\/privacy$/, privacy, ''],
   [/^\/ideas$/, ideas, 'ideas'],
+  [/^\/idea\/([\w-]+)\/proposal$/, (m) => proposal({ id: m[1] }), 'ideas'],
+  [/^\/idea\/([\w-]+)$/, (m, q) => workspace({ id: m[1] }, q), 'ideas'],
+  [/^\/lab$/, lab, 'ideas'],
+  [/^\/studio$/, studio, 'ideas'],
+  [/^\/proto\/([\w-]+)$/, (m, q) => proto({ type: m[1] }, q), 'ideas'],
   [/^\/terms$/, terms, ''],
 ];
 

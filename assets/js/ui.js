@@ -14,6 +14,11 @@ const PH = {
   phone: 'phone', globe: 'globe-simple', pin: 'map-pin', spark: 'sparkle', close: 'x', send: 'paper-plane-tilt',
   check: 'check', info: 'info', layers: 'stack', map: 'map-trifold', compass: 'compass', home: 'house',
   grid: 'squares-four', shield: 'shield-check', menu: 'list',
+  leaf: 'leaf', trash: 'trash', cpu: 'cpu', kanban: 'kanban', wrench: 'wrench', city: 'city', flask: 'flask',
+  bulb: 'lightbulb', bars: 'chart-bar', printer: 'printer', download: 'download-simple', link: 'link', merge: 'git-merge',
+  star: 'star', rocket: 'rocket-launch', calendar: 'calendar-check', clipboard: 'clipboard-text', mobile: 'device-mobile',
+  browser: 'browser', gauge: 'gauge', warning: 'warning', next: 'arrow-right', reset: 'arrow-counter-clockwise',
+  plus: 'plus', funnel: 'funnel', ok: 'check-circle', no: 'x-circle', edit: 'pencil-simple',
 };
 export const icon = (n, cls = '') => `<i class="ph ph-${PH[n] || 'info'} ic ${cls}" aria-hidden="true"></i>`;
 
