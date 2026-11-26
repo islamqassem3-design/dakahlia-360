@@ -49,7 +49,7 @@ export function searchPage(_, query) {
   return {
     title: q ? `بحث: ${q}` : 'بحث',
     html: `
-    <header class="ph"><p class="eyebrow">بحث موحد في الدقهلية 360°</p><h1 class="heading-3">${q ? `نتائج «${esc(q)}»` : 'ابحث في كل المنصة'}</h1>
+    <header class="phead"><p class="eyebrow">بحث موحد في الدقهلية 360°</p><h1 class="heading-3">${q ? `نتائج «${esc(q)}»` : 'ابحث في كل المنصة'}</h1>
       <form class="sbox" data-gsearch role="search">${icon('search')}<input name="q" type="search" value="${esc(q)}" placeholder="خدمة، مركز، معلم، مشروع…" aria-label="بحث موحد"/><button class="btn btn--primary" type="submit">بحث</button></form></header>
     ${res.total ? `<p class="count">${res.total} نتيجة في ${res.groups.length} ${res.groups.length === 1 ? 'قسم' : 'أقسام'}</p><div class="sgroups">${groupsHtml(res)}</div>`
       : `<div class="empty">${icon('search')}<h3>${q ? 'لا توجد نتائج مطابقة' : 'اكتب ما تبحث عنه'}</h3><p>${q ? 'جرّب كلمة أخرى، أو اسأل المساعد بصياغتك.' : 'ابحث بالعامية: «الميه قاطعة»، «آثار في شربين»، «مشروعات المنصورة».'}</p>${q ? `<button class="btn btn--primary" data-assistant="${esc(q)}">${icon('spark')} اسأل المساعد</button>` : ''}</div>`}`,

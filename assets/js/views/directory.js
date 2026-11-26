@@ -31,7 +31,7 @@ export function agencyList(_, query) {
     title: 'دليل الجهات',
     html: `
     ${crumbs([['الخدمات', '#/services'], ['دليل الجهات']])}
-    <header class="ph"><h1>دليل الجهات</h1><p class="lead">الجهات والمديريات والمنصات الرسمية التي تقدم خدمات لسكان الدقهلية.</p></header>
+    <header class="phead"><h1>دليل الجهات</h1><p class="lead">الجهات والمديريات والمنصات الرسمية التي تقدم خدمات لسكان الدقهلية.</p></header>
     <div class="toolbar">${filterInput('ابحث باسم الجهة…')}
       <div class="fgroup">${[['', 'الكل'], ['local', 'داخل المحافظة'], ['national', 'جهات قومية']].map(([v, t]) => `<a class="fchip ${scope === v ? 'on' : ''}" href="#/agencies${v ? '?scope=' + v : ''}">${t}</a>`).join('')}</div>
     </div>
@@ -52,7 +52,7 @@ export function agencyDetail({ id }) {
     title: a.name,
     html: `
     ${crumbs([['دليل الجهات', '#/agencies'], [a.name]])}
-    <header class="ph"><span class="pill">${esc(a.type)} · ${a.scope === 'local' ? 'داخل المحافظة' : 'جهة قومية'}</span><h1>${esc(a.name)}</h1><p class="lead">${esc(a.about)}</p></header>
+    <header class="phead"><span class="pill">${esc(a.type)} · ${a.scope === 'local' ? 'داخل المحافظة' : 'جهة قومية'}</span><h1>${esc(a.name)}</h1><p class="lead">${esc(a.about)}</p></header>
     <div class="info">
       <div class="info__i"><span>${icon('globe')} الموقع الرسمي</span>${sourceLink(a.source)}</div>
       <div class="info__i"><span>${icon('pin')} العنوان</span><b>غير متحقق منه حالياً</b></div>
@@ -71,7 +71,7 @@ export function placeList() {
     title: 'المراكز والمدن',
     html: `
     ${crumbs([['الخدمات', '#/services'], ['المراكز والمدن']])}
-    <header class="ph"><h1>المراكز والمدن</h1><p class="lead">اختر مركزك لتصل للجهات والخدمات المحلية، ثم لمشروعاته ومعالمه في المراحل القادمة.</p></header>
+    <header class="phead"><h1>المراكز والمدن</h1><p class="lead">اختر مركزك لتصل للجهات والخدمات المحلية، ثم لمشروعاته ومعالمه في المراحل القادمة.</p></header>
     <div class="toolbar">${filterInput('ابحث باسم المركز أو المدينة…')}${badge('unverified', 'القائمة تُراجع مع الموقع الرسمي للمحافظة')}</div>
     <p class="count" data-count>${places.length} نتيجة</p>
     <div class="pgrid">${places.map((p) => `<a class="pcard ${p.capital ? 'pcard--cap' : ''}" href="#/place/${p.id}" data-name="${esc(p.name)}"><b>${p.name}</b><small>${PLACE_KIND[p.kind]}${p.capital ? ' · عاصمة المحافظة' : ''}</small>${icon('arrow')}</a>`).join('')}</div>`,
@@ -92,7 +92,7 @@ export function placeDetail({ id }) {
     ${crumbs([['المراكز والمدن', '#/places'], [p.name]])}
     ${disc.profile ? `<header class="cityhero" style="--bg:${disc.profile.tone};--ac:${disc.profile.accent}"><span class="city__tag">${PLACE_KIND[p.kind]} · ${disc.profile.tag}</span><h1>${p.name}</h1><p>${disc.profile.text}</p>
       <details class="cityhero__src"><summary>المصادر</summary>${sourceList(disc.profile.sources)}</details></header>`
-    : `<header class="ph phero--place"><span class="pill">${PLACE_KIND[p.kind]}${p.capital ? ' · عاصمة المحافظة' : ''}</span><h1>${p.name}</h1>
+    : `<header class="phead phero--place"><span class="pill">${PLACE_KIND[p.kind]}${p.capital ? ' · عاصمة المحافظة' : ''}</span><h1>${p.name}</h1>
       <p class="lead">كل ما يخص ${p.name} في مكان واحد: الجهة المحلية، الخدمات، المشروعات، والمعالم.</p></header>`}
     <nav class="tabs" aria-label="أقسام المركز">
       <button type="button" data-scroll="local">الجهة المحلية</button><button type="button" data-scroll="svcs">الخدمات</button><button type="button" data-scroll="projects">المشروعات</button><button type="button" data-scroll="discover">المعالم</button>
@@ -137,7 +137,7 @@ export function complaints(_, query) {
     title: 'الشكاوى والاستفسارات',
     html: `
     ${crumbs([['الخدمات', '#/services'], ['الشكاوى والاستفسارات']])}
-    <header class="ph"><h1>ما نوع مشكلتك؟</h1><p class="lead">اختر نوع المشكلة، ونرشدك للقناة الرسمية الصحيحة مباشرة.</p></header>
+    <header class="phead"><h1>ما نوع مشكلتك؟</h1><p class="lead">اختر نوع المشكلة، ونرشدك للقناة الرسمية الصحيحة مباشرة.</p></header>
     <div class="issues" role="list">${ISSUES.map((i) => `<a role="listitem" class="issue ${sel?.id === i.id ? 'on' : ''}" href="#/complaints?t=${i.id}">${icon(i.ic)}<b>${i.t}</b><small>${i.d}</small></a>`).join('')}</div>
     ${sel ? `<section class="block result" id="result"><h2>${icon('check')} القناة المناسبة: ${sel.t}</h2><div class="chans">${sel.ch.map(chHtml).join('')}</div>
       <p class="hint">${icon('info')} البوابة لا تستقبل الشكاوى ولا تتابعها؛ التقديم والمتابعة يتمان عبر القناة الرسمية. <a href="#/service/${sel.svc}">تفاصيل الخدمة</a></p></section>`
@@ -153,7 +153,7 @@ export function faqView() {
     title: 'الأسئلة الشائعة',
     html: `
     ${crumbs([['الخدمات', '#/services'], ['الأسئلة الشائعة']])}
-    <header class="ph"><h1>الأسئلة الشائعة</h1><p class="lead">عن استخدام البوابة ومصادر معلوماتها.</p></header>
+    <header class="phead"><h1>الأسئلة الشائعة</h1><p class="lead">عن استخدام البوابة ومصادر معلوماتها.</p></header>
     <div class="faq">${faq.map((f, i) => `<details ${i === 0 ? 'open' : ''}><summary>${f.q}</summary><p>${f.a}${f.s ? ` <a href="#/service/${f.s}">افتح الخدمة</a>` : ''}</p></details>`).join('')}</div>
     <div class="note">${icon('spark')}<span>لم تجد إجابتك؟ <button class="linkbtn" data-assistant="">اسأل المساعد الذكي</button></span></div>`,
   };
@@ -164,7 +164,7 @@ export function dataPolicy() {
     title: 'مصادر البيانات',
     html: `
     ${crumbs([['الدقهلية 360°', '#/'], ['مصادر البيانات']])}
-    <header class="ph"><h1>مصادر البيانات وسياسة الدقة</h1><p class="lead">الدقة أهم من كمية البيانات. هذه حالة كل مصدر مستخدم في النموذج.</p></header>
+    <header class="phead"><h1>مصادر البيانات وسياسة الدقة</h1><p class="lead">الدقة أهم من كمية البيانات. هذه حالة كل مصدر مستخدم في النموذج.</p></header>
     <div class="legend">
       <div>${badge('verified')}<p>الرابط الرسمي استجاب عند الفحص بتاريخ ${CHECKED_AT}. المحتوى نفسه يُراجع مع الجهة.</p></div>
       <div>${badge('unverified')}<p>معلومة لم تتأكد بعد (عناوين، أرقام، مستندات، رسوم). لا تُنشر كحقيقة.</p></div>

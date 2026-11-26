@@ -140,7 +140,7 @@ export function invest() {
     title: 'الاستثمار في الدقهلية',
     html: `
     ${crumbs([['اكتشف الدقهلية', '#/discover'], ['الاستثمار']])}
-    <header class="ph"><p class="eyebrow">للمستثمرين وأصحاب الأعمال</p><h1>الاستثمار في الدقهلية</h1>
+    <header class="phead"><p class="eyebrow">للمستثمرين وأصحاب الأعمال</p><h1>الاستثمار في الدقهلية</h1>
       <p class="lead">مقومات موثقة بمصادرها، ومسار واضح للجهات الرسمية. لا نعرض فرصة استثمارية إلا إذا كانت مؤكدة رسميًا.</p></header>
 
     <section class="sec sec--tight"><header class="sec__h"><h2>المقومات</h2></header>

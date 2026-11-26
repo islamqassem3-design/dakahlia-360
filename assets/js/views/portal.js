@@ -67,7 +67,7 @@ export function browse(_, query) {
     title,
     html: `
     ${crumbs([['الخدمات', '#/services'], [title]])}
-    <header class="ph"><h1>${esc(title)}</h1>${searchBox(q)}</header>
+    <header class="phead"><h1>${esc(title)}</h1>${searchBox(q)}</header>
     <div class="filters" role="group" aria-label="تصفية النتائج">
       <div class="fgroup"><span class="flabel">التصنيف</span>
         <a class="fchip ${!cat ? 'on' : ''}" href="${link({ cat: '' })}">الكل</a>

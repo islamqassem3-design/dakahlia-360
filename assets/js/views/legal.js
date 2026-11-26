@@ -4,7 +4,7 @@ const page = (title, eyebrow, items) => ({
   title,
   html: `
   ${crumbs([['الدقهلية 360°', '#/'], [title]])}
-  <header class="ph"><p class="eyebrow">${eyebrow}</p><h1 class="heading-3">${title}</h1></header>
+  <header class="phead"><p class="eyebrow">${eyebrow}</p><h1 class="heading-3">${title}</h1></header>
   <div class="prose">${items.map(([h, p]) => `<section><h2 class="heading-6">${h}</h2><p class="body-3">${p}</p></section>`).join('')}</div>`,
 });
 

@@ -63,7 +63,7 @@ export function mapView(_, query) {
     title: 'خريطة المشروعات',
     html: `
     ${crumbs([['الدقهلية 360°', '#/'], ['خريطة المشروعات']])}
-    <header class="ph ph--row">
+    <header class="phead phead--row">
       <div><p class="eyebrow">المنتج 02 · خريطة مشروعات الدقهلية</p><h1>المشروعات على الخريطة</h1>
       <p class="lead">استكشف المشروعات حسب المركز والقطاع والحالة، وانتقل لتفاصيل كل مشروع.</p></div>
     </header>
