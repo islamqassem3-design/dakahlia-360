@@ -1,11 +1,11 @@
-import { icon, esc, badge, crumbs, empty, agencyById } from '../ui.js?v=202611261612';
-import { projects, sectors, projectStatuses } from '../data/projects.js?v=202611261612';
-import { places } from '../data/places.js?v=202611261612';
-import { CENTER_COORDS, GOV_OUTLINE } from '../data/geo.js?v=202611261612';
-import { services } from '../data/services.js?v=202611261612';
-import { normalize } from '../lib/search.js?v=202611261612';
-import { relatedProjects, relatedIdeasForProject, projectOpportunities, opportunityToIdea, linkProject, allIdeas, SIM_NOTE, sectorById as ideaSector } from '../lib/innovation.js?v=202611261612';
-import { isTeam } from '../lib/team.js?v=202611261612';
+import { icon, esc, badge, crumbs, empty, agencyById } from '../ui.js?v=202611261618';
+import { projects, sectors, projectStatuses } from '../data/projects.js?v=202611261618';
+import { places } from '../data/places.js?v=202611261618';
+import { CENTER_COORDS, GOV_OUTLINE } from '../data/geo.js?v=202611261618';
+import { services } from '../data/services.js?v=202611261618';
+import { normalize } from '../lib/search.js?v=202611261618';
+import { relatedProjects, relatedIdeasForProject, projectOpportunities, opportunityToIdea, linkProject, allIdeas, SIM_NOTE, sectorById as ideaSector } from '../lib/innovation.js?v=202611261618';
+import { isTeam } from '../lib/team.js?v=202611261618';
 
 export const sectorById = Object.fromEntries(sectors.map((s) => [s.id, s]));
 export const statusById = Object.fromEntries(projectStatuses.map((s) => [s.id, s]));

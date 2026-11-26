@@ -1,12 +1,12 @@
 // Prototype Studio (#/studio?idea=) and interactive prototypes (#/proto/:type?idea=).
 // All prototype data is DEMO data stored in this browser; nothing connects to a government system.
-import { icon, esc, crumbs, empty, badge } from '../ui.js?v=202611261612';
-import { services } from '../data/services.js?v=202611261612';
-import { places } from '../data/places.js?v=202611261612';
-import { projects, sectors as projSectors } from '../data/projects.js?v=202611261612';
-import { loadLeaflet, baseMap } from './map.js?v=202611261612';
-import { getIdea, getWS, saveWS, stageOf, setStage, PROTO_TYPES, suggestProto, linkedProjects, val, sectorById } from '../lib/innovation.js?v=202611261612';
-import { isTeam } from '../lib/team.js?v=202611261612';
+import { icon, esc, crumbs, empty, badge } from '../ui.js?v=202611261618';
+import { services } from '../data/services.js?v=202611261618';
+import { places } from '../data/places.js?v=202611261618';
+import { projects, sectors as projSectors } from '../data/projects.js?v=202611261618';
+import { loadLeaflet, baseMap } from './map.js?v=202611261618';
+import { getIdea, getWS, saveWS, stageOf, setStage, PROTO_TYPES, suggestProto, linkedProjects, val, sectorById } from '../lib/innovation.js?v=202611261618';
+import { isTeam } from '../lib/team.js?v=202611261618';
 
 const DEMO = 'نموذج تجريبي ببيانات تجريبية للعرض فقط، ولا يتصل بأي نظام حكومي.';
 const store = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
