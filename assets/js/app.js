@@ -9,6 +9,7 @@ import { searchServices } from './lib/search.js';
 import { esc } from './ui.js';
 import { privacy, terms, notFound } from './views/legal.js';
 import { mountCursor } from './cursor.js';
+import { ideas } from './views/ideas.js';
 
 const routes = [
   [/^\/?$/, intro, 'home'],
@@ -29,6 +30,7 @@ const routes = [
   [/^\/invest$/, invest, 'discover'],
   [/^\/search$/, searchPage, ''],
   [/^\/privacy$/, privacy, ''],
+  [/^\/ideas$/, ideas, 'ideas'],
   [/^\/terms$/, terms, ''],
 ];
 

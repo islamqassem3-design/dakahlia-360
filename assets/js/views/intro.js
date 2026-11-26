@@ -49,23 +49,36 @@ export function intro() {
   return {
     title: 'الدقهلية 360°',
     html: `
-    <section class="lhero">
-      <div class="lhero__txt">
-        <p class="eyebrow">Dakahlia 360° · نموذج أولي تفاعلي</p>
-        <h1 class="heading-1 hgrad">كل ما يحتاجه أهل الدقهلية <br/>من محافظتهم، <span class="nw">في مكان واحد</span></h1>
-        <p class="lhero__sub body-3">اكتب احتياجك بالعامية فتصل للخدمة والجهة والقناة الرسمية، وتابع مشروعات مركزك على الخريطة، واكتشف مدن المحافظة وفرصها. كل معلومة مرتبطة بمصدرها.</p>
+    <section class="hero2">
+      <p class="eyebrow">Dakahlia 360° · نموذج أولي تفاعلي</p>
+      <h1 class="heading-1 hgrad">كل ما يحتاجه أهل الدقهلية <br/>من محافظتهم، <span class="nw">في مكان واحد</span></h1>
+      <p class="hero2__sub">اكتب احتياجك بالعامية فتصل للخدمة والجهة والقناة الرسمية، وتابع مشروعات مركزك، واكتشف مدن المحافظة وفرصها. كل معلومة مرتبطة بمصدرها.</p>
+      <div class="hero2__act">
         <a class="btn btn--primary btn--lg" href="#/services">جرّب المنصة الآن ${icon('arrow')}</a>
-        <p class="proof caption-1">${icon('shield')} <span>${services.length} خدمة مفهرسة · ${places.length} مركزًا ومدينة · ${nSources} مصدرًا تم فحصه</span></p>
+        <p class="proof caption-1">${icon('shield')} <span>${services.length} خدمة · ${places.length} مركزًا ومدينة · ${nSources} مصدرًا تم فحصه</span></p>
       </div>
-      <div class="demo" aria-hidden="true">
-        <div class="demo__win">
-          <div class="demo__bar"><i></i><i></i><i></i><span class="caption-5">dakahlia 360°</span></div>
-          <div class="demo__search">${icon('search')}<span class="demo__typed body-5" data-typed="عايز أطلع ترخيص لمحل في ميت غمر"></span><b class="demo__caret"></b></div>
-          <div class="demo__res">
-            <div class="demo__card"><span class="demo__ic">${icon('store')}</span><div><b class="title-4">ترخيص محل تجاري</b><small class="caption-5">الوحدات المحلية للمراكز والمدن والأحياء</small></div><span class="demo__go">${icon('arrow')}</span></div>
-            <div class="demo__chips"><span>${icon('globe')} الرابط الرسمي</span><span>${icon('pin')} مركز ميت غمر</span><span>${icon('shield')} المصدر: بوابة مصر الرقمية</span></div>
+
+      <div class="show demo" aria-hidden="true">
+        <div class="show__bar"><i></i><i></i><i></i><span class="caption-5">dakahlia 360°</span></div>
+        <div class="show__grid">
+          <div class="pane">
+            <span class="pane__k caption-3">01 · بوابة الخدمات</span>
+            <div class="demo__search">${icon('search')}<span class="demo__typed body-5" data-typed="عايز أطلع ترخيص لمحل في ميت غمر"></span><b class="demo__caret"></b></div>
+            <div class="demo__res">
+              <div class="demo__card"><span class="demo__ic">${icon('store')}</span><div><b class="title-4">ترخيص محل تجاري</b><small class="caption-5">الوحدات المحلية للمراكز والمدن</small></div><span class="demo__go">${icon('arrow')}</span></div>
+              <div class="demo__chips"><span>${icon('globe')} الرابط الرسمي</span><span>${icon('shield')} المصدر: بوابة مصر الرقمية</span></div>
+            </div>
           </div>
-          <div class="demo__map"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="dot d4"></span><span class="dot d5"></span><span class="demo__lbl caption-4">${icon('map')} 3 مشروعات في ميت غمر</span></div>
+          <div class="pane pane--map">
+            <span class="pane__k caption-3">02 · خريطة المشروعات</span>
+            <div class="demo__map"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="dot d4"></span><span class="dot d5"></span><span class="demo__lbl caption-4">${icon('map')} 3 مشروعات في ميت غمر</span></div>
+            <div class="pane__legend caption-5"><span><i style="--c:#0369a1"></i>مياه</span><span><i style="--c:#be123c"></i>صحة</span><span><i style="--c:#7c3aed"></i>تعليم</span><span><i style="--c:#15803d"></i>شباب</span></div>
+          </div>
+          <div class="pane pane--city">
+            <span class="pane__k caption-3">03 · اكتشف الدقهلية</span>
+            <div class="mini-city"><span class="caption-4">مصيف الدلتا على البحر</span><b class="heading-5">جمصة</b><small class="caption-5">مدينة ساحلية على البحر المتوسط</small></div>
+            <div class="demo__chips"><span>${icon('compass')} شاطئ جمصة</span><span>${icon('building')} المنطقة الصناعية</span></div>
+          </div>
         </div>
       </div>
     </section>
