@@ -738,3 +738,56 @@ main { outline: none; min-height: 60vh; }
 @media (max-width: 1200px) and (min-width: 768px) { .lhero .heading-1, .dhero .heading-1 { font-size: 48px; } }
 @media (min-width: 961px) { .fab { display: none; } }
 @media (max-width: 767px) { h1 br, h2 br { display: none; } }
+
+/* =====================================================================
+   Interaction layer (review round 1): hovered cards turn dark,
+   icons move, a quiet gold cursor follows the mouse (pointer: fine only).
+   ===================================================================== */
+:where(.pain, .product, .benefit, .hsteps li, .stats > div, .cat, .scard, .tile, .agcard, .pcard, .issue, .ecard, .poi, .hot, .chan, .sgroups .sg__i, .side--link, .legend > div, .path li > div, .pal .sg__i) {
+  transition: background-color .5s var(--ease), border-color .5s var(--ease), color .5s var(--ease), box-shadow .5s var(--ease), transform .5s var(--ease);
+}
+@media (hover: hover) {
+  :is(.pain, .product, .benefit, .hsteps li, .stats > div, .cat, .scard, .tile, .agcard, .pcard, .issue, .ecard, .poi, .hot, .chan, .sgroups .sg__i, .side--link, .path li > div):hover {
+    background: var(--dark); border-color: var(--dark); color: var(--on-dark);
+    transform: translateY(-4px); box-shadow: 0 24px 48px -24px rgba(19, 18, 9, .55);
+  }
+  /* secondary text on dark */
+  :is(.pain, .product, .benefit, .hsteps li, .stats > div, .cat, .scard, .tile, .agcard, .pcard, .issue, .ecard, .poi, .chan, .sgroups .sg__i, .side--link, .path li > div):hover :is(p, small, .cat__h, .cat__n, .scard__m, .poi__b span, .poi__b small, .sg__b small, .chan small, .stats span, .muted) { color: var(--on-dark-2); }
+  :is(.stats > div):hover b, .hot:hover b { color: var(--gold); }
+  .hot:hover span { color: var(--on-dark-2); }
+  /* links and numbers turn gold */
+  :is(.pain, .product, .benefit, .tile, .ecard, .path li > div):hover :is(.link, .pain__n, .product__n, .src, summary) { color: var(--gold); }
+  /* icon tiles invert */
+  :is(.product, .benefit, .cat, .scard, .chan, .sgroups .sg__i):hover :is(.product__ic, .cat__ic, .scard__ic, .chan__ic, .sg__ic, .benefit > .ic) { background: var(--dark-3); color: var(--gold); }
+  :is(.tile, .issue, .ecard, .side--link):hover > .ic { color: var(--gold); }
+  .scard:hover .scard__go { background: var(--gold); color: var(--dark); }
+  :is(.scard, .agcard, .pcard, .cat):hover :is(.chip, .pill) { background: var(--dark-3); color: var(--on-dark); }
+  .agcard:hover .pill, .ecard:hover details .srcs small { background: var(--dark-3); color: var(--on-dark-2); }
+  .poi:hover { border-color: var(--dark); }
+  .poi:hover .poi__art { background: var(--dark-3); color: var(--gold); }
+  .hsteps li:hover::before, .path li:has(> div:hover)::before { background: var(--gold); color: var(--dark); }
+  .chan:hover .chan__go, .sgroups .sg__i:hover .sg__go { color: var(--gold); }
+  .pcard--cap:hover, .product:first-child:hover { background: var(--dark-2); }
+
+  /* icon motion: lift, tilt and settle */
+  :is(.product__ic, .cat__ic, .scard__ic, .chan__ic, .sg__ic, .benefit > .ic, .tile > .ic, .ecard > .ic, .issue .ic, .poi__art .ic, .demo__ic, .dhead__ic .ic) { transition: transform .6s cubic-bezier(0.34, 1.56, 0.64, 1), background-color .5s var(--ease), color .5s var(--ease); }
+  :is(.product, .cat, .scard, .chan, .sgroups .sg__i, .benefit, .tile, .ecard, .issue, .poi):hover :is(.product__ic, .cat__ic, .scard__ic, .chan__ic, .sg__ic, .benefit > .ic, .tile > .ic, .ecard > .ic, .issue .ic, .poi__art .ic) { transform: translateY(-3px) rotate(-8deg) scale(1.08); }
+  :is(.scard, .pcard, .chan, .sgroups .sg__i, .tile, .product, .city):hover :is(.scard__go .ic, .ph-arrow-left) { transform: translateX(-4px); }
+  .scard__go .ic, .pcard .ic, .ph-arrow-left { transition: transform .5s var(--ease); }
+  .iconbtn:hover .ic, .btn:hover .ph-sparkle, .fab:hover .ic { transform: rotate(-12deg) scale(1.1); }
+  .iconbtn .ic, .btn .ph-sparkle, .fab .ic { transition: transform .6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+}
+
+/* quiet gold cursor (desktop pointers only) */
+.cursor-glow, .cursor-ring { position: fixed; left: 0; top: 0; pointer-events: none; opacity: 0; will-change: transform; }
+.cursor-glow { width: 360px; height: 360px; margin: -180px 0 0 -180px; z-index: 0; border-radius: 50%; background: radial-gradient(closest-side, rgba(201, 164, 92, .16), rgba(201, 164, 92, .05) 55%, rgba(201, 164, 92, 0)); transition: opacity .5s var(--ease); }
+.cursor-ring { width: 26px; height: 26px; margin: -13px 0 0 -13px; z-index: 90; border-radius: 50%; border: 1.5px solid var(--gold); transition: opacity .3s var(--ease); }
+.cursor-ring::after { content: ''; position: absolute; inset: -1.5px; border-radius: 50%; background: rgba(201, 164, 92, .18); transform: scale(.2); opacity: 0; transition: transform .4s var(--ease), opacity .3s var(--ease); }
+.has-cursor .cursor-glow, .has-cursor .cursor-ring { opacity: 1; }
+.cursor-ring.is-hover { border-color: var(--gold-ink); }
+.cursor-ring.is-hover::after { transform: scale(1.9); opacity: 1; }
+.cursor-ring.is-down::after { transform: scale(1.4); }
+.noscroll .cursor-glow { opacity: 0; }
+main, .foot, .top { position: relative; z-index: 1; }
+.top { position: sticky; z-index: 50; }
+@media (prefers-reduced-motion: reduce) { .cursor-glow, .cursor-ring { display: none; } }

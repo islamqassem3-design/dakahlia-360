@@ -8,6 +8,7 @@ import { mountPalette, searchPage } from './palette.js';
 import { searchServices } from './lib/search.js';
 import { esc } from './ui.js';
 import { privacy, terms, notFound } from './views/legal.js';
+import { mountCursor } from './cursor.js';
 
 const routes = [
   [/^\/?$/, intro, 'home'],
@@ -124,4 +125,5 @@ document.addEventListener('input', (e) => {
 window.addEventListener('hashchange', render);
 mountAssistant();
 mountPalette();
+mountCursor();
 render();
