@@ -1,6 +1,7 @@
 import { intro } from './views/intro.js';
 import { portalHome, browse, serviceDetail } from './views/portal.js';
 import { agencyList, agencyDetail, placeList, placeDetail, complaints, faqView, dataPolicy, phase } from './views/directory.js';
+import { mapView, projectDetail } from './views/map.js';
 import { mountAssistant } from './assistant.js';
 import { searchServices } from './lib/search.js';
 import { esc } from './ui.js';
@@ -17,7 +18,8 @@ const routes = [
   [/^\/complaints$/, complaints, 'complaints'],
   [/^\/faq$/, faqView, 'services'],
   [/^\/data$/, dataPolicy, 'home'],
-  [/^\/map$/, phase('map'), 'map'],
+  [/^\/map$/, mapView, 'map'],
+  [/^\/project\/([\w-]+)$/, (m) => projectDetail({ id: m[1] }), 'map'],
   [/^\/discover$/, phase('discover'), 'discover'],
 ];
 
@@ -53,6 +55,7 @@ document.addEventListener('change', (e) => {
   const s = e.target.closest('select[data-nav]'); if (s && s.value) location.hash = s.value.replace(/^#/, '');
 });
 document.addEventListener('click', (e) => {
+  if (e.target.closest('a.skip')) { e.preventDefault(); view.focus(); return; }
   const sc = e.target.closest('[data-scroll]');
   if (sc) document.getElementById(sc.dataset.scroll)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   if (e.target.closest('[data-menu]')) document.body.classList.toggle('menu-open');

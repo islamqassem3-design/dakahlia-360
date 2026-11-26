@@ -51,7 +51,7 @@ export const sourceLink = (key, label) => {
 
 export const sourceNote = (key) => {
   const s = sources[key]; if (!s) return '';
-  const st = s.status === 'verified' ? `تم فحص الرابط بتاريخ ${CHECKED_AT}` : `تعذّر فحص الرابط آليًا بتاريخ ${CHECKED_AT}`;
+  const st = s.status === 'verified' ? `تم فحص الرابط بتاريخ ${CHECKED_AT}` : `${STATUS[s.status].label} (فحص ${CHECKED_AT})`;
   return `<p class="srcnote">${icon('shield')}<span>المصدر: <a href="${s.url}" target="_blank" rel="noopener">${esc(s.name)}</a> — ${st}</span></p>`;
 };
 

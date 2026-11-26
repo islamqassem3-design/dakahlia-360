@@ -5,6 +5,7 @@ import { places, PLACE_KIND } from '../data/places.js';
 import { sources, CHECKED_AT } from '../data/meta.js';
 import { faq } from '../data/faq.js';
 import { normalize } from '../lib/search.js';
+import { placeProjects, projectCard } from './map.js';
 
 const filterInput = (ph) => `<label class="finput">${icon('search')}<input type="search" placeholder="${ph}" data-filter aria-label="${ph}"/></label>`;
 const liveFilter = (root) => {
@@ -86,7 +87,7 @@ export function placeDetail({ id }) {
     <header class="ph phero--place"><span class="pill">${PLACE_KIND[p.kind]}${p.capital ? ' · عاصمة المحافظة' : ''}</span><h1>${p.name}</h1>
       <p class="lead">كل ما يخص ${p.name} في مكان واحد: الجهة المحلية، الخدمات، المشروعات، والمعالم.</p></header>
     <nav class="tabs" aria-label="أقسام المركز">
-      <button type="button" data-scroll="local">الجهة المحلية</button><button type="button" data-scroll="svcs">الخدمات</button><a href="#/map?place=${p.id}">المشروعات</a><a href="#/discover?place=${p.id}">اكتشف</a>
+      <button type="button" data-scroll="local">الجهة المحلية</button><button type="button" data-scroll="svcs">الخدمات</button><button type="button" data-scroll="projects">المشروعات</button><a href="#/discover?place=${p.id}">اكتشف</a>
     </nav>
     <section class="sec" id="local"><header class="sec__h"><h2>الجهة المحلية الأقرب</h2></header>
       <div class="info">
@@ -101,8 +102,10 @@ export function placeDetail({ id }) {
     <section class="sec"><header class="sec__h"><h2>خدمات شائعة متاحة لسكان المركز</h2></header>
       <div class="slist">${common.map((s) => serviceCard(s)).join('')}</div>
     </section>
+    <section class="sec" id="projects"><header class="sec__h sec__h--row"><h2>مشروعات ${p.name} ${badge('demo')}</h2><a class="link" href="#/map?place=${p.id}">على الخريطة ${icon('arrow')}</a></header>
+      ${placeProjects(p.id).length ? `<div class="pjgrid">${placeProjects(p.id).map(projectCard).join('')}</div>` : empty('لا توجد مشروعات معروضة', 'لم تُضف مشروعات لهذا المركز في النموذج بعد.')}
+    </section>
     <section class="sec split">
-      <a class="tile" href="#/map?place=${p.id}">${icon('map')}<h3>مشروعات ${p.name}</h3><p>تُعرض في خريطة المشروعات — المرحلة 02.</p><span class="link">ما الذي سيتضمنه ${icon('arrow')}</span></a>
       <a class="tile" href="#/discover?place=${p.id}">${icon('compass')}<h3>اكتشف ${p.name}</h3><p>المعالم والمقومات والفرص — المرحلة 03.</p><span class="link">ما الذي سيتضمنه ${icon('arrow')}</span></a>
     </section>
     ${sourceNote('dakahlia')}`,
@@ -161,7 +164,7 @@ export function dataPolicy() {
     </div>
     <div class="table" role="table" aria-label="المصادر">
       <div class="tr th" role="row"><span role="columnheader">المصدر</span><span role="columnheader">الرابط</span><span role="columnheader">الحالة</span></div>
-      ${Object.values(sources).map((s) => `<div class="tr" role="row"><span role="cell">${s.name}</span><a role="cell" href="${s.url}" target="_blank" rel="noopener" dir="ltr">${s.url.replace(/^https?:\/\//, '')}</a><span role="cell">${badge(s.status)}</span></div>`).join('')}
+      ${Object.values(sources).map((s) => `<div class="tr" role="row"><span role="cell">${s.name}${s.note ? `<small class="muted" style="display:block">${s.note}</small>` : ''}</span><a role="cell" href="${s.url}" target="_blank" rel="noopener" dir="ltr">${s.url.replace(/^https?:\/\//, '')}</a><span role="cell">${badge(s.status)}</span></div>`).join('')}
     </div>
     <div class="note">${icon('info')}<span>المحتوى الإرشادي في صفحات الخدمات صياغة تحريرية للوصول للقناة الصحيحة، ويُراجع ويُعتمد من الجهات المختصة قبل أي إطلاق رسمي.</span></div>`,
   };
@@ -169,7 +172,6 @@ export function dataPolicy() {
 
 export function phase(which) {
   const P = {
-    map: { n: '02', t: 'خريطة مشروعات الدقهلية', ic: 'map', items: ['خريطة تفاعلية بالمراكز والمدن والقرى', 'تصنيف حسب القطاع: طرق، مياه، صحة، تعليم، كهرباء، شباب ورياضة', 'فلاتر وبحث وبطاقات مشروعات', 'صفحة لكل مشروع: الجهة المسؤولة، الموقع، آخر تحديث موثق، المصدر', 'قسم لمشروعات القرى ومبادرة حياة كريمة'] },
     discover: { n: '03', t: 'اكتشف الدقهلية واستثمر', ic: 'compass', items: ['اكتشاف المدن والمراكز بصريًا', 'الوجهات السياحية والأماكن التاريخية، ومنها جمصة', 'تجربة رقمية لمدينة المنصورة الجديدة', 'المناطق الصناعية والفرص المؤكدة رسميًا فقط', 'روابط الجهات الاستثمارية الرسمية'] },
   }[which];
   return () => ({

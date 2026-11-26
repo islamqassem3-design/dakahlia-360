@@ -2,7 +2,7 @@ import { icon, esc, badge, serviceCard, crumbs, searchBox, empty, sourceLink, so
 import { categories, agencies, hotlines } from '../data/catalog.js';
 import { services } from '../data/services.js';
 import { places } from '../data/places.js';
-import { sources } from '../data/meta.js';
+import { sources, STATUS } from '../data/meta.js';
 import { searchServices, findPlaces } from '../lib/search.js';
 
 const svcById = Object.fromEntries(services.map((s) => [s.id, s]));
@@ -90,7 +90,7 @@ export function browse(_, query) {
 const channelCard = (ch) => {
   if (ch.kind === 'online') {
     const s = sources[ch.source];
-    return `<a class="chan" href="${s.url}" target="_blank" rel="noopener"><span class="chan__ic">${icon('globe')}</span><span><b>${esc(ch.label)}</b><small>${s.status === 'verified' ? 'رابط رسمي تم فحصه' : 'تعذّر فحص الرابط آليًا'} · يفتح في نافذة جديدة</small></span>${icon('ext', 'chan__go')}</a>`;
+    return `<a class="chan" href="${s.url}" target="_blank" rel="noopener"><span class="chan__ic">${icon('globe')}</span><span><b>${esc(ch.label)}</b><small>${STATUS[s.status].label} · يفتح في نافذة جديدة</small></span>${icon('ext', 'chan__go')}</a>`;
   }
   if (ch.kind === 'phone') return `<a class="chan" href="tel:${ch.number}"><span class="chan__ic">${icon('phone')}</span><span><b>${ch.number} — ${esc(ch.label)}</b><small>اضغط للاتصال</small></span></a>`;
   return `<a class="chan" href="#/agency/${ch.agency}"><span class="chan__ic">${icon('building')}</span><span><b>${esc(ch.label)}</b><small>حضوري · العناوين ومواعيد العمل غير متحقق منها حالياً</small></span>${icon('arrow', 'chan__go')}</a>`;
