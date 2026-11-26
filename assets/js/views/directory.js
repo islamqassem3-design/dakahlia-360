@@ -6,6 +6,8 @@ import { sources, CHECKED_AT } from '../data/meta.js';
 import { faq } from '../data/faq.js';
 import { normalize } from '../lib/search.js';
 import { placeProjects, projectCard } from './map.js';
+import { placeDiscover, poiCard, sourceList } from './discover.js';
+import { discoverSources, SOURCE_KIND } from '../data/discover.js';
 
 const filterInput = (ph) => `<label class="finput">${icon('search')}<input type="search" placeholder="${ph}" data-filter aria-label="${ph}"/></label>`;
 const liveFilter = (root) => {
@@ -80,14 +82,17 @@ export function placeDetail({ id }) {
   const localAgency = p.agency ? agencyById[p.agency] : null;
   const localSvcs = services.filter((s) => s.agency === 'local-units');
   const common = services.filter((s) => s.popular && s.agency !== 'local-units');
+  const disc = placeDiscover(p.id);
   return {
     title: p.name,
     html: `
     ${crumbs([['المراكز والمدن', '#/places'], [p.name]])}
-    <header class="ph phero--place"><span class="pill">${PLACE_KIND[p.kind]}${p.capital ? ' · عاصمة المحافظة' : ''}</span><h1>${p.name}</h1>
-      <p class="lead">كل ما يخص ${p.name} في مكان واحد: الجهة المحلية، الخدمات، المشروعات، والمعالم.</p></header>
+    ${disc.profile ? `<header class="cityhero" style="--bg:${disc.profile.tone}"><span class="city__tag">${PLACE_KIND[p.kind]} · ${disc.profile.tag}</span><h1>${p.name}</h1><p>${disc.profile.text}</p>
+      <details class="cityhero__src"><summary>المصادر</summary>${sourceList(disc.profile.sources)}</details></header>`
+    : `<header class="ph phero--place"><span class="pill">${PLACE_KIND[p.kind]}${p.capital ? ' · عاصمة المحافظة' : ''}</span><h1>${p.name}</h1>
+      <p class="lead">كل ما يخص ${p.name} في مكان واحد: الجهة المحلية، الخدمات، المشروعات، والمعالم.</p></header>`}
     <nav class="tabs" aria-label="أقسام المركز">
-      <button type="button" data-scroll="local">الجهة المحلية</button><button type="button" data-scroll="svcs">الخدمات</button><button type="button" data-scroll="projects">المشروعات</button><a href="#/discover?place=${p.id}">اكتشف</a>
+      <button type="button" data-scroll="local">الجهة المحلية</button><button type="button" data-scroll="svcs">الخدمات</button><button type="button" data-scroll="projects">المشروعات</button><button type="button" data-scroll="discover">المعالم</button>
     </nav>
     <section class="sec" id="local"><header class="sec__h"><h2>الجهة المحلية الأقرب</h2></header>
       <div class="info">
@@ -105,8 +110,8 @@ export function placeDetail({ id }) {
     <section class="sec" id="projects"><header class="sec__h sec__h--row"><h2>مشروعات ${p.name} ${badge('demo')}</h2><a class="link" href="#/map?place=${p.id}">على الخريطة ${icon('arrow')}</a></header>
       ${placeProjects(p.id).length ? `<div class="pjgrid">${placeProjects(p.id).map(projectCard).join('')}</div>` : empty('لا توجد مشروعات معروضة', 'لم تُضف مشروعات لهذا المركز في النموذج بعد.')}
     </section>
-    <section class="sec split">
-      <a class="tile" href="#/discover?place=${p.id}">${icon('compass')}<h3>اكتشف ${p.name}</h3><p>المعالم والمقومات والفرص — المرحلة 03.</p><span class="link">ما الذي سيتضمنه ${icon('arrow')}</span></a>
+    <section class="sec" id="discover"><header class="sec__h sec__h--row"><h2>معالم ${p.name}</h2><a class="link" href="#/discover">اكتشف الدقهلية ${icon('arrow')}</a></header>
+      ${disc.pois.length ? `<div class="pois pois--row">${disc.pois.map(poiCard).join('')}</div>` : empty('المحتوى قيد التوثيق', `لم نضف معالم لـ${p.name} بعد؛ نضيف فقط ما له مصدر موثوق.`, '<a class="btn btn--ghost" href="#/discover">تصفح معالم المحافظة</a>')}
     </section>
     ${sourceNote('dakahlia')}`,
   };
@@ -166,25 +171,12 @@ export function dataPolicy() {
       <div class="tr th" role="row"><span role="columnheader">المصدر</span><span role="columnheader">الرابط</span><span role="columnheader">الحالة</span></div>
       ${Object.values(sources).map((s) => `<div class="tr" role="row"><span role="cell">${s.name}${s.note ? `<small class="muted" style="display:block">${s.note}</small>` : ''}</span><a role="cell" href="${s.url}" target="_blank" rel="noopener" dir="ltr">${s.url.replace(/^https?:\/\//, '')}</a><span role="cell">${badge(s.status)}</span></div>`).join('')}
     </div>
+    <h2 style="margin:28px 0 12px;font-size:20px">مصادر «اكتشف الدقهلية واستثمر»</h2>
+    <div class="table" role="table" aria-label="مصادر الاكتشاف">
+      <div class="tr th" role="row"><span role="columnheader">المصدر</span><span role="columnheader">الرابط</span><span role="columnheader">النوع</span></div>
+      ${Object.values(discoverSources).map((s) => `<div class="tr" role="row"><span role="cell">${s.name}</span><a role="cell" href="${s.url}" target="_blank" rel="noopener" dir="ltr">${decodeURI(s.url).replace(/^https?:\/\//, '').slice(0, 48)}</a><span role="cell"><span class="badge ${s.kind === 'official' ? 'badge--ok' : 'badge--warn'}">${SOURCE_KIND[s.kind]}</span></span></div>`).join('')}
+    </div>
     <div class="note">${icon('info')}<span>المحتوى الإرشادي في صفحات الخدمات صياغة تحريرية للوصول للقناة الصحيحة، ويُراجع ويُعتمد من الجهات المختصة قبل أي إطلاق رسمي.</span></div>`,
   };
 }
 
-export function phase(which) {
-  const P = {
-    discover: { n: '03', t: 'اكتشف الدقهلية واستثمر', ic: 'compass', items: ['اكتشاف المدن والمراكز بصريًا', 'الوجهات السياحية والأماكن التاريخية، ومنها جمصة', 'تجربة رقمية لمدينة المنصورة الجديدة', 'المناطق الصناعية والفرص المؤكدة رسميًا فقط', 'روابط الجهات الاستثمارية الرسمية'] },
-  }[which];
-  return () => ({
-    title: P.t,
-    html: `
-    <section class="phase">
-      <span class="phase__ic">${icon(P.ic)}</span>
-      <p class="eyebrow">المنتج ${P.n} · قيد التطوير</p>
-      <h1>${P.t}</h1>
-      <p class="lead">هذا المنتج في المرحلة التالية من خطة Dakahlia 360°. سيتضمن:</p>
-      <ul class="docs">${P.items.map((i) => `<li>${icon('check')}<span>${i}</span></li>`).join('')}</ul>
-      <p class="hint">${icon('shield')} لن تُعرض أسماء مشروعات أو حالات تنفيذ أو أرقام إلا من مصادر رسمية، وأي بيانات تجريبية ستُميَّز بوضوح.</p>
-      <div class="row gap center"><a class="btn btn--primary" href="#/services">جرّب بوابة الخدمات الآن</a><a class="btn btn--ghost" href="#/">عن المشروع</a></div>
-    </section>`,
-  });
-}

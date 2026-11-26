@@ -5,6 +5,7 @@ import { icon, esc, agencyById } from './ui.js';
 import { sources } from './data/meta.js';
 import { searchServices, searchAgencies, findPlaces, normalize } from './lib/search.js';
 import { projects } from './data/projects.js';
+import { pois } from './data/discover.js';
 
 const has = (nq, words) => words.some((w) => nq.includes(normalize(w)));
 
@@ -31,6 +32,19 @@ export function answer(q) {
   if (asksTime) notes.push('مدد التنفيذ ومواعيد العمل غير متحقق منها حالياً؛ راجع الجهة المختصة.');
   if (asksWhere) notes.push('العناوين وأرقام التواصل التفصيلية غير متحقق منها حالياً، لذلك أوجهك للقناة الرسمية.');
 
+  if (has(nq, ['ارض صناعيه', 'منطقه صناعيه', 'فرص استثمار', 'فرصه استثمار', 'استثمر', 'استثمار', 'مستثمر'])) {
+    return {
+      text: 'للمستثمر: صفحة الاستثمار تعرض المقومات الموثقة ومسار الجهات الرسمية (الأرض، التأسيس، التراخيص). لا نعرض فرصًا إلا المؤكدة رسميًا، ولا توجد فرص مؤكدة معروضة حاليًا.',
+      links: ['gafi'], mapLink: null, pageLink: ['#/invest', 'افتح صفحة الاستثمار'],
+    };
+  }
+  if (has(nq, ['سياحه', 'سياحي', 'اخرج', 'فسحه', 'اتفسح', 'اماكن', 'اثار', 'اثري', 'مصيف', 'شاطئ', 'بحر', 'معالم', 'متحف', 'ازور'])) {
+    const list = pois.filter((p) => !plc.length || plc.some((x) => x.id === p.place));
+    return {
+      text: list.length ? `هذه بعض المعالم ${plc.length ? 'في ' + plc.map((p) => p.name).join(' و') : 'في الدقهلية'}، وكل معلومة مرتبطة بمصدرها. مواعيد الزيارة والتذاكر غير متحقق منها حالياً.` : 'لم نوثّق معالم لهذه المنطقة بعد. تصفح معالم المحافظة:',
+      pois: list.slice(0, 4), pageLink: ['#/discover', 'اكتشف الدقهلية'],
+    };
+  }
   if (has(nq, ['مشاريع', 'مشروعات']) || (plc.length && has(nq, ['مشروع', 'بيتعمل ايه']))) {
     const SEC = { water: ['مياه', 'ميه', 'صرف'], roads: ['طرق', 'طريق', 'كوبري', 'رصف'], health: ['صحه', 'مستشفي', 'وحده صحيه'], education: ['تعليم', 'مدارس', 'مدرسه'], electricity: ['كهرباء', 'كهربا', 'انارة'], youth: ['شباب', 'رياضه', 'ملعب'] };
     const sec = Object.keys(SEC).find((k) => has(nq, SEC[k]));
@@ -73,6 +87,8 @@ function renderAnswer(a) {
     h += `<div class="ai-list">${a.services.map((s) => `<a href="#/service/${s.id}" data-close>${esc(s.title)} ${icon('arrow')}</a>`).join('')}</div>`;
   }
   if (a.projects?.length) h += `<div class="ai-list">${a.projects.map((p) => `<a href="#/project/${p.id}" data-close>${esc(p.name)} ${icon('arrow')}</a>`).join('')}</div>`;
+  if (a.pois?.length) h += `<div class="ai-list">${a.pois.map((p) => `<a href="#/poi/${p.id}" data-close>${esc(p.name)} ${icon('arrow')}</a>`).join('')}</div>`;
+  if (a.pageLink) h += `<a class="btn btn--primary btn--sm" href="${a.pageLink[0]}" data-close>${a.pageLink[1]} ${icon('arrow')}</a>`;
   if (a.mapLink) h += `<a class="btn btn--primary btn--sm" href="${a.mapLink}" data-close>افتح خريطة المشروعات ${icon('arrow')}</a>`;
   if (a.agencies?.length) h += `<div class="ai-list">${a.agencies.map((g) => `<a href="#/agency/${g.id}" data-close>${esc(g.name)} ${icon('arrow')}</a>`).join('')}</div>`;
   if (a.notes?.length) h += a.notes.map((n) => `<p class="ai-note">${icon('shield')}<span>${esc(n)}</span></p>`).join('');
@@ -90,7 +106,7 @@ export function mountAssistant() {
     <section class="ai__panel">
       <header class="ai__h"><span class="ai__logo">${icon('spark')}</span><div><b id="ai-t">مساعد الخدمات</b><small>يفهم العامية · يجيب من الدليل الموثق فقط</small></div><button class="iconbtn" data-close aria-label="إغلاق">${icon('close')}</button></header>
       <div class="ai__log" aria-live="polite"></div>
-      <div class="ai__sugg">${['عايز أطلع ترخيص لمحل', 'إيه المشروعات في ميت غمر؟', 'رخصة العربية بكام؟', 'الميه قاطعة في المنصورة', 'عايز أشتكي'].map((s) => `<button type="button" data-q="${s}">${s}</button>`).join('')}</div>
+      <div class="ai__sugg">${['عايز أطلع ترخيص لمحل', 'إيه المشروعات في ميت غمر؟', 'أماكن أخرج فيها في المنصورة', 'رخصة العربية بكام؟', 'الميه قاطعة في المنصورة', 'عايز أشتكي'].map((s) => `<button type="button" data-q="${s}">${s}</button>`).join('')}</div>
       <form class="ai__f"><input name="q" placeholder="اكتب سؤالك…" autocomplete="off" aria-label="سؤالك"/><button class="btn btn--primary" aria-label="إرسال">${icon('send')}</button></form>
       <p class="ai__disc">نموذج أولي: المعالجة داخل المتصفح فقط، ولا يُرسل ما تكتبه لأي خادم.</p>
     </section>

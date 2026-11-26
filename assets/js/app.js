@@ -1,6 +1,7 @@
 import { intro } from './views/intro.js';
 import { portalHome, browse, serviceDetail } from './views/portal.js';
-import { agencyList, agencyDetail, placeList, placeDetail, complaints, faqView, dataPolicy, phase } from './views/directory.js';
+import { agencyList, agencyDetail, placeList, placeDetail, complaints, faqView, dataPolicy } from './views/directory.js';
+import { discover, poiDetail, invest } from './views/discover.js';
 import { mapView, projectDetail } from './views/map.js';
 import { mountAssistant } from './assistant.js';
 import { searchServices } from './lib/search.js';
@@ -20,7 +21,9 @@ const routes = [
   [/^\/data$/, dataPolicy, 'home'],
   [/^\/map$/, mapView, 'map'],
   [/^\/project\/([\w-]+)$/, (m) => projectDetail({ id: m[1] }), 'map'],
-  [/^\/discover$/, phase('discover'), 'discover'],
+  [/^\/discover$/, discover, 'discover'],
+  [/^\/poi\/([\w-]+)$/, (m) => poiDetail({ id: m[1] }), 'discover'],
+  [/^\/invest$/, invest, 'discover'],
 ];
 
 const view = document.getElementById('view');

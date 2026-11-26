@@ -6,7 +6,7 @@ import { places } from '../data/places.js';
 const products = [
   { n: '01', t: 'بوابة خدمات الدقهلية', d: 'تبدأ من احتياج المواطن لا من أسماء الجهات: اكتب ما تريد، وتصل للخدمة والجهة والقناة الرسمية.', st: 'متاح للتجربة الآن', live: true, href: '#/services', ic: 'grid' },
   { n: '02', t: 'خريطة مشروعات الدقهلية', d: 'المشروعات على خريطة تفاعلية حسب المركز والقطاع، مع الجهة المسؤولة وآخر تحديث موثق ومصدره.', st: 'متاح للتجربة الآن', live: true, href: '#/map', ic: 'map' },
-  { n: '03', t: 'اكتشف الدقهلية واستثمر', d: 'تجربة بصرية للمدن والوجهات والمقومات الاقتصادية، تعرض الفرص المؤكدة رسميًا فقط.', st: 'المرحلة التالية', href: '#/discover', ic: 'compass' },
+  { n: '03', t: 'اكتشف الدقهلية واستثمر', d: 'تجربة بصرية للمدن والوجهات والمقومات الاقتصادية، تعرض الفرص المؤكدة رسميًا فقط.', st: 'متاح للتجربة الآن', live: true, href: '#/discover', ic: 'compass' },
 ];
 
 const pains = [
@@ -58,7 +58,7 @@ export function intro() {
     <section class="sec">
       <header class="sec__h"><p class="eyebrow">الحل</p><h2>ثلاثة منتجات مترابطة تحت مظلة واحدة</h2></header>
       <div class="products">${products.map((p) => `
-        <a class="product ${p.live ? 'is-live' : ''}" href="${p.href}">
+        <a class="product ${p.n === '01' ? 'is-live' : ''}" href="${p.href}">
           <div class="product__top"><span class="product__n">${p.n}</span><span class="pill ${p.live ? 'pill--live' : ''}">${p.st}</span></div>
           <span class="product__ic">${icon(p.ic)}</span>
           <h3>${p.t}</h3><p>${p.d}</p>
@@ -80,8 +80,8 @@ export function intro() {
 
     <section class="cta">
       <h2>ابدأ من بوابة الخدمات</h2>
-      <p>جاهز للتجربة الآن: بوابة خدمات ببحث ذكي ودليل للجهات والمراكز ومرشد للشكاوى ومساعد ذكي، وخريطة تفاعلية للمشروعات حسب المركز والقطاع.</p>
-      <div class="row gap"><a class="btn btn--light btn--lg" href="#/services">ادخل البوابة ${icon('arrow')}</a><a class="btn btn--ghost btn--lg" href="#/map">خريطة المشروعات</a></div>
+      <p>المنتجات الثلاثة جاهزة للتجربة: بوابة خدمات ببحث ذكي ومساعد يفهم العامية، وخريطة تفاعلية للمشروعات، وتجربة لاكتشاف المحافظة ومسار واضح للمستثمر.</p>
+      <div class="row gap"><a class="btn btn--light btn--lg" href="#/services">ادخل البوابة ${icon('arrow')}</a><a class="btn btn--ghost btn--lg" href="#/map">خريطة المشروعات</a><a class="btn btn--ghost btn--lg" href="#/discover">اكتشف الدقهلية</a></div>
     </section>`,
   };
 }
